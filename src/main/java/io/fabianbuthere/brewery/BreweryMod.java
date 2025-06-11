@@ -1,6 +1,10 @@
 package io.fabianbuthere.brewery;
 
 import com.mojang.logging.LogUtils;
+import io.fabianbuthere.brewery.block.ModBlocks;
+import io.fabianbuthere.brewery.item.ModCreativeModeTabs;
+import io.fabianbuthere.brewery.item.ModItems;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -26,9 +30,12 @@ public class BreweryMod
     {
         IEventBus modEventBus = context.getModEventBus();
 
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
+        ModCreativeModeTabs.register(modEventBus);
 
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+
+        modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
@@ -42,7 +49,9 @@ public class BreweryMod
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.RUBY);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

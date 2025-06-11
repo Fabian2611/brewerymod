@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "RRR",
+    "RRR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "brewery:ruby"
+    }
+  },
+  "result": {
+      "item": "brewery:ruby_block",
+      "count": 1
+  }
+}

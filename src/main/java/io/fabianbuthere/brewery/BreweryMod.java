@@ -2,6 +2,7 @@ package io.fabianbuthere.brewery;
 
 import com.mojang.logging.LogUtils;
 import io.fabianbuthere.brewery.block.ModBlocks;
+import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
 import io.fabianbuthere.brewery.item.ModCreativeModeTabs;
 import io.fabianbuthere.brewery.item.ModItems;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -34,6 +35,8 @@ public class BreweryMod
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+
+        ModBlockEntities.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 

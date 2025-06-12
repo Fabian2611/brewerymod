@@ -1,15 +1,23 @@
 package io.fabianbuthere.brewery.block;
 
 import io.fabianbuthere.brewery.BreweryMod;
+import io.fabianbuthere.brewery.block.custom.BrewingCauldronBlock;
+import io.fabianbuthere.brewery.block.entity.BrewingCauldronBlockEntity;
+import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
 import io.fabianbuthere.brewery.item.ModItems;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -27,6 +35,8 @@ public class ModBlocks {
             new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.STONE), UniformInt.of(3, 6)));
     public static final RegistryObject<Block> DEEPSLATE_RUBY_ORE = registerBlock("deepslate_ruby_ore", () ->
             new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE), UniformInt.of(4, 7)));
+    public static final RegistryObject<Block> BREWING_CAULDRON = registerBlock("brewing_cauldron", () ->
+            new BrewingCauldronBlock(BlockBehaviour.Properties.copy(Blocks.CAULDRON)));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

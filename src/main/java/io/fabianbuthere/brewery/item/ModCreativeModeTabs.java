@@ -23,6 +23,7 @@ public class ModCreativeModeTabs {
                 pOutput.accept(ModBlocks.DEEPSLATE_RUBY_ORE.get());
                 pOutput.accept(ModItems.METAL_DETECTOR.get());
                 pOutput.accept(ModItems.STRAWBERRY.get());
+                pOutput.accept(ModBlocks.BREWING_CAULDRON.get());
             })
             .build());;
 

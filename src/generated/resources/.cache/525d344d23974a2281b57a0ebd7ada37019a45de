@@ -1,10 +1,19 @@
-// 1.20.1	2025-06-11T13:51:23.8972658	Block States: brewery
+// 1.20.1	2025-06-12T21:10:54.8755848	Block States: brewery
+28c6264e8bbab501c2cab9e9ce7871b28d5763b5 assets/brewery/blockstates/brewing_cauldron.json
 0ae32ea4c50400207f1251c247f686d0f3f7f739 assets/brewery/blockstates/deepslate_ruby_ore.json
 072370cd1874a4cce675ac388ab4c50739496e51 assets/brewery/blockstates/ruby_block.json
 6ba5fa4a3f774b8b6a5552f2ff8ca6e5355ba68d assets/brewery/blockstates/ruby_ore.json
+0b79bfe24855acef31bfc40b50cb97ca7160a659 assets/brewery/models/block/brewing_cauldron_level_0.json
+0b79bfe24855acef31bfc40b50cb97ca7160a659 assets/brewery/models/block/brewing_cauldron_level_1.json
+c4e6b22cf3aec4aa2914f0b6463db5560f64dbfd assets/brewery/models/block/brewing_cauldron_level_1_liquid.json
+0b79bfe24855acef31bfc40b50cb97ca7160a659 assets/brewery/models/block/brewing_cauldron_level_2.json
+19970636ee4fab4646a13b22ea8f52c9f632defb assets/brewery/models/block/brewing_cauldron_level_2_liquid.json
+0b79bfe24855acef31bfc40b50cb97ca7160a659 assets/brewery/models/block/brewing_cauldron_level_3.json
+0de6e177afaa379cc2e70a53acd4a57319130f3a assets/brewery/models/block/brewing_cauldron_level_3_liquid.json
 96a6a8bc770f313e6a7fc7a04d8c98b67bf4319a assets/brewery/models/block/deepslate_ruby_ore.json
 cf54b7d23a3fa3652ce38b9333e22fc4caace2bb assets/brewery/models/block/ruby_block.json
 b43b0969ae7f628389b9c60afad7e2faa673a3e7 assets/brewery/models/block/ruby_ore.json
+9fe28cb2cdf5163b2af128184475bfacce64bfc7 assets/brewery/models/item/brewing_cauldron.json
 5e4e0eff79bab70eff72522c37e76e6f5269e3da assets/brewery/models/item/deepslate_ruby_ore.json
 495c3983c6148a1db973106ca1060a34ec0716d4 assets/brewery/models/item/ruby_block.json
 3f83d467662b1f7e6cdaf8fb43e98e07b5feb718 assets/brewery/models/item/ruby_ore.json

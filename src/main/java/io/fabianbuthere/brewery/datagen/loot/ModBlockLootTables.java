@@ -30,6 +30,8 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                 block -> createRedstoneLikeOreDrops(ModBlocks.RUBY_ORE.get(), ModItems.RUBY.get()));
         this.add(ModBlocks.DEEPSLATE_RUBY_ORE.get(),
                 block -> createRedstoneLikeOreDrops(ModBlocks.DEEPSLATE_RUBY_ORE.get(), ModItems.RUBY.get()));
+
+        this.dropSelf(ModBlocks.BREWING_CAULDRON.get());
     }
 
     protected LootTable.Builder createRedstoneLikeOreDrops(Block pBlock, Item pItem) {

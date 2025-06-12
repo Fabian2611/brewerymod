@@ -1,0 +1,60 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "brewery:block/brewing_cauldron_level_0"
+      },
+      "when": {
+        "brew_level": "0"
+      }
+    },
+    {
+      "apply": {
+        "model": "brewery:block/brewing_cauldron_level_1"
+      },
+      "when": {
+        "brew_level": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "brewery:block/brewing_cauldron_level_1_liquid"
+      },
+      "when": {
+        "brew_level": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "brewery:block/brewing_cauldron_level_2"
+      },
+      "when": {
+        "brew_level": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "brewery:block/brewing_cauldron_level_2_liquid"
+      },
+      "when": {
+        "brew_level": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "brewery:block/brewing_cauldron_level_3"
+      },
+      "when": {
+        "brew_level": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "brewery:block/brewing_cauldron_level_3_liquid"
+      },
+      "when": {
+        "brew_level": "3"
+      }
+    }
+  ]
+}

@@ -1,5 +1,13 @@
 {
   "item.brewery.ruby": "Rubin",
   "block.brewery.ruby_block": "Rubinblock",
-  "creativetab.brewery_tab": "Brewery"
+  "creativetab.brewery_tab": "Brewery",
+  "brewery.brew.failed_brew": "Gescheitertes Getränk",
+  "brewery.brew.failed_brew_wrong_ingredients_lore": "Das hat fast geklappt... vielleicht solltest du die Mengen der Zutaten anpassen.",
+  "brewery.brew.failed_brew_wrong_ingredients_amount_lore": "Das hat fast geklappt... aber die Zutatenliste scheint nicht ganz richtig zu sein.",
+  "brewery.brew.failed_brew_wrong_brewing_time_lore": "Das hat fast geklappt... aber die Brauzeit scheint nicht zu stimmen.",
+  "brewery.brew.unfinished_brew": "Unfertiges Getränk",
+  "brewery.brew.unfinished_brew_lore": "Dieses Getränk ist bereit für den nächsten Schritt!",
+  "brewery.brew.rum.name": "Rum",
+  "brewery.brew.rum.lore": "Ein erfrischendes Getränk, das den Trinker belebt."
 }

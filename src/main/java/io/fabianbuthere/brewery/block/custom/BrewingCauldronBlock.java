@@ -2,6 +2,8 @@ package io.fabianbuthere.brewery.block.custom;
 
 import io.fabianbuthere.brewery.block.entity.BrewingCauldronBlockEntity;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
+import io.fabianbuthere.brewery.recipe.BrewingRecipe;
+import io.fabianbuthere.brewery.recipe.ModRecipes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -26,6 +28,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class BrewingCauldronBlock extends BaseEntityBlock {
@@ -68,7 +72,12 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
         if (heldItem == Items.BUCKET && currentLevel == 3) {
             if (!pLevel.isClientSide) {
                 pLevel.setBlock(pPos, pState.setValue(BREW_LEVEL, 0), 3);
-                pPlayer.setItemInHand(pHand, new ItemStack(Items.WATER_BUCKET));
+                if (!pPlayer.getAbilities().instabuild) held.shrink(1);
+                if (!pPlayer.getInventory().add(new ItemStack(Items.WATER_BUCKET))) {
+                    pPlayer.drop(new ItemStack(Items.WATER_BUCKET), false);
+                }
+                BrewingCauldronBlockEntity be = (BrewingCauldronBlockEntity) pLevel.getBlockEntity(pPos);
+                if (be != null) be.setReValidateRecipe();
             }
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
@@ -78,7 +87,12 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                 BrewingCauldronBlockEntity be = (BrewingCauldronBlockEntity) pLevel.getBlockEntity(pPos);
                 if (be != null) {
                     pLevel.setBlock(pPos, pState.setValue(BREW_LEVEL, currentLevel - 1), 3);
-                    pPlayer.setItemInHand(pHand, be.getCurrentStateRecipeResult());
+                    ItemStack result = be.getCurrentStateRecipeResult();
+                    if (!pPlayer.getInventory().add(result)) {
+                        pPlayer.drop(result, false);
+                    }
+                    if (!pPlayer.getAbilities().instabuild) held.shrink(1);
+                    be.setReValidateRecipe();
                 }
             }
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
@@ -90,6 +104,9 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                 if (!pPlayer.getAbilities().instabuild) {
                     pPlayer.setItemInHand(pHand, new ItemStack(Items.BUCKET));
                 }
+                BrewingCauldronBlockEntity be = (BrewingCauldronBlockEntity) pLevel.getBlockEntity(pPos);
+                if (be != null && be.getBrewingTicks() > 0) be.resetBrewing();
+                if (be != null) be.setReValidateRecipe();
             }
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
@@ -102,6 +119,9 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                     held.shrink(1);
                     pPlayer.getInventory().add(new ItemStack(Items.GLASS_BOTTLE));
                 }
+                BrewingCauldronBlockEntity be = (BrewingCauldronBlockEntity) pLevel.getBlockEntity(pPos);
+                if (be != null && be.getBrewingTicks() > 0) be.resetBrewing();
+                if (be != null) be.setReValidateRecipe();
             }
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
         }
@@ -115,6 +135,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                     int inserted = held.getCount() - remainder.getCount();
                     if (inserted > 0) {
                         held.shrink(inserted);
+                        be.setReValidateRecipe();
                         return InteractionResult.CONSUME;
                     }
                 }
@@ -128,11 +149,40 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
         if (type == ModBlockEntities.BREWING_CAULDRON.get()) {
             return (lvl, pos, st, be) -> {
                 if (be instanceof BrewingCauldronBlockEntity cauldron) {
-                    cauldron.updateHeatingState();
-                    // TODO: Custom ticking logic here
+                    if (lvl.isClientSide) {
+                        cauldron.clientTick(lvl);
+                    } else {
+                        cauldron.serverTick(lvl);
+                    }
                 }
             };
         }
         return null;
+    }
+
+    @Override
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
+        if (fromPos.equals(pos.below())) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof BrewingCauldronBlockEntity cauldron) {
+                cauldron.updateHeatingState();
+            }
+        }
+    }
+
+    @Override
+    public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        super.onRemove(oldState, level, pos, newState, isMoving);
+        if (!level.isClientSide && oldState.hasProperty(BREW_LEVEL) && newState.hasProperty(BREW_LEVEL)) {
+            int oldLevel = oldState.getValue(BREW_LEVEL);
+            int newLevel = newState.getValue(BREW_LEVEL);
+            if (oldLevel != newLevel) {
+                BlockEntity be = level.getBlockEntity(pos);
+                if (be instanceof BrewingCauldronBlockEntity cauldron) {
+                    cauldron.setReValidateRecipe();
+                }
+            }
+        }
     }
 }

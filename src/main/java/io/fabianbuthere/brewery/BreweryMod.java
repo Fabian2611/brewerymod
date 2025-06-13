@@ -5,6 +5,7 @@ import io.fabianbuthere.brewery.block.ModBlocks;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
 import io.fabianbuthere.brewery.item.ModCreativeModeTabs;
 import io.fabianbuthere.brewery.item.ModItems;
+import io.fabianbuthere.brewery.recipe.ModRecipes;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -37,6 +38,8 @@ public class BreweryMod
         ModBlocks.register(modEventBus);
 
         ModBlockEntities.register(modEventBus);
+
+        ModRecipes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 

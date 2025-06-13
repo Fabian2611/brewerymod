@@ -2,6 +2,7 @@ package io.fabianbuthere.brewery.block;
 
 import io.fabianbuthere.brewery.BreweryMod;
 import io.fabianbuthere.brewery.block.custom.BrewingCauldronBlock;
+import io.fabianbuthere.brewery.block.custom.DistilleryStationBlock;
 import io.fabianbuthere.brewery.block.entity.BrewingCauldronBlockEntity;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
 import io.fabianbuthere.brewery.item.ModItems;
@@ -37,6 +38,8 @@ public class ModBlocks {
             new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE), UniformInt.of(4, 7)));
     public static final RegistryObject<Block> BREWING_CAULDRON = registerBlock("brewing_cauldron", () ->
             new BrewingCauldronBlock(BlockBehaviour.Properties.copy(Blocks.CAULDRON)));
+    public static final RegistryObject<Block> DISTILLERY_STATION = registerBlock("distillery_station", () ->
+            new DistilleryStationBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

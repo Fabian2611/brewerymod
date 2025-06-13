@@ -1,5 +1,14 @@
 {
   "item.brewery.ruby": "Ruby",
   "block.brewery.ruby_block": "Ruby Block",
-  "creativetab.brewery_tab": "Brewery"
+  "creativetab.brewery_tab": "Brewery",
+  "brewery.brew.failed_brew": "Failed Brew",
+  "brewery.brew.failed_brew_wrong_ingredients_lore": "This brew almost worked... but the list of ingredients is not quite right.",
+  "brewery.brew.failed_brew_wrong_ingredients_amount_lore": "This brew almost worked... you could try tweaking the ingredient's amounts.",
+  "brewery.brew.failed_brew_wrong_brewing_time_lore": "This brew almost worked... but the brewing time seems off.",
+  "brewery.brew.unfinished_brew": "Unfinished Brew",
+  "brewery.brew.unfinished_brew_lore": "This brew is ready for the next step!",
+
+  "brewery.brew.rum.name": "Rum",
+  "brewery.brew.rum.lore": "A refreshing brew that invigorates the drinker."
 }

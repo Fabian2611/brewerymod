@@ -10,5 +10,7 @@
   "brewery.brew.unfinished_brew_lore": "This brew is ready for the next step!",
 
   "brewery.brew.rum.name": "Rum",
-  "brewery.brew.rum.lore": "A refreshing brew that invigorates the drinker."
+  "brewery.brew.rum.lore": "A refreshing brew that invigorates the drinker.",
+  "brewery.brew.failed_brew_wrong_distilling_lore": "This brew almost worked... but the distilling process was not quite right.",
+  "brewery.brew.failed_brew_generic_lore": "This brew almost worked... but something went wrong."
 }

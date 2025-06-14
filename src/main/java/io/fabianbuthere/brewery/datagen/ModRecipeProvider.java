@@ -45,7 +45,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 List.of(new ItemStackInput(Items.SUGAR, 2, 4)),
                 400L,
                 0.2f,
-                true,
+                "glowstone_dust",
                 800L,
                 0.2f,
                 List.of("oak", "birch", "spruce"),
@@ -59,7 +59,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
      * @param inputs List of ItemStackInput (item, minCount, maxCount)
      * @param optimalBrewingTime Brewing time in ticks
      * @param maxBrewingTimeError Allowed error in brewing time
-     * @param needsDistilling Whether distilling is required
+     * @param distillingItem Item required for distilling (as a string)
      * @param optimalAgingTime Aging time in ticks
      * @param maxAgingTimeError Allowed error in aging time
      * @param allowedWoodTypes List of allowed wood types (as strings)
@@ -70,7 +70,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             List<ItemStackInput> inputs,
             long optimalBrewingTime,
             float maxBrewingTimeError,
-            boolean needsDistilling,
+            String distillingItem,
             long optimalAgingTime,
             float maxAgingTimeError,
             List<String> allowedWoodTypes,
@@ -86,7 +86,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         }).toList()));
         json.addProperty("optimalBrewingTime", optimalBrewingTime);
         json.addProperty("maxBrewingTimeError", maxBrewingTimeError);
-        json.addProperty("needsDistilling", needsDistilling);
+        json.addProperty("distillingItem", distillingItem);
         json.addProperty("optimalAgingTime", optimalAgingTime);
         json.addProperty("maxAgingTimeError", maxAgingTimeError);
         json.add("allowedWoodTypes", new Gson().toJsonTree(allowedWoodTypes));

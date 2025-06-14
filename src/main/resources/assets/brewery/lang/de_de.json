@@ -9,5 +9,7 @@
   "brewery.brew.unfinished_brew": "Unfertiges Getränk",
   "brewery.brew.unfinished_brew_lore": "Dieses Getränk ist bereit für den nächsten Schritt!",
   "brewery.brew.rum.name": "Rum",
-  "brewery.brew.rum.lore": "Ein erfrischendes Getränk, das den Trinker belebt."
+  "brewery.brew.rum.lore": "Ein erfrischendes Getränk, das den Trinker belebt.",
+  "brewery.brew.failed_brew_wrong_distilling_lore": "Das hat fast geklappt... aber der Destillierungsprozess war nicht ganz richtig.",
+  "brewery.brew.failed_brew_generic_lore": "Das hat fast geklappt... aber irgendetwas ist schiefgelaufen."
 }

@@ -24,6 +24,7 @@ public class ModCreativeModeTabs {
                 pOutput.accept(ModItems.METAL_DETECTOR.get());
                 pOutput.accept(ModItems.STRAWBERRY.get());
                 pOutput.accept(ModBlocks.BREWING_CAULDRON.get());
+                pOutput.accept(ModBlocks.DISTILLERY_STATION.get());
             })
             .build());;
 

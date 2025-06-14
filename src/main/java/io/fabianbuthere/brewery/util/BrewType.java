@@ -29,6 +29,19 @@ public record BrewType(
         return stack;
     }
 
+    public static ItemStack GENERIC_FAILED_BREW() {
+        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew"));
+        CompoundTag tag = brew.getOrCreateTag();
+        CompoundTag displayTag = tag.getCompound("display");
+        ListTag loreList = new ListTag();
+        loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.failed_brew_generic_lore"))));
+        displayTag.put("Lore", loreList);
+        tag.put("display", displayTag);
+        tag.putInt("CustomPotionColor", 0xFFCD94);
+        brew.setTag(tag);
+        return brew;
+    }
+
     public static ItemStack WRONG_INGREDIENTS_BREW() {
         ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew"));
         CompoundTag tag = brew.getOrCreateTag();
@@ -48,6 +61,19 @@ public record BrewType(
         CompoundTag displayTag = tag.getCompound("display");
         ListTag loreList = new ListTag();
         loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.failed_brew_wrong_ingredients_amount_lore"))));
+        displayTag.put("Lore", loreList);
+        tag.put("display", displayTag);
+        tag.putInt("CustomPotionColor", 0xFFCD94);
+        brew.setTag(tag);
+        return brew;
+    }
+
+    public static ItemStack INCORRECT_DISTILLERY_BREW(){
+        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew"));
+        CompoundTag tag = brew.getOrCreateTag();
+        CompoundTag displayTag = tag.getCompound("display");
+        ListTag loreList = new ListTag();
+        loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.failed_brew_wrong_distilling_lore"))));
         displayTag.put("Lore", loreList);
         tag.put("display", displayTag);
         tag.putInt("CustomPotionColor", 0xFFCD94);

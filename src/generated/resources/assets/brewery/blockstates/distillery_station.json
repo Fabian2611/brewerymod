@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "brewery:block/distillery_station"
+    }
+  }
+}

@@ -7,6 +7,7 @@
       "spruce"
     ],
     "brew_type": "rum",
+    "distillingItem": "glowstone_dust",
     "inputs": [
       {
         "item": "minecraft:sugar",
@@ -16,7 +17,6 @@
     ],
     "maxAgingTimeError": 0.2,
     "maxBrewingTimeError": 0.2,
-    "needsDistilling": true,
     "optimalAgingTime": 800,
     "optimalBrewingTime": 400
   }

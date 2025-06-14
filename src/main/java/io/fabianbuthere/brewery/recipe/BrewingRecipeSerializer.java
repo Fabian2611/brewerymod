@@ -28,14 +28,14 @@ public class BrewingRecipeSerializer implements RecipeSerializer<BrewingRecipe> 
         }
         long optimalBrewingTime = data.get("optimalBrewingTime").getAsLong();
         float maxBrewingTimeError = data.get("maxBrewingTimeError").getAsFloat();
-        boolean needsDistilling = data.get("needsDistilling").getAsBoolean();
+        String distillingItem = data.has("distillingItem") ? data.get("distillingItem").getAsString() : "";
         long optimalAgingTime = data.get("optimalAgingTime").getAsLong();
         float maxAgingTimeError = data.get("maxAgingTimeError").getAsFloat();
         List<String> allowedWoodTypes = new ArrayList<>();
         JsonArray woods = data.getAsJsonArray("allowedWoodTypes");
         for (JsonElement el : woods) allowedWoodTypes.add(el.getAsString());
         String brewTypeId = data.get("brew_type").getAsString();
-        return new BrewingRecipe(pRecipeId, inputs, optimalBrewingTime, maxBrewingTimeError, needsDistilling, optimalAgingTime, maxAgingTimeError, allowedWoodTypes, brewTypeId);
+        return new BrewingRecipe(pRecipeId, inputs, optimalBrewingTime, maxBrewingTimeError, distillingItem, optimalAgingTime, maxAgingTimeError, allowedWoodTypes, brewTypeId);
     }
 
     @Override
@@ -50,14 +50,14 @@ public class BrewingRecipeSerializer implements RecipeSerializer<BrewingRecipe> 
         }
         long optimalBrewingTime = pBuffer.readLong();
         float maxBrewingTimeError = pBuffer.readFloat();
-        boolean needsDistilling = pBuffer.readBoolean();
+        String distillingItem = pBuffer.readUtf();
         long optimalAgingTime = pBuffer.readLong();
         float maxAgingTimeError = pBuffer.readFloat();
         int woodCount = pBuffer.readVarInt();
         List<String> allowedWoodTypes = new ArrayList<>();
         for (int i = 0; i < woodCount; i++) allowedWoodTypes.add(pBuffer.readUtf());
         String brewTypeId = pBuffer.readUtf();
-        return new BrewingRecipe(pRecipeId, inputs, optimalBrewingTime, maxBrewingTimeError, needsDistilling, optimalAgingTime, maxAgingTimeError, allowedWoodTypes, brewTypeId);
+        return new BrewingRecipe(pRecipeId, inputs, optimalBrewingTime, maxBrewingTimeError, distillingItem, optimalAgingTime, maxAgingTimeError, allowedWoodTypes, brewTypeId);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class BrewingRecipeSerializer implements RecipeSerializer<BrewingRecipe> 
         }
         pBuffer.writeLong(pRecipe.getOptimalBrewingTime());
         pBuffer.writeFloat(pRecipe.getMaxBrewingTimeError());
-        pBuffer.writeBoolean(pRecipe.needsDistilling());
+        pBuffer.writeUtf(pRecipe.getDistillingItem());
         pBuffer.writeLong(pRecipe.getOptimalAgingTime());
         pBuffer.writeFloat(pRecipe.getMaxAgingTimeError());
         pBuffer.writeVarInt(pRecipe.getAllowedWoodTypes().size());

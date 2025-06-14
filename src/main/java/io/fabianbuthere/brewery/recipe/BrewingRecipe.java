@@ -19,18 +19,18 @@ public class BrewingRecipe implements Recipe<Container> {
     private final List<ItemStackInput> inputs;
     private final long optimalBrewingTime;
     private final float maxBrewingTimeError;
-    private final boolean needsDistilling;
+    private final String distillingItem;
     private final long optimalAgingTime;
     private final float maxAgingTimeError;
     private final List<String> allowedWoodTypes;
     private final String brewTypeId;
 
-    public BrewingRecipe(ResourceLocation id, List<ItemStackInput> inputs, long optimalBrewingTime, float maxBrewingTimeError, boolean needsDistilling, long optimalAgingTime, float maxAgingTimeError, List<String> allowedWoodTypes, String brewTypeId) {
+    public BrewingRecipe(ResourceLocation id, List<ItemStackInput> inputs, long optimalBrewingTime, float maxBrewingTimeError, String distillingItem, long optimalAgingTime, float maxAgingTimeError, List<String> allowedWoodTypes, String brewTypeId) {
         this.id = id;
         this.inputs = inputs;
         this.optimalBrewingTime = optimalBrewingTime;
         this.maxBrewingTimeError = maxBrewingTimeError;
-        this.needsDistilling = needsDistilling;
+        this.distillingItem = distillingItem;
         this.optimalAgingTime = optimalAgingTime;
         this.maxAgingTimeError = maxAgingTimeError;
         this.allowedWoodTypes = allowedWoodTypes;
@@ -92,9 +92,9 @@ public class BrewingRecipe implements Recipe<Container> {
     public List<ItemStackInput> getInputs() { return inputs; }
     public long getOptimalBrewingTime() { return optimalBrewingTime; }
     public float getMaxBrewingTimeError() { return maxBrewingTimeError; }
-    public boolean needsDistilling() { return needsDistilling; }
     public long getOptimalAgingTime() { return optimalAgingTime; }
     public float getMaxAgingTimeError() { return maxAgingTimeError; }
     public List<String> getAllowedWoodTypes() { return allowedWoodTypes; }
     public String getBrewTypeId() { return brewTypeId; }
+    public String getDistillingItem() { return distillingItem; }
 }

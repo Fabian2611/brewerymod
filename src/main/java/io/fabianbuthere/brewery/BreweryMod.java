@@ -6,6 +6,9 @@ import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
 import io.fabianbuthere.brewery.item.ModCreativeModeTabs;
 import io.fabianbuthere.brewery.item.ModItems;
 import io.fabianbuthere.brewery.recipe.ModRecipes;
+import io.fabianbuthere.brewery.screen.DistilleryStationScreen;
+import io.fabianbuthere.brewery.screen.ModMenus;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,6 +43,7 @@ public class BreweryMod
         ModBlockEntities.register(modEventBus);
 
         ModRecipes.register(modEventBus);
+        ModMenus.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -67,14 +71,14 @@ public class BreweryMod
 
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents
     {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
+        public static void clientSetup(FMLClientSetupEvent event)
         {
-
+            MenuScreens.register(ModMenus.DISTILLERY_STATION_MENU.get(), DistilleryStationScreen::new);
         }
     }
+
 }

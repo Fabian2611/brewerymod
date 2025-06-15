@@ -10,8 +10,8 @@ public class ModBrewTypes {
             3,
             5,
             List.of(
-                new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600, 1),
-                new MobEffectInstance(MobEffects.JUMP, 600, 1)
+                new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600, 1, false, false),
+                new MobEffectInstance(MobEffects.JUMP, 600, 1, false, false)
             ),
             0xFF0000,
             "brewery.brew.rum.lore",

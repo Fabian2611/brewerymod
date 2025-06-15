@@ -140,7 +140,9 @@ public record BrewType(
     public static Tag serializeEffects(List<MobEffectInstance> effects) {
         net.minecraft.nbt.ListTag listTag = new net.minecraft.nbt.ListTag();
         for (MobEffectInstance effect : effects) {
-            listTag.add(effect.save(new net.minecraft.nbt.CompoundTag()));
+            CompoundTag effectTag = effect.save(new net.minecraft.nbt.CompoundTag());
+            effectTag.putBoolean("ShowParticles", false);
+            listTag.add(effectTag);
         }
         return listTag;
     }

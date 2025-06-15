@@ -1,0 +1,21 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+      "oak"
+    ],
+    "brew_type": "mead",
+    "distillingItem": "glowstone_dust",
+    "inputs": [
+      {
+        "item": "minecraft:sugar_cane",
+        "maxCount": 5,
+        "minCount": 7
+      }
+    ],
+    "maxAgingTimeError": 0.2,
+    "maxBrewingTimeError": 0.2,
+    "optimalAgingTime": 48000,
+    "optimalBrewingTime": 3600
+  }
+}

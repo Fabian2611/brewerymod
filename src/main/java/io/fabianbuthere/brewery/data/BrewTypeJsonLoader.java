@@ -57,7 +57,8 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
                         }
                     }
                     if (mobEffect == null) mobEffect = MobEffects.LUCK; // fallback
-                    effects.add(new MobEffectInstance(mobEffect, duration, amplifier));
+                    // Always set showParticles to false for all loaded effects
+                    effects.add(new MobEffectInstance(mobEffect, duration, amplifier, false, false));
                 }
                 BrewType brewType = new BrewType(
                         id.getPath(),

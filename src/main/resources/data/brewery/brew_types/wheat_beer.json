@@ -1,0 +1,14 @@
+{
+  "customLore": "brewery.brew.wheat_beer.lore",
+  "customName": "brewery.brew.wheat_beer.name",
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 2400,
+      "effect": "effect.brewery.alcohol"
+    }
+  ],
+  "maxAlcoholLevel": 1,
+  "maxPurity": 3,
+  "tintColor": 15452468
+}

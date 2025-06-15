@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import io.fabianbuthere.brewery.block.ModBlocks;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
 import io.fabianbuthere.brewery.data.BrewTypeJsonLoader;
+import io.fabianbuthere.brewery.effect.ModEffects;
 import io.fabianbuthere.brewery.item.ModCreativeModeTabs;
 import io.fabianbuthere.brewery.item.ModItems;
 import io.fabianbuthere.brewery.recipe.ModRecipes;
@@ -47,6 +48,7 @@ public class BreweryMod
 
         ModRecipes.register(modEventBus);
         ModMenus.register(modEventBus);
+        ModEffects.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
@@ -90,3 +92,4 @@ public class BreweryMod
     }
 
 }
+

@@ -1,0 +1,21 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+      "birch"
+    ],
+    "brew_type": "wheat_beer",
+    "distillingItem": "glowstone_dust",
+    "inputs": [
+      {
+        "item": "minecraft:wheat",
+        "maxCount": 4,
+        "minCount": 2
+      }
+    ],
+    "maxAgingTimeError": 0.2,
+    "maxBrewingTimeError": 0.2,
+    "optimalAgingTime": 24000,
+    "optimalBrewingTime": 9600
+  }
+}

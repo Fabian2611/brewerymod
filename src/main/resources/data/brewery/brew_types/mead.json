@@ -1,0 +1,14 @@
+{
+  "customLore": "brewery.brew.mead.lore",
+  "customName": "brewery.brew.mead.name",
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 2400,
+      "effect": "effect.brewery.alcohol"
+    }
+  ],
+  "maxAlcoholLevel": 1,
+  "maxPurity": 3,
+  "tintColor": 15452468
+}

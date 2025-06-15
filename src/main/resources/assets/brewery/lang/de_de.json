@@ -11,5 +11,13 @@
   "brewery.brew.rum.name": "Rum",
   "brewery.brew.rum.lore": "Ein erfrischendes Getränk, das den Trinker belebt.",
   "brewery.brew.failed_brew_wrong_distilling_lore": "Das hat fast geklappt... aber der Destillierungsprozess war nicht ganz richtig.",
-  "brewery.brew.failed_brew_generic_lore": "Das hat fast geklappt... aber irgendetwas ist schiefgelaufen."
+  "brewery.brew.failed_brew_generic_lore": "Das hat fast geklappt... aber irgendetwas ist schiefgelaufen.",
+  "brewery.brew.failed_brew_wrong_aging_lore": "Das hat fast geklappt... aber der Fermentationsprozess war nicht ganz richtig.",
+  "block.brewery.fermentation_barrel": "Fermentationsfass",
+  "block.brewery.distillery_station": "Destillationsstation",
+  "brewery.brew.wheat_beer.name": "Weizenbier",
+  "brewery.brew.wheat_beer.lore": "Ein leichtes und erfrischendes Bier aus Weizen.",
+  "brewery.brew.mead.name": "Mead",
+  "brewery.brew.mead.lore": "Ein süßes Getränk, das die Seele erwärmt.",
+  "effect.brewery.alcohol": "Trunkenheit"
 }

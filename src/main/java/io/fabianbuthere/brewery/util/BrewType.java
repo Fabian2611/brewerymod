@@ -109,14 +109,11 @@ public record BrewType(
     }
 
     public static boolean isValid(String id) {
-        return Arrays.stream(ModBrewTypes.BREW_TYPES).map(BrewType::id).anyMatch(id::equals);
+        return BrewTypeRegistry.contains(id);
     }
 
     public static BrewType getResultBrewType(String id) {
-        return Arrays.stream(ModBrewTypes.BREW_TYPES)
-                .filter(brewType -> brewType.id().equals(id))
-                .findFirst()
-                .orElse(null);
+        return BrewTypeRegistry.get(id);
     }
 
     public static ItemStack getResultItem(String id) {

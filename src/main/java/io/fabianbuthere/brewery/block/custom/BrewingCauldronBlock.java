@@ -105,7 +105,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                     pPlayer.setItemInHand(pHand, new ItemStack(Items.BUCKET));
                 }
                 BrewingCauldronBlockEntity be = (BrewingCauldronBlockEntity) pLevel.getBlockEntity(pPos);
-                if (be != null && be.getBrewingTicks() > 0) be.resetBrewing();
+                if (be != null) be.resetBrewing();
                 if (be != null) be.setReValidateRecipe();
             }
             return InteractionResult.sidedSuccess(pLevel.isClientSide);
@@ -120,7 +120,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                     pPlayer.getInventory().add(new ItemStack(Items.GLASS_BOTTLE));
                 }
                 BrewingCauldronBlockEntity be = (BrewingCauldronBlockEntity) pLevel.getBlockEntity(pPos);
-                if (be != null && be.getBrewingTicks() > 0) be.resetBrewing();
+                if (be != null) be.resetBrewing();
                 if (be != null) be.setReValidateRecipe();
             }
             return InteractionResult.sidedSuccess(pLevel.isClientSide);

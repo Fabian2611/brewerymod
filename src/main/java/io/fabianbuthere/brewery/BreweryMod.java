@@ -3,6 +3,7 @@ package io.fabianbuthere.brewery;
 import com.mojang.logging.LogUtils;
 import io.fabianbuthere.brewery.block.ModBlocks;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
+import io.fabianbuthere.brewery.data.BrewTypeJsonLoader;
 import io.fabianbuthere.brewery.item.ModCreativeModeTabs;
 import io.fabianbuthere.brewery.item.ModItems;
 import io.fabianbuthere.brewery.recipe.ModRecipes;
@@ -13,6 +14,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -47,9 +49,9 @@ public class BreweryMod
         ModMenus.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
-
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
+        MinecraftForge.EVENT_BUS.addListener(this::onAddReloadListeners);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
@@ -63,6 +65,10 @@ public class BreweryMod
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(ModItems.RUBY);
         }
+    }
+
+    private void onAddReloadListeners(AddReloadListenerEvent event) {
+        event.addListener(new BrewTypeJsonLoader());
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

@@ -57,6 +57,13 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
         ResourceLocation rl = new ResourceLocation(recipeId);
         var recipeOpt = level.getRecipeManager().byKey(rl);
         if (recipeOpt.isPresent() && recipeOpt.get() instanceof io.fabianbuthere.brewery.recipe.BrewingRecipe brewingRecipe) {
+            // Fail if distillery is needed but missing
+            if (!(brewingRecipe.getDistillingItem() == null) && !brewingRecipe.getDistillingItem().isEmpty()) {
+                CompoundTag tag = stack.getOrCreateTag();
+                if (!tag.getString("distillingItem").equals(brewingRecipe.getDistillingItem())) {
+                    return BrewType.GENERIC_FAILED_BREW();
+                }
+            }
             // Fail if brew does not need aging
             if (brewingRecipe.getOptimalAgingTime() == 0L || brewingRecipe.getAllowedWoodTypes().isEmpty()) return BrewType.INCORRECT_AGING_BREW();
             // Fail if wood type does not match
@@ -73,36 +80,42 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
             // Get the result BrewType from the recipe
             BrewType brewTypeResult = BrewType.getResultBrewType(brewingRecipe.getBrewTypeId());
 
-            // Defensive copy for effects
-            List<MobEffectInstance> resultEffects = new java.util.ArrayList<>();
-            for (MobEffectInstance effect : brewTypeResult.effects()) {
-                MobEffect mobEffect = effect.getEffect();
-                int duration = Math.round(effect.getDuration() * (1 - error));
-                int amplifier = Math.round(effect.getAmplifier() * (1 - error));
-                if (duration > 0) {
-                    resultEffects.add(new MobEffectInstance(mobEffect, duration, amplifier));
-                }
-            }
-
             int maxPurity = brewTypeResult.maxPurity();
             int actualPurity = stack.getOrCreateTag().getInt("purity");
 
+            // Calculate purity factor: higher purity = less loss, lower purity = more loss
+            // Make error contribution stronger (e.g., square the error)
+            float errorContribution = (float) Math.pow(1.0f - error, 2);
+            // Calculate effective purity as an integer, influenced by errorContribution
+            int effectivePurity = Math.round(actualPurity * errorContribution);
+            float purityFactor = (float) effectivePurity / (float) maxPurity;
+
             StringBuilder purityRepresentation = new StringBuilder();
-            purityRepresentation.append("★".repeat(Math.max(0, actualPurity)));
-            purityRepresentation.append("☆".repeat(Math.max(0, maxPurity - actualPurity)));
+            purityRepresentation.append("★".repeat(Math.max(0, effectivePurity)));
+            purityRepresentation.append("☆".repeat(Math.max(0, maxPurity - effectivePurity)));
 
             CompoundTag resultTag = resultItem.getOrCreateTag();
             resultTag.putString("recipeId", recipeId);
 
             ListTag loreList = new ListTag();
-            loreList.add(StringTag.valueOf(purityRepresentation.toString()));
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(purityRepresentation.toString()))));
             loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable(brewTypeResult.customLore()))));
             CompoundTag displayTag = resultTag.getCompound("display");
             displayTag.put("Lore", loreList);
-            displayTag.putString("Name", Component.Serializer.toJson(Component.translatable(brewTypeResult.customLore())));
+            displayTag.putString("Name", Component.Serializer.toJson(Component.translatable(brewTypeResult.customName())));
             resultTag.put("display", displayTag);
             resultItem.setTag(resultTag);
 
+            // Modify amplifier and duration with the effective purity factor
+            List<MobEffectInstance> resultEffects = new java.util.ArrayList<>();
+            for (MobEffectInstance effect : brewTypeResult.effects()) {
+                MobEffect mobEffect = effect.getEffect();
+                int duration = Math.round(effect.getDuration() * purityFactor);
+                int amplifier = Math.max(0, Math.round(effect.getAmplifier() * purityFactor));
+                if (duration > 0) {
+                    resultEffects.add(new MobEffectInstance(mobEffect, duration, amplifier));
+                }
+            }
             resultItem.getTag().put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
 
             return resultItem;
@@ -193,6 +206,8 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
                 } else {
                     progresses[i] = 0;
                 }
+            } else {
+                progresses[i] = 0;
             }
         }
     }

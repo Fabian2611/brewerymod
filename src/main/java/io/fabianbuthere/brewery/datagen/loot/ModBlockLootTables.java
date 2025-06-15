@@ -33,6 +33,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
         this.dropSelf(ModBlocks.BREWING_CAULDRON.get());
         this.dropSelf(ModBlocks.DISTILLERY_STATION.get());
+        this.dropSelf(ModBlocks.FERMENTATION_BARREL.get());
     }
 
     protected LootTable.Builder createRedstoneLikeOreDrops(Block pBlock, Item pItem) {

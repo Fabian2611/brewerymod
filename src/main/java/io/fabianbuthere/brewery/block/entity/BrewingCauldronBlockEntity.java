@@ -35,7 +35,6 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
     public static final int DEFAULT_FAILED_COLOR = 0x6580b5;
     private int currentColor = DEFAULT_COLOR;
     private int syncedBrewingTicks = 0;
-    private int syncedBrewColor = DEFAULT_COLOR;
     private int syncedCurrentColor = DEFAULT_COLOR;
     public static final int INVENTORY_SIZE = 3;
     private boolean inventoryChanged = false;

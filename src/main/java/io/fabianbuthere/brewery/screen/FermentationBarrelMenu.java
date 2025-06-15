@@ -12,7 +12,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class FermentationBarrelMenu extends AbstractContainerMenu {
     public final FermentationBarrelBlockEntity blockEntity;
@@ -64,21 +66,32 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
+    public @NotNull ItemStack quickMoveStack(Player pPlayer, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);
-        if (sourceSlot == null || !sourceSlot.hasItem()) {
+        if (!sourceSlot.hasItem()) {
             return ItemStack.EMPTY;
         }
         ItemStack sourceStack = sourceSlot.getItem();
         ItemStack copyStack = sourceStack.copy();
 
+        // Moving from TE inventory to player inventory
+        if (pIndex >= TE_INVENTORY_FIRST_SLOT_INDEX && pIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
+            int teSlot = pIndex - TE_INVENTORY_FIRST_SLOT_INDEX;
+            this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
+                ItemStack extracted = iItemHandler.extractItem(teSlot, sourceStack.getCount(), false);
+                if (!extracted.isEmpty()) {
+                    if (!moveItemStackTo(extracted, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
+                        ((IItemHandlerModifiable)iItemHandler).insertItem(teSlot, extracted, false);
+                    }
+                }
+            });
+            sourceSlot.set(ItemStack.EMPTY);
+            return copyStack;
+        }
+
+        // Moving from player inventory to TE inventory (normal insert logic)
         if (pIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
-            // Moving from TE inventory to player inventory
             if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;
-            }
-        } else if (pIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
-            if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
                 return ItemStack.EMPTY;
             }
         } else {
@@ -89,7 +102,6 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
         } else {
             sourceSlot.setChanged();
         }
-        sourceSlot.onTake(pPlayer, sourceStack);
         return copyStack;
     }
 

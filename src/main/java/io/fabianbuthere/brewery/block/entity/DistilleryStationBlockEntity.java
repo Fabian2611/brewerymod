@@ -198,6 +198,41 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
                         }
 
                         resultTag.putString("distillingItem", filterItemId);
+                        // If the recipe does not need aging, finalize the brew here
+                        if (recipe.getOptimalAgingTime() == 0L) {
+                            // Use the same logic as the FermentationBarrel for finalizing
+                            int maxPurity = BrewType.getResultBrewType(recipe.getBrewTypeId()).maxPurity();
+                            int actualPurity = inputTag.getInt("purity");
+                            // No aging error, so error = 0
+                            float error = 0f;
+                            float errorContribution = 1.0f;
+                            int effectivePurity = actualPurity; // No error, so purity is not reduced
+                            float purityFactor = (float) effectivePurity / (float) maxPurity;
+                            // Set up display and effects
+                            StringBuilder purityRepresentation = new StringBuilder();
+                            purityRepresentation.append("★".repeat(Math.max(0, effectivePurity)));
+                            purityRepresentation.append("☆".repeat(Math.max(0, maxPurity - effectivePurity)));
+                            BrewType brewTypeResult = BrewType.getResultBrewType(recipe.getBrewTypeId());
+                            resultTag.putString("recipeId", recipe.getId().toString());
+                            net.minecraft.nbt.ListTag loreList = new net.minecraft.nbt.ListTag();
+                            loreList.add(net.minecraft.nbt.StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(net.minecraft.network.chat.Component.literal(purityRepresentation.toString()))));
+                            loreList.add(net.minecraft.nbt.StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(net.minecraft.network.chat.Component.translatable(brewTypeResult.customLore()))));
+                            net.minecraft.nbt.CompoundTag displayTag = resultTag.getCompound("display");
+                            displayTag.put("Lore", loreList);
+                            displayTag.putString("Name", net.minecraft.network.chat.Component.Serializer.toJson(net.minecraft.network.chat.Component.translatable(brewTypeResult.customName())));
+                            resultTag.put("display", displayTag);
+                            // Apply effects
+                            java.util.List<net.minecraft.world.effect.MobEffectInstance> resultEffects = new java.util.ArrayList<>();
+                            for (net.minecraft.world.effect.MobEffectInstance effect : brewTypeResult.effects()) {
+                                net.minecraft.world.effect.MobEffect mobEffect = effect.getEffect();
+                                int duration = Math.round(effect.getDuration() * purityFactor);
+                                int amplifier = Math.max(0, Math.round(effect.getAmplifier() * purityFactor));
+                                if (duration > 0) {
+                                    resultEffects.add(new net.minecraft.world.effect.MobEffectInstance(mobEffect, duration, amplifier));
+                                }
+                            }
+                            resultTag.put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
+                        }
                         itemHandler.setStackInSlot(OUTPUT_SLOT, result);
                         inputStack.shrink(1);
                         filterStack.shrink(1);

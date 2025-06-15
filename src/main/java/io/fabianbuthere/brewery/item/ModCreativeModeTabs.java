@@ -25,8 +25,9 @@ public class ModCreativeModeTabs {
                 pOutput.accept(ModItems.STRAWBERRY.get());
                 pOutput.accept(ModBlocks.BREWING_CAULDRON.get());
                 pOutput.accept(ModBlocks.DISTILLERY_STATION.get());
+                pOutput.accept(ModBlocks.FERMENTATION_BARREL.get());
             })
-            .build());;
+            .build());
 
 
     public static void register(IEventBus eventBus) {

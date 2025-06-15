@@ -21,6 +21,11 @@ public class ModBlockEntities {
             () -> BlockEntityType.Builder.of(DistilleryStationBlockEntity::new, ModBlocks.DISTILLERY_STATION.get()).build(null)
     );
 
+    public static final RegistryObject<BlockEntityType<FermentationBarrelBlockEntity>> FERMENTATION_BARREL = BLOCK_ENTITIES.register(
+            "fermentation_barrel",
+            () -> BlockEntityType.Builder.of(FermentationBarrelBlockEntity::new, ModBlocks.FERMENTATION_BARREL.get()).build(null)
+    );
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }

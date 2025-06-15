@@ -12,5 +12,8 @@
   "brewery.brew.rum.name": "Rum",
   "brewery.brew.rum.lore": "A refreshing brew that invigorates the drinker.",
   "brewery.brew.failed_brew_wrong_distilling_lore": "This brew almost worked... but the distilling process was not quite right.",
-  "brewery.brew.failed_brew_generic_lore": "This brew almost worked... but something went wrong."
+  "brewery.brew.failed_brew_generic_lore": "This brew almost worked... but something went wrong.",
+  "brewery.brew.failed_brew_wrong_aging_lore": "This brew almost worked... but the fermentation process was not quite right.",
+  "block.brewery.fermentation_barrel": "Fermentation Barrel",
+  "block.brewery.distillery_station": "Distillery Station"
 }

@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -94,6 +95,19 @@ public record BrewType(
         return brew;
     }
 
+    public static ItemStack INCORRECT_AGING_BREW() {
+        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew"));
+        CompoundTag tag = brew.getOrCreateTag();
+        CompoundTag displayTag = tag.getCompound("display");
+        ListTag loreList = new ListTag();
+        loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.failed_brew_wrong_aging_lore"))));
+        displayTag.put("Lore", loreList);
+        tag.put("display", displayTag);
+        tag.putInt("CustomPotionColor", 0xFFCD94);
+        brew.setTag(tag);
+        return brew;
+    }
+
     public static boolean isValid(String id) {
         return Arrays.stream(ModBrewTypes.BREW_TYPES).map(BrewType::id).anyMatch(id::equals);
     }
@@ -132,6 +146,10 @@ public record BrewType(
             listTag.add(effect.save(new net.minecraft.nbt.CompoundTag()));
         }
         return listTag;
+    }
+
+    public Tag serializeEffects() {
+        return serializeEffects(this.effects());
     }
 
     public ItemStack toItem(BrewingRecipe recipe, long brewingTime, ItemStackHandler inventory) {

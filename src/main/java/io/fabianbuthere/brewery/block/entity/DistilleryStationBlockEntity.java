@@ -126,7 +126,6 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
     }
 
     public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
-        // TODO: Implement distillery station logic
         if (hasRecipe()) {
             progress += 1;
             setChanged(pLevel, pPos, pState);

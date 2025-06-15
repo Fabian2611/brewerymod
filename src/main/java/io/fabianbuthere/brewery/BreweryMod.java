@@ -7,6 +7,7 @@ import io.fabianbuthere.brewery.item.ModCreativeModeTabs;
 import io.fabianbuthere.brewery.item.ModItems;
 import io.fabianbuthere.brewery.recipe.ModRecipes;
 import io.fabianbuthere.brewery.screen.DistilleryStationScreen;
+import io.fabianbuthere.brewery.screen.FermentationBarrelScreen;
 import io.fabianbuthere.brewery.screen.ModMenus;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -78,6 +79,7 @@ public class BreweryMod
         public static void clientSetup(FMLClientSetupEvent event)
         {
             MenuScreens.register(ModMenus.DISTILLERY_STATION_MENU.get(), DistilleryStationScreen::new);
+            MenuScreens.register(ModMenus.FERMENTATION_BARREL_MENU.get(), FermentationBarrelScreen::new);
         }
     }
 

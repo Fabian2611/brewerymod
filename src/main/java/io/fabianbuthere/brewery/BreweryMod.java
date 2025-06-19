@@ -5,6 +5,7 @@ import io.fabianbuthere.brewery.block.ModBlocks;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
 import io.fabianbuthere.brewery.data.BrewTypeJsonLoader;
 import io.fabianbuthere.brewery.effect.ModEffects;
+import io.fabianbuthere.brewery.event.ServerEventHandling;
 import io.fabianbuthere.brewery.item.ModCreativeModeTabs;
 import io.fabianbuthere.brewery.item.ModItems;
 import io.fabianbuthere.brewery.recipe.ModRecipes;
@@ -54,6 +55,7 @@ public class BreweryMod
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
         MinecraftForge.EVENT_BUS.addListener(this::onAddReloadListeners);
+        MinecraftForge.EVENT_BUS.register(ServerEventHandling.class);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
@@ -92,4 +94,3 @@ public class BreweryMod
     }
 
 }
-

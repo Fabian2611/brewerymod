@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Containers;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
@@ -230,6 +231,10 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
                                 if (duration > 0) {
                                     resultEffects.add(new net.minecraft.world.effect.MobEffectInstance(mobEffect, duration, amplifier));
                                 }
+                            }
+                            // Add hangover effect for bad purity
+                            if (effectivePurity < (double)maxPurity / 2) {
+                                resultEffects.add(new MobEffectInstance(io.fabianbuthere.brewery.effect.ModEffects.HANGOVER.get(), 600 * (Math.max(1, maxPurity / 2 - effectivePurity + 1)), 0, false, false, true));
                             }
                             resultTag.put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
                         }

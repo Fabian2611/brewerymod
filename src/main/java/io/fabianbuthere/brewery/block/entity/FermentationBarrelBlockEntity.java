@@ -116,6 +116,11 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
                     resultEffects.add(new MobEffectInstance(mobEffect, duration, amplifier));
                 }
             }
+            // Add hangover effect for bad purity
+            if (effectivePurity < (double)maxPurity / 2) {
+                resultEffects.add(new MobEffectInstance(io.fabianbuthere.brewery.effect.ModEffects.HANGOVER.get(), 600 * (Math.max(1, maxPurity / 2 - effectivePurity + 1)), 0, false, false, true));
+            }
+
             resultItem.getTag().put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
 
             return resultItem;

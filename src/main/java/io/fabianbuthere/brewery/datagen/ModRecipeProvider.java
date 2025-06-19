@@ -41,16 +41,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(ModBlocks.RUBY_BLOCK.get()), has(ModBlocks.RUBY_BLOCK.get()))
                 .save(pWriter, "ruby_from_block");
 
-        customBrewing(pWriter,
-                List.of(new ItemStackInput(Items.SUGAR, 2, 4)),
-                400L,
-                0.2f,
-                "glowstone_dust",
-                800L,
-                0.2f,
-                List.of("oak", "birch", "spruce"),
-                ModBrewTypes.RUM
-        );
+//        customBrewing(pWriter,
+//                List.of(new ItemStackInput(Items.SUGAR, 2, 4)),
+//                400L,
+//                0.2f,
+//                "glowstone_dust",
+//                800L,
+//                0.2f,
+//                List.of("oak", "birch", "spruce"),
+//                ModBrewTypes.RUM
+//        );
     }
 
     /**

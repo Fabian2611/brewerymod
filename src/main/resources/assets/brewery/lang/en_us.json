@@ -20,5 +20,6 @@
   "brewery.brew.wheat_beer.lore": "A light and refreshing beer made from wheat.",
   "brewery.brew.mead.name": "Mead",
   "brewery.brew.mead.lore": "A sweet brew that warms the soul.",
-  "effect.brewery.alcohol": "Drunkenness"
+  "effect.brewery.alcohol": "Drunkenness",
+  "effect.brewery.hangover": "Hangover"
 }

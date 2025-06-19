@@ -30,13 +30,6 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, BreweryMod.MOD_ID);
 
-    public static final RegistryObject<Block> RUBY_BLOCK = registerBlock("ruby_block", () ->
-            new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
-                    .sound(SoundType.AMETHYST)));
-    public static final RegistryObject<Block> RUBY_ORE = registerBlock("ruby_ore", () ->
-            new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.STONE), UniformInt.of(3, 6)));
-    public static final RegistryObject<Block> DEEPSLATE_RUBY_ORE = registerBlock("deepslate_ruby_ore", () ->
-            new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE), UniformInt.of(4, 7)));
     public static final RegistryObject<Block> BREWING_CAULDRON = registerBlock("brewing_cauldron", () ->
             new BrewingCauldronBlock(BlockBehaviour.Properties.copy(Blocks.CAULDRON)));
     public static final RegistryObject<Block> DISTILLERY_STATION = registerBlock("distillery_station", () ->

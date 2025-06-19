@@ -20,8 +20,6 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
-        this.tag(ModTags.Blocks.METAL_DETECTOR_BLOCKS).add(ModBlocks.RUBY_ORE.get(), ModBlocks.DEEPSLATE_RUBY_ORE.get()).addTag(Tags.Blocks.ORES);
-        this.tag(BlockTags.NEEDS_IRON_TOOL).add(ModBlocks.RUBY_ORE.get(), ModBlocks.DEEPSLATE_RUBY_ORE.get(), ModBlocks.RUBY_BLOCK.get()).addTag(Tags.Blocks.ORES);
-        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.RUBY_ORE.get(), ModBlocks.DEEPSLATE_RUBY_ORE.get(), ModBlocks.RUBY_BLOCK.get()).addTag(Tags.Blocks.ORES);
+
     }
 }

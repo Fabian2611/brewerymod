@@ -19,11 +19,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        blockWithItem(ModBlocks.RUBY_BLOCK);
-        blockWithItem(ModBlocks.RUBY_ORE);
-        blockWithItem(ModBlocks.DEEPSLATE_RUBY_ORE);
         cauldronLikeBlockWithItem(ModBlocks.BREWING_CAULDRON.get(), "water_cauldron_level_");
         blockWithItem(ModBlocks.DISTILLERY_STATION);
+
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject){

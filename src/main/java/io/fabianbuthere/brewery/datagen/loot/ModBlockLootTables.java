@@ -24,20 +24,9 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        this.dropSelf(ModBlocks.RUBY_BLOCK.get());
-
-        this.add(ModBlocks.RUBY_ORE.get(),
-                block -> createRedstoneLikeOreDrops(ModBlocks.RUBY_ORE.get(), ModItems.RUBY.get()));
-        this.add(ModBlocks.DEEPSLATE_RUBY_ORE.get(),
-                block -> createRedstoneLikeOreDrops(ModBlocks.DEEPSLATE_RUBY_ORE.get(), ModItems.RUBY.get()));
-
         this.dropSelf(ModBlocks.BREWING_CAULDRON.get());
         this.dropSelf(ModBlocks.DISTILLERY_STATION.get());
         this.dropSelf(ModBlocks.FERMENTATION_BARREL.get());
-    }
-
-    protected LootTable.Builder createRedstoneLikeOreDrops(Block pBlock, Item pItem) {
-        return createSilkTouchDispatchTable(pBlock, this.applyExplosionDecay(pBlock, LootItem.lootTableItem(pItem).apply(SetItemCountFunction.setCount(UniformGenerator.between(4.0F, 5.0F))).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
     }
 
     @Override

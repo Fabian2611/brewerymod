@@ -1,7 +1,4 @@
-// 1.20.1	2025-06-15T13:05:00.0196788	Loot Tables
+// 1.20.1	2025-06-19T17:03:12.2061745	Loot Tables
 91337bf040766924f091cb3750deda55e8902674 data/brewery/loot_tables/blocks/brewing_cauldron.json
-575545652c958f65d1472965538f79fca928fa85 data/brewery/loot_tables/blocks/deepslate_ruby_ore.json
 bc26c784b283fb63aa97f3dd7663121fa7647040 data/brewery/loot_tables/blocks/distillery_station.json
 073f9cd9cef319b3329aada1b44756141ae6c1f9 data/brewery/loot_tables/blocks/fermentation_barrel.json
-6c96cbd3a943536174475ed00472e74655af120f data/brewery/loot_tables/blocks/ruby_block.json
-b2d534cd00a167b79655eefe10a332a50bcfd964 data/brewery/loot_tables/blocks/ruby_ore.json

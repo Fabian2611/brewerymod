@@ -11,8 +11,6 @@ import net.minecraft.world.level.block.Block;
 @SuppressWarnings("removal")
 public class ModTags {
     public static class Blocks {
-        public static final TagKey<Block> METAL_DETECTOR_BLOCKS = tag("metal_detector_blocks");
-
         private static TagKey<Block> tag(String name) {
             return BlockTags.create(new ResourceLocation(BreweryMod.MOD_ID, name));
         }

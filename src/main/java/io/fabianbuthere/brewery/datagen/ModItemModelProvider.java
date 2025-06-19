@@ -17,9 +17,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        simpleItem(ModItems.RUBY);
-        simpleItem(ModItems.METAL_DETECTOR);
-        simpleItem(ModItems.STRAWBERRY);
+
     }
 
     @SuppressWarnings("removal")

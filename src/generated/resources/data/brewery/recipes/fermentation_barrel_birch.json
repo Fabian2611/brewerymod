@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "minecraft:birch_planks"
+    },
+    "S": {
+      "item": "minecraft:birch_slab"
+    }
+  },
+  "pattern": [
+    "PSP",
+    "PIP",
+    "PSP"
+  ],
+  "result": {
+    "item": "brewery:fermentation_barrel_birch"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "open=false": {
+      "model": "brewery:block/cherry_fermentation_barrel"
+    },
+    "open=true": {
+      "model": "brewery:block/cherry_fermentation_barrel_open"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "minecraft:warped_planks"
+    },
+    "S": {
+      "item": "minecraft:warped_slab"
+    }
+  },
+  "pattern": [
+    "PSP",
+    "PIP",
+    "PSP"
+  ],
+  "result": {
+    "item": "brewery:fermentation_barrel_warped"
+  },
+  "show_notification": true
+}

@@ -26,7 +26,9 @@ public class ModBlockLootTables extends BlockLootSubProvider {
     protected void generate() {
         this.dropSelf(ModBlocks.BREWING_CAULDRON.get());
         this.dropSelf(ModBlocks.DISTILLERY_STATION.get());
-        this.dropSelf(ModBlocks.FERMENTATION_BARREL.get());
+        for (var barrel : ModBlocks.FERMENTATION_BARRELS.values()) {
+            this.dropSelf(barrel.get());
+        }
     }
 
     @Override

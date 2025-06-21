@@ -1,6 +1,7 @@
 package io.fabianbuthere.brewery.datagen;
 
 import io.fabianbuthere.brewery.block.ModBlocks;
+import io.fabianbuthere.brewery.block.custom.WoodType;
 import io.fabianbuthere.brewery.item.ModItems;
 import io.fabianbuthere.brewery.util.BrewType;
 import io.fabianbuthere.brewery.util.ItemStackInput;
@@ -28,16 +29,54 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
-//        customBrewing(pWriter,
-//                List.of(new ItemStackInput(Items.SUGAR, 2, 4)),
-//                400L,
-//                0.2f,
-//                "glowstone_dust",
-//                800L,
-//                0.2f,
-//                List.of("oak", "birch", "spruce"),
-//                ModBrewTypes.RUM
-//        );
+        // Add fermentation barrel recipes for all 11 wood types
+        for (WoodType type : WoodType.values()) {
+            String wood = type.getSerializedName();
+            Item plank = switch (wood) {
+                case "acacia" -> Items.ACACIA_PLANKS;
+                case "bamboo" -> Items.BAMBOO_PLANKS;
+                case "birch" -> Items.BIRCH_PLANKS;
+                case "cherry" -> Items.CHERRY_PLANKS;
+                case "dark_oak" -> Items.DARK_OAK_PLANKS;
+                case "jungle" -> Items.JUNGLE_PLANKS;
+                case "mangrove" -> Items.MANGROVE_PLANKS;
+                case "crimson" -> Items.CRIMSON_PLANKS;
+                case "warped" -> Items.WARPED_PLANKS;
+                case "spruce" -> Items.SPRUCE_PLANKS;
+                default -> Items.OAK_PLANKS;
+            };
+            Item slab = switch (wood) {
+                case "acacia" -> Items.ACACIA_SLAB;
+                case "bamboo" -> Items.BAMBOO_SLAB;
+                case "birch" -> Items.BIRCH_SLAB;
+                case "cherry" -> Items.CHERRY_SLAB;
+                case "dark_oak" -> Items.DARK_OAK_SLAB;
+                case "jungle" -> Items.JUNGLE_SLAB;
+                case "mangrove" -> Items.MANGROVE_SLAB;
+                case "crimson" -> Items.CRIMSON_SLAB;
+                case "warped" -> Items.WARPED_SLAB;
+                case "spruce" -> Items.SPRUCE_SLAB;
+                default -> Items.OAK_SLAB;
+            };
+            ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.FERMENTATION_BARRELS.get(type).get())
+                .define('P', plank)
+                .define('S', slab)
+                .define('I', Items.IRON_INGOT)
+                .pattern("PSP")
+                .pattern("PIP")
+                .pattern("PSP")
+                .unlockedBy("has_" + wood + "_planks", has(plank))
+                .save(pWriter, new ResourceLocation("brewery", "fermentation_barrel_" + wood));
+        }
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BREWING_CAULDRON.get())
+            .define('I', Items.COPPER_INGOT)
+            .define('C', Items.IRON_INGOT)
+            .pattern("I I")
+            .pattern("I I")
+            .pattern("ICI")
+            .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
+            .save(pWriter, new ResourceLocation("brewery", "brewing_cauldron"));
     }
 
     /**

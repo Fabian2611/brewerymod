@@ -146,7 +146,8 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
     private static final int DATA_SIZE = 9;
 
     public FermentationBarrelBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.FERMENTATION_BARREL.get(), pPos, pBlockState);
+        super(ModBlockEntities.FERMENTATION_BARRELS.get(
+            pBlockState.getValue(FermentationBarrelBlock.WOOD_TYPE)).get(), pPos, pBlockState);
         this.data = new ContainerData() {
             @Override
             public int get(int pIndex) {

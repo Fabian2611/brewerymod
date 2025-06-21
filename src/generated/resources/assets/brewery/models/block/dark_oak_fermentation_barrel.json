@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "brewery:block/dark_oak_barrel_bottom",
+    "east": "brewery:block/dark_oak_barrel_side",
+    "north": "brewery:block/dark_oak_barrel_side",
+    "south": "brewery:block/dark_oak_barrel_side",
+    "up": "brewery:block/dark_oak_barrel_top",
+    "west": "brewery:block/dark_oak_barrel_side"
+  }
+}

@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "brewery:fermentation_barrel"
+          "name": "brewery:fermentation_barrel_acacia"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "brewery:blocks/fermentation_barrel"
+  "random_sequence": "brewery:blocks/fermentation_barrel_acacia"
 }

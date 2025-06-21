@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "minecraft:dark_oak_planks"
+    },
+    "S": {
+      "item": "minecraft:dark_oak_slab"
+    }
+  },
+  "pattern": [
+    "PSP",
+    "PIP",
+    "PSP"
+  ],
+  "result": {
+    "item": "brewery:fermentation_barrel_dark_oak"
+  },
+  "show_notification": true
+}

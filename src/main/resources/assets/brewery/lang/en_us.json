@@ -1,6 +1,4 @@
 {
-  "item.brewery.ruby": "Ruby",
-  "block.brewery.ruby_block": "Ruby Block",
   "creativetab.brewery_tab": "Brewery",
   "brewery.brew.failed_brew": "Failed Brew",
   "brewery.brew.failed_brew_wrong_ingredients_lore": "This brew almost worked... but the list of ingredients is not quite right.",
@@ -14,12 +12,25 @@
   "brewery.brew.failed_brew_wrong_distilling_lore": "This brew almost worked... but the distilling process was not quite right.",
   "brewery.brew.failed_brew_generic_lore": "This brew almost worked... but something went wrong.",
   "brewery.brew.failed_brew_wrong_aging_lore": "This brew almost worked... but the fermentation process was not quite right.",
-  "block.brewery.fermentation_barrel": "Fermentation Barrel",
+  "block.brewery.brewing_cauldron": "Brewing Cauldron",
   "block.brewery.distillery_station": "Distillery Station",
   "brewery.brew.wheat_beer.name": "Wheat Beer",
   "brewery.brew.wheat_beer.lore": "A light and refreshing beer made from wheat.",
   "brewery.brew.mead.name": "Mead",
   "brewery.brew.mead.lore": "A sweet brew that warms the soul.",
   "effect.brewery.alcohol": "Drunkenness",
-  "effect.brewery.hangover": "Hangover"
+  "effect.brewery.hangover": "Hangover",
+
+  "block.brewery.fermentation_barrel_acacia": "Acacia Fermentation Barrel",
+  "block.brewery.fermentation_barrel_birch": "Birch Fermentation Barrel",
+  "block.brewery.fermentation_barrel_dark_oak": "Dark Oak Fermentation Barrel",
+  "block.brewery.fermentation_barrel_jungle": "Jungle Fermentation Barrel",
+  "block.brewery.fermentation_barrel_oak": "Oak Fermentation Barrel",
+  "block.brewery.fermentation_barrel_spruce": "Spruce Fermentation Barrel",
+  "block.brewery.fermentation_barrel_cherry": "Cherry Fermentation Barrel",
+  "block.brewery.fermentation_barrel_bamboo": "Bamboo Fermentation Barrel",
+  "block.brewery.fermentation_barrel_mangrove": "Mangrove Fermentation Barrel",
+  "block.brewery.fermentation_barrel_warped": "Warped Fermentation Barrel",
+  "block.brewery.fermentation_barrel_crimson": "Crimson Fermentation Barrel"
+
 }

@@ -55,7 +55,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
     };
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
-    public static final Item[] allowedIngredients = new Item[]{Items.WHEAT, Items.SUGAR, Items.GLOWSTONE_DUST};
+    public static final Item[] ALLOWED_INGREDIENTS = new Item[]{Items.WHEAT, Items.SUGAR, Items.GLOWSTONE_DUST, Items.SUGAR_CANE};
 
     private boolean heated = false;
     public static final Block[] allowedHeatingBlocks = new Block[]{Blocks.FURNACE, Blocks.CAMPFIRE, Blocks.SOUL_CAMPFIRE}; // Replace Items with Blocks as needed
@@ -92,7 +92,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         } else {
             return false;
         }
-        return Arrays.asList(allowedIngredients).contains(stack.getItem());
+        return Arrays.asList(ALLOWED_INGREDIENTS).contains(stack.getItem());
     }
 
     public ItemStack insertItemStack(ItemStack stack) {

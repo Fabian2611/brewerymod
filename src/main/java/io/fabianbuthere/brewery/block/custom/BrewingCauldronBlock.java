@@ -2,8 +2,6 @@ package io.fabianbuthere.brewery.block.custom;
 
 import io.fabianbuthere.brewery.block.entity.BrewingCauldronBlockEntity;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
-import io.fabianbuthere.brewery.recipe.BrewingRecipe;
-import io.fabianbuthere.brewery.recipe.ModRecipes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -28,8 +26,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class BrewingCauldronBlock extends BaseEntityBlock {

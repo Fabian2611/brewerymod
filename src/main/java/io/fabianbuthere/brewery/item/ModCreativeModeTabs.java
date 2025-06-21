@@ -20,7 +20,9 @@ public class ModCreativeModeTabs {
             .displayItems((pParameters, pOutput) -> {
                 pOutput.accept(ModBlocks.BREWING_CAULDRON.get());
                 pOutput.accept(ModBlocks.DISTILLERY_STATION.get());
-                pOutput.accept(ModBlocks.FERMENTATION_BARREL.get());
+                for (var barrel : ModBlocks.FERMENTATION_BARRELS.values()) {
+                    pOutput.accept(barrel.get());
+                }
             })
             .build());
 

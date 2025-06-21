@@ -1,6 +1,7 @@
 package io.fabianbuthere.brewery.screen;
 
 import io.fabianbuthere.brewery.block.ModBlocks;
+import io.fabianbuthere.brewery.block.custom.FermentationBarrelBlock;
 import io.fabianbuthere.brewery.block.entity.FermentationBarrelBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -107,6 +108,28 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player pPlayer) {
-        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), pPlayer, ModBlocks.FERMENTATION_BARREL.get());
+        // Accept any fermentation barrel variant
+        return blockEntity != null && ModBlocks.FERMENTATION_BARRELS.values().stream()
+            .anyMatch(barrel -> blockEntity.getBlockState().is(barrel.get()));
+    }
+
+    @Override
+    public void removed(Player player) {
+        super.removed(player);
+        if (!player.level().isClientSide) {
+            // Check if no more players are viewing the menu
+            if (blockEntity != null && blockEntity.getLevel() != null) {
+                // Count viewers for this block entity
+                int viewers = 0;
+                for (Player p : blockEntity.getLevel().players()) {
+                    if (p.containerMenu instanceof FermentationBarrelMenu menu && menu.blockEntity.getBlockPos().equals(blockEntity.getBlockPos())) {
+                        viewers++;
+                    }
+                }
+                if (viewers <= 1) { // This player is closing, so if only 1, it's the last
+                    FermentationBarrelBlock.closeBarrel(blockEntity.getLevel(), blockEntity.getBlockPos(), blockEntity.getBlockState());
+                }
+            }
+        }
     }
 }

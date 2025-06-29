@@ -17,14 +17,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        blockWithItem(ModBlocks.DISTILLERY_STATION);
+        // blockWithItem(ModBlocks.DISTILLERY_STATION);
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {
         simpleBlockWithItem(blockRegistryObject.get(), cubeAll(blockRegistryObject.get()));
     }
 
-    // Add this helper for correct item model generation
     public void simpleBlockItem(Block block, ModelFile model) {
         itemModels().getBuilder(ForgeRegistries.BLOCKS.getKey(block).getPath()).parent(model);
     }

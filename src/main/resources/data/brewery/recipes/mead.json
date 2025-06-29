@@ -5,7 +5,7 @@
       "oak"
     ],
     "brew_type": "mead",
-    "distillingItem": "glowstone_dust",
+    "distillingItem": "",
     "inputs": [
       {
         "item": "minecraft:sugar_cane",

@@ -1,0 +1,26 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+      "jungle"
+    ],
+    "brew_type": "apple_cider",
+    "distillingItem": "glowstone_dust",
+    "inputs": [
+      {
+        "item": "minecraft:sugar",
+        "maxCount": 5,
+        "minCount": 3
+      },
+      {
+        "item": "minecraft:apple",
+        "maxCount": 3,
+        "minCount": 3
+      }
+    ],
+    "maxAgingTimeError": 0.2,
+    "maxBrewingTimeError": 0.2,
+    "optimalAgingTime": 72000,
+    "optimalBrewingTime": 4800
+  }
+}

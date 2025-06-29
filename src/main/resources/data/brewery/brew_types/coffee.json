@@ -1,0 +1,19 @@
+{
+  "customLore": "brewery.brew.coffee.lore",
+  "customName": "brewery.brew.coffee.name",
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 400,
+      "effect": "effect.minecraft.regeneration"
+    },
+    {
+      "amplifier": 0,
+      "duration": 1200,
+      "effect": "effect.minecraft.speed"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 3,
+  "tintColor": 8015651
+}

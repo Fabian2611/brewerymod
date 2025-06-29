@@ -13,7 +13,8 @@ import io.fabianbuthere.brewery.screen.DistilleryStationScreen;
 import io.fabianbuthere.brewery.screen.FermentationBarrelScreen;
 import io.fabianbuthere.brewery.screen.ModMenus;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -27,7 +28,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
+@SuppressWarnings("removal")
 @Mod(BreweryMod.MOD_ID)
 public class BreweryMod
 {
@@ -88,7 +89,10 @@ public class BreweryMod
         {
             MenuScreens.register(ModMenus.DISTILLERY_STATION_MENU.get(), DistilleryStationScreen::new);
             MenuScreens.register(ModMenus.FERMENTATION_BARREL_MENU.get(), FermentationBarrelScreen::new);
+            ModBlocks.FERMENTATION_BARRELS.values().forEach(barrel ->
+                ItemBlockRenderTypes.setRenderLayer(barrel.get(), RenderType.translucent())
+            );
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.BREWING_CAULDRON.get(), RenderType.translucent());
         }
     }
-
 }

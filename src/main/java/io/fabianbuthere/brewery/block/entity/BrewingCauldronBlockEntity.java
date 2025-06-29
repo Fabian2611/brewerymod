@@ -29,6 +29,7 @@ import org.joml.Vector3f;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
 
 public class BrewingCauldronBlockEntity extends BlockEntity {
     public static final int DEFAULT_COLOR = 0x3F76E4;
@@ -55,7 +56,15 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
     };
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
-    public static final Item[] ALLOWED_INGREDIENTS = new Item[]{Items.WHEAT, Items.SUGAR, Items.GLOWSTONE_DUST, Items.SUGAR_CANE};
+    public static final Item[] ALLOWED_INGREDIENTS = Set.of(new Item[]{Items.WHEAT, Items.SUGAR, Items.GLOWSTONE_DUST,
+            Items.SUGAR_CANE, Items.APPLE, Items.POTATO, Items.GRASS, Items.COCOA_BEANS, Items.BEETROOT_SEEDS,
+            Items.WHEAT_SEEDS, Items.ROTTEN_FLESH, Items.ACACIA_LEAVES, Items.NETHER_WART, Items.PINK_TULIP,
+            Items.MILK_BUCKET, Items.POPPY, Items.BONE, Items.BLUE_ORCHID, Items.CACTUS, Items.ROSE_BUSH,
+            Items.GLISTERING_MELON_SLICE, Items.BROWN_MUSHROOM, Items.GREEN_WOOL, Items.GOLD_NUGGET,
+            Items.ENDER_PEARL, Items.POPPED_CHORUS_FRUIT, Items.DANDELION, Items.COAL, Items.IRON_INGOT,
+            Items.CHORUS_FRUIT, Items.LAPIS_LAZULI, Items.COD, Items.SALMON, Items.TROPICAL_FISH, Items.PUFFERFISH,
+            Items.DARK_OAK_LEAVES, Items.GOLDEN_APPLE, Items.CLAY_BALL, Items.QUARTZ, Items.END_ROD, Items.BLAZE_POWDER,
+            Items.GHAST_TEAR, Items.PUMPKIN_SEEDS, Items.SNOWBALL, Items.STICK, Items.CARROT, Items.DIAMOND, Items.BEETROOT, Items.GUNPOWDER}).toArray(new Item[0]);
 
     private boolean heated = false;
     public static final Block[] allowedHeatingBlocks = new Block[]{Blocks.FURNACE, Blocks.CAMPFIRE, Blocks.SOUL_CAMPFIRE}; // Replace Items with Blocks as needed

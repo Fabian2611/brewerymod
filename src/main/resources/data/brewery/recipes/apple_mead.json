@@ -1,0 +1,26 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+      "oak"
+    ],
+    "brew_type": "apple_mead",
+    "distillingItem": "",
+    "inputs": [
+      {
+        "item": "minecraft:sugar_cane",
+        "maxCount": 7,
+        "minCount": 5
+      },
+      {
+        "item": "minecraft:apple",
+        "maxCount": 3,
+        "minCount": 1
+      }
+    ],
+    "maxAgingTimeError": 0.2,
+    "maxBrewingTimeError": 0.2,
+    "optimalAgingTime": 48000,
+    "optimalBrewingTime": 4800
+  }
+}

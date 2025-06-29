@@ -22,7 +22,7 @@ public class AlcoholEffect extends MobEffect {
     /// Creates a new instance of the Alcohol effect with the specified duration and amplifier.
     /// @param duration The duration of the effect in ticks.
     /// @param amplifier The amplifier of the effect. Must be non-negative and smaller than 256.
-    /// /// @return A new MobEffectInstance representing the Alcohol effect.
+    /// @return A new MobEffectInstance representing the Alcohol effect.
     public static final MobEffectInstance create(int duration, int amplifier) {
         return new MobEffectInstance(ModEffects.ALCOHOL.get(), duration, amplifier, false, false, true);
     }

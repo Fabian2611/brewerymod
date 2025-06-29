@@ -1,0 +1,19 @@
+{
+  "customLore": "brewery.brew.apple_mead.lore",
+  "customName": "brewery.brew.apple_mead.name",
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 4800,
+      "effect": "effect.brewery.alcohol"
+    },
+    {
+      "amplifier": 0,
+        "duration": 4800,
+        "effect": "effect.minecraft.water_breathing"
+    }
+  ],
+  "maxAlcoholLevel": 1,
+  "maxPurity": 5,
+  "tintColor": 12863498
+}

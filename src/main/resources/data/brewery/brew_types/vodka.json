@@ -1,0 +1,19 @@
+{
+  "customLore": "brewery.brew.vodka.lore",
+  "customName": "brewery.brew.vodka.name",
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 5400,
+      "effect": "effect.brewery.alcohol"
+    },
+    {
+      "amplifier": 0,
+      "duration": 2400,
+      "effect": "effect.minecraft.weakness"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 6,
+  "tintColor": 12771583
+}

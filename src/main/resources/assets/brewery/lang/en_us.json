@@ -7,17 +7,11 @@
   "brewery.brew.unfinished_brew": "Unfinished Brew",
   "brewery.brew.unfinished_brew_lore": "This brew is ready for the next step!",
 
-  "brewery.brew.rum.name": "Rum",
-  "brewery.brew.rum.lore": "A refreshing brew that invigorates the drinker.",
   "brewery.brew.failed_brew_wrong_distilling_lore": "This brew almost worked... but the distilling process was not quite right.",
   "brewery.brew.failed_brew_generic_lore": "This brew almost worked... but something went wrong.",
   "brewery.brew.failed_brew_wrong_aging_lore": "This brew almost worked... but the fermentation process was not quite right.",
   "block.brewery.brewing_cauldron": "Brewing Cauldron",
   "block.brewery.distillery_station": "Distillery Station",
-  "brewery.brew.wheat_beer.name": "Wheat Beer",
-  "brewery.brew.wheat_beer.lore": "A light and refreshing beer made from wheat.",
-  "brewery.brew.mead.name": "Mead",
-  "brewery.brew.mead.lore": "A sweet brew that warms the soul.",
   "effect.brewery.alcohol": "Drunkenness",
   "effect.brewery.hangover": "Hangover",
 
@@ -31,6 +25,27 @@
   "block.brewery.fermentation_barrel_bamboo": "Bamboo Fermentation Barrel",
   "block.brewery.fermentation_barrel_mangrove": "Mangrove Fermentation Barrel",
   "block.brewery.fermentation_barrel_warped": "Warped Fermentation Barrel",
-  "block.brewery.fermentation_barrel_crimson": "Crimson Fermentation Barrel"
+  "block.brewery.fermentation_barrel_crimson": "Crimson Fermentation Barrel",
 
+  "brewery.brew.absinthe.name": "Absinthe",
+  "brewery.brew.apple_cider.name": "Apple Cider",
+  "brewery.brew.apple_mead.name": "Apple Mead",
+  "brewery.brew.beer.name": "Beer",
+  "brewery.brew.coffee.name": "Coffee",
+  "brewery.brew.latte.name": "Latte",
+  "brewery.brew.mead.name": "Mead",
+  "brewery.brew.rum.name": "Rum",
+  "brewery.brew.vodka.name": "Vodka",
+  "brewery.brew.wheat_beer.name": "Wheat Beer",
+
+  "brewery.brew.absinthe.lore": "A strong alcoholic beverage made from wormwood and other herbs.",
+  "brewery.brew.apple_cider.lore": "A refreshing drink made from fermented apples.",
+  "brewery.brew.apple_mead.lore": "A sweet and fruity mead made from apples.",
+  "brewery.brew.beer.lore": "A classic beverage made from wheat, barley, or hops.",
+  "brewery.brew.coffee.lore": "A rich and aromatic beverage made from roasted cocoa beans.",
+  "brewery.brew.latte.lore": "A creamy coffee drink made with steamed milk..",
+  "brewery.brew.mead.lore": "A traditional alcoholic beverage, assumed to be invented by African bush tribes around 20000 BC.",
+  "brewery.brew.rum.lore": "A sweet and strong alcoholic beverage made from sugarcane or molasses.",
+  "brewery.brew.vodka.lore": "A clear and neutral spirit made from fermented grains or potatoes.",
+  "brewery.brew.wheat_beer.lore": "A light and refreshing beer made from wheat."
 }

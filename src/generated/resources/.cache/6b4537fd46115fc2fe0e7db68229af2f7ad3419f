@@ -1,1 +1,13 @@
-// 1.20.1	2025-06-19T17:03:12.2061745	Item Models: brewery
+// 1.20.1	2025-06-29T13:32:22.4760744	Item Models: brewery
+575493b43716a6f0d58278ff7b12bf837d2f47d9 assets/brewery/models/item/brewing_cauldron.json
+cde5b20921b15657cef71ac3f5e25813a10e3563 assets/brewery/models/item/fermentation_barrel_acacia.json
+6f085dc1d36a50bb4759b7cfea24303cc0801769 assets/brewery/models/item/fermentation_barrel_bamboo.json
+f37bf388093836df4e2ea1582da88274a977ac09 assets/brewery/models/item/fermentation_barrel_birch.json
+c801083cc43521fa49cab24016271330befd2fec assets/brewery/models/item/fermentation_barrel_cherry.json
+b6fda9b67d16628dc3f12e6189a9fda55a6e4d77 assets/brewery/models/item/fermentation_barrel_crimson.json
+97af07e9c9609f18e6c4371a7595d5c919b14e19 assets/brewery/models/item/fermentation_barrel_dark_oak.json
+b4a867f77dcda4e21cf5c303097fa5b9dd0f85bb assets/brewery/models/item/fermentation_barrel_jungle.json
+0ca2a79eddc3ff36e089f148620ad816827c50a1 assets/brewery/models/item/fermentation_barrel_mangrove.json
+64935fe3ebecfd607796dd1e81b08dc3354f8832 assets/brewery/models/item/fermentation_barrel_oak.json
+4af77f30635469f1475c97142b0dcb845b21f3d0 assets/brewery/models/item/fermentation_barrel_spruce.json
+242d7405f2385bdf381fff184cb23cb4a6bce95f assets/brewery/models/item/fermentation_barrel_warped.json

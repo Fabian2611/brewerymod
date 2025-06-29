@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class FermentationBarrelBlock extends BaseEntityBlock {
-    private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 16, 16);
+    private static final VoxelShape SHAPE = Block.box(2, 0, 0, 14, 14, 16);
     public static final EnumProperty<WoodType> WOOD_TYPE = EnumProperty.create("wood_type", WoodType.class);
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
 
@@ -83,7 +83,6 @@ public class FermentationBarrelBlock extends BaseEntityBlock {
         if (!level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof FermentationBarrelBlockEntity) {
-                // Set open to true when GUI is opened
                 if (!state.getValue(OPEN)) {
                     level.setBlock(pos, state.setValue(OPEN, true), 3);
                 }
@@ -93,7 +92,6 @@ public class FermentationBarrelBlock extends BaseEntityBlock {
         return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
-    // Helper for closing the barrel (call from your menu/container when last viewer closes)
     public static void closeBarrel(Level level, BlockPos pos, BlockState state) {
         if (!level.isClientSide() && state.getBlock() instanceof FermentationBarrelBlock && state.getValue(OPEN)) {
             level.setBlock(pos, state.setValue(OPEN, false), 3);
@@ -119,7 +117,6 @@ public class FermentationBarrelBlock extends BaseEntityBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        // Always use the block's woodType, ignore NBT
         return this.defaultBlockState().setValue(WOOD_TYPE, this.woodType);
     }
 
@@ -140,7 +137,27 @@ public class FermentationBarrelBlock extends BaseEntityBlock {
     }
 
     @Override
+    public boolean propagatesSkylightDown(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+        return true;
+    }
+
+    @Override
+    public int getLightBlock(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+        return 0;
+    }
+
+    @Override
+    public boolean isCollisionShapeFullBlock(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+        return false;
+    }
+
+    @Override
+    public boolean isOcclusionShapeFullBlock(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+        return false;
+    }
+
+    @Override
     public ItemStack getCloneItemStack(BlockState state, net.minecraft.world.phys.HitResult target, BlockGetter level, BlockPos pos, Player player) {
-        return new ItemStack(woodTypeToPlankBlock(state.getValue(WOOD_TYPE)));
+        return new ItemStack(this);
     }
 }

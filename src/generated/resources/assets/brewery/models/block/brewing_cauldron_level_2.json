@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/cauldron",
-  "textures": {
-    "bottom": "minecraft:block/cauldron_bottom",
-    "inner": "minecraft:block/cauldron_inner",
-    "side": "minecraft:block/cauldron_side",
-    "top": "minecraft:block/cauldron_top"
-  }
-}

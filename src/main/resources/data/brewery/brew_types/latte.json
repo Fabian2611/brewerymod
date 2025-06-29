@@ -1,0 +1,19 @@
+{
+  "customLore": "brewery.brew.latte.lore",
+  "customName": "brewery.brew.latte.name",
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 300,
+      "effect": "effect.minecraft.regeneration"
+    },
+    {
+      "amplifier": 0,
+      "duration": 900,
+      "effect": "effect.minecraft.speed"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 3,
+  "tintColor": 12220470
+}

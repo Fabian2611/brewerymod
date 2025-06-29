@@ -1,0 +1,21 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+
+    ],
+    "brew_type": "absinthe",
+    "distillingItem": "redstone",
+    "inputs": [
+      {
+        "item": "minecraft:grass",
+        "minCount": 18,
+        "maxCount": 12
+      }
+    ],
+    "maxAgingTimeError": 0.5,
+    "maxBrewingTimeError": 0.5,
+    "optimalAgingTime": 0,
+    "optimalBrewingTime": 3600
+  }
+}

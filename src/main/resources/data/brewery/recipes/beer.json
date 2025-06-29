@@ -1,0 +1,31 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+      "birch",
+      "spruce",
+      "jungle",
+      "acacia",
+      "dark_oak",
+      "mangrove",
+      "cherry",
+      "bamboo",
+      "crimson",
+      "warped",
+      "oak"
+    ],
+    "brew_type": "beer",
+    "distillingItem": "",
+    "inputs": [
+      {
+        "item": "minecraft:wheat",
+        "maxCount": 8,
+        "minCount": 4
+      }
+    ],
+    "maxAgingTimeError": 0.2,
+    "maxBrewingTimeError": 0.2,
+    "optimalAgingTime": 72000,
+    "optimalBrewingTime": 9600
+  }
+}

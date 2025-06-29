@@ -1,0 +1,26 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+
+    ],
+    "brew_type": "latte",
+    "distillingItem": "glowstone_dust",
+    "inputs": [
+      {
+        "item": "minecraft:cocoa_beans",
+        "minCount": 17,
+        "maxCount": 23
+      },
+      {
+        "item": "minecraft:milk_bucket",
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ],
+    "maxAgingTimeError": 0.1,
+    "maxBrewingTimeError": 0.3,
+    "optimalAgingTime": 0,
+    "optimalBrewingTime": 3600
+  }
+}

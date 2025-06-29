@@ -1,0 +1,19 @@
+{
+  "customLore": "brewery.brew.rum.lore",
+  "customName": "brewery.brew.rum.name",
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 4800,
+      "effect": "effect.brewery.alcohol"
+    },
+    {
+      "amplifier": 0,
+      "duration": 4800,
+      "effect": "effect.minecraft.fire_resistance"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 5,
+  "tintColor": 10231566
+}

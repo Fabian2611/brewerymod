@@ -3,6 +3,7 @@ package io.fabianbuthere.brewery.block.custom;
 import io.fabianbuthere.brewery.block.entity.BrewingCauldronBlockEntity;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -29,8 +30,8 @@ import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class BrewingCauldronBlock extends BaseEntityBlock {
-    private static final VoxelShape INSIDE = box(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
-    protected static final VoxelShape SHAPE = Shapes.join(Shapes.block(), Shapes.or(box(0.0D, 0.0D, 4.0D, 16.0D, 3.0D, 12.0D), box(4.0D, 0.0D, 0.0D, 12.0D, 3.0D, 16.0D), box(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D), INSIDE), BooleanOp.ONLY_FIRST);
+    private static final VoxelShape INSIDE = box(1.0D, 3.0D, 1.0D, 15.0D, 15.0D, 15.0D);
+    protected static final VoxelShape SHAPE = Shapes.join(box(0, 0, 0, 16, 15, 16), Shapes.or(box(2.0D, 0.0D, 0.0D, 14.0D, 2.0D, 16.0D), box(0.0D, 0.0D, 2.0D, 16.0D, 2.0D, 14.0D), INSIDE), BooleanOp.ONLY_FIRST);
     public static final IntegerProperty BREW_LEVEL = IntegerProperty.create("brew_level", 0, 3);
 
     public BrewingCauldronBlock(Properties pProperties) {
@@ -64,6 +65,16 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
         ItemStack held = pPlayer.getItemInHand(pHand);
         Item heldItem = held.getItem();
         int currentLevel = pState.getValue(BREW_LEVEL);
+
+        if (heldItem == Items.CLOCK) {
+            if (!pLevel.isClientSide) {
+                BrewingCauldronBlockEntity be = (BrewingCauldronBlockEntity) pLevel.getBlockEntity(pPos);
+                if (be != null) {
+                    int brewTime = be.getBrewingTicks();
+                    pPlayer.displayClientMessage(Component.literal((brewTime / 1200) + "min " + ((brewTime / 20) % 60) + "s"), true);
+                }
+            }
+        }
 
         if (heldItem == Items.BUCKET && currentLevel == 3) {
             if (!pLevel.isClientSide) {

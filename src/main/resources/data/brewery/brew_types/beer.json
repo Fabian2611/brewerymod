@@ -1,0 +1,14 @@
+{
+  "customLore": "brewery.brew.beer.lore",
+  "customName": "brewery.brew.beer.name",
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 3600,
+      "effect": "effect.brewery.alcohol"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 5,
+  "tintColor": 15452468
+}

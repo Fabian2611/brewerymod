@@ -1,0 +1,21 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+      "oak"
+    ],
+    "brew_type": "rum",
+    "distillingItem": "glowstone_dust",
+    "inputs": [
+      {
+        "item": "minecraft:sugar_cane",
+        "maxCount": 17,
+        "minCount": 11
+      }
+    ],
+    "maxAgingTimeError": 0.1,
+    "maxBrewingTimeError": 0.15,
+    "optimalAgingTime": 336000,
+    "optimalBrewingTime": 6000
+  }
+}

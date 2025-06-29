@@ -1,0 +1,21 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+
+    ],
+    "brew_type": "coffee",
+    "distillingItem": "glowstone_dust",
+    "inputs": [
+      {
+        "item": "minecraft:cocoa_beans",
+        "minCount": 9,
+        "maxCount": 15
+      }
+    ],
+    "maxAgingTimeError": 0.1,
+    "maxBrewingTimeError": 0.25,
+    "optimalAgingTime": 0,
+    "optimalBrewingTime": 2400
+  }
+}

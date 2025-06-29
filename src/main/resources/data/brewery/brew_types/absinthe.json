@@ -1,0 +1,19 @@
+{
+  "customLore": "brewery.brew.absinthe.lore",
+  "customName": "brewery.brew.absinthe.name",
+  "effects": [
+    {
+      "amplifier": 3,
+      "duration": 9600,
+      "effect": "effect.brewery.alcohol"
+    },
+    {
+      "amplifier": 2,
+      "duration": 300,
+      "effect": "effect.minecraft.poison"
+    }
+  ],
+  "maxAlcoholLevel": 4,
+  "maxPurity": 1,
+  "tintColor": 6946652
+}

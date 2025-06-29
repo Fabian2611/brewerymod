@@ -15,13 +15,17 @@ I do not even plan on porting this mod to different Forge loader versions.
 
 ## Features
 ### Brewing
-[ TODO - Add brewing feature description ]
+Fill a brewing cauldron with water and brew ingredients and supply it with heat to start brewing. Take the brew out using glass bottles after the brew-specific brewing time to continue with the process.
 ### Distilling
-[ TODO - Add distilling feature description ]
+Some brews need to be distilled. For this, place them into a distillery station together with the correct filter.
 ### Fermenting
-[ TODO - Add fermenting feature description ]
+Some brews need to be barrel aged. For this, make a fermentation barrel of the correct wood type for your specific brew, put your brew inside and take it out once ready.
+### Purity
+After the brewing process is finished, your brew will be assigned a purity. The value will be decided by how precise your ingredient amounts were and how well you chose the brewing and aging times of the brew.
+### Custom Brews & Recipes
+The mod normally comes shipped with a bunch of recipes already included, but you can also choose to add your own ones. A tutorial for this can be found [here](./custom_recipes.md).
 
 ## Credits
 - [Brewery](https://www.spigotmc.org/resources/brewery.3082/) for inspiration
 - [BreweryX](https://www.spigotmc.org/resources/breweryx.114777/) for inspiration
-- RedBlood for block & item models and textures
+- [TheREDCrafter](https://github.com/TheREDCraafter) for block & item models and textures

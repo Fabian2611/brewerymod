@@ -137,11 +137,10 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
             BrewingCauldronBlockEntity be = (BrewingCauldronBlockEntity) pLevel.getBlockEntity(pPos);
             if (be != null) {
                 if (!held.isEmpty() && be.canInsert(held)) {
-                    ItemStack toInsert = held.copy();
+                    ItemStack toInsert = held.copyWithCount(1);
                     ItemStack remainder = be.insertItemStack(toInsert);
-                    int inserted = held.getCount() - remainder.getCount();
-                    if (inserted > 0) {
-                        held.shrink(inserted);
+                    if (remainder.isEmpty()) {
+                        held.shrink(1);
                         be.setReValidateRecipe();
                         return InteractionResult.CONSUME;
                     }

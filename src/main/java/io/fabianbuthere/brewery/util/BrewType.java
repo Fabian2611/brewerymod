@@ -171,12 +171,14 @@ public record BrewType(
 
         // Fail if any item count is off
         for (ItemStackInput i : recipe.getInputs()) {
+            int totalCount = 0;
             for (ItemStack inputStack : inventoryList) {
                 if (inputStack.getItem() == i.item()) {
-                    if (inputStack.getCount() < i.minCount() || inputStack.getCount() > i.maxCount()) {
-                        return INCORRECT_INGREDIENT_AMOUNT_BREW();
-                    }
+                    totalCount += inputStack.getCount();
                 }
+            }
+            if (totalCount < i.minCount() || totalCount > i.maxCount()) {
+                return INCORRECT_INGREDIENT_AMOUNT_BREW();
             }
         }
 

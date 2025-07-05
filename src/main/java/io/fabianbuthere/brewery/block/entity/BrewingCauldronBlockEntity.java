@@ -132,6 +132,13 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
     public void serverTick(Level level) {
         if (level.isClientSide) return;
 
+        if (reValidateRecipe) {
+            if (getBlockState().getValue(BrewingCauldronBlock.BREW_LEVEL) == 0) {
+                resetBrewing();
+                return;
+            }
+        }
+
         // Early return if not heated
         if (!isHeated()) {
             if (lockedRecipe != null || brewingTicks != 0) {
@@ -164,14 +171,6 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
                     setCurrentColor(DEFAULT_COLOR);
                     setChanged();
                 }
-                return;
-            }
-        }
-
-        if (reValidateRecipe) {
-            reValidateRecipe = false;
-            if (getBlockState().getValue(BrewingCauldronBlock.BREW_LEVEL) == 0) {
-                resetBrewing();
                 return;
             }
         }
@@ -244,6 +243,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         for (int i = 0; i < itemHandler.getSlots(); i++) {
             itemHandler.setStackInSlot(i, ItemStack.EMPTY);
         }
+        setReValidateRecipe();
         lockedRecipe = null;
         brewingTicks = 0;
         setChanged();

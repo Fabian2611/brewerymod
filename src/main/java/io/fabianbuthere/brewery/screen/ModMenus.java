@@ -3,7 +3,6 @@ package io.fabianbuthere.brewery.screen;
 import io.fabianbuthere.brewery.BreweryMod;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.flag.FeatureFlags;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.network.IContainerFactory;

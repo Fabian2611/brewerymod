@@ -93,6 +93,7 @@ public class BreweryMod
                 ItemBlockRenderTypes.setRenderLayer(barrel.get(), RenderType.translucent())
             );
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.BREWING_CAULDRON.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.DISTILLERY_STATION.get(), RenderType.translucent());
         }
     }
 }

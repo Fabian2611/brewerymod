@@ -1,22 +1,21 @@
 package io.fabianbuthere.brewery.datagen;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import io.fabianbuthere.brewery.block.ModBlocks;
 import io.fabianbuthere.brewery.block.custom.WoodType;
-import io.fabianbuthere.brewery.item.ModItems;
 import io.fabianbuthere.brewery.util.BrewType;
 import io.fabianbuthere.brewery.util.ItemStackInput;
-import io.fabianbuthere.brewery.util.ModBrewTypes;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.*;
-import net.minecraft.world.item.Items;
-import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.effect.MobEffectInstance;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.Gson;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
 import java.util.List;
 import java.util.function.Consumer;

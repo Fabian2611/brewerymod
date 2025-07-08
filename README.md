@@ -1,17 +1,18 @@
-## Brewery
-Brewery is a simple Minecraft Mod using the Forge modloader that adds a brewing system to the game.
+## Brewery Forgified
+Brewery Forgified is a simple Minecraft Mod using the Forge modloader that adds a brewing system to the game.
 It is heavily inspired by the Spigot Plugin [Brewery](https://www.spigotmc.org/resources/brewery.3082/) and its still actively maintained fork [BreweryX](https://www.spigotmc.org/resources/breweryx.114777/).
 
 ## Issues
 If you find any bugs or issues, please report them on the [GitHub Issues page](https://github.com/Fabian2611/brewerymod/issues/).
 You can also use the Issues page to suggest new features or improvements, but I can not guarantee that I will implement them.
 
-## Versions
+## Compatibility
 Currently, this mod is only available for Minecraft 1.20.1 using Forge 47.4.0.
 I do not plan on updating or backporting this mod to other Minecraft versions.
-I do not plan on porting this mod to NeoForge, Fabric, Quilt or any other modloader.
-I do not even plan on porting this mod to different Forge loader versions.
+I do not plan on porting this mod to NeoForge, Fabric, Quilt or any other modloader.*
 **If you plan on doing any of the above, feel free to do so.**
+
+*The only exception to this is NeoForge, which I plan to do if I see great enough demand.
 
 ## Features
 ### Brewing
@@ -26,6 +27,7 @@ After the brewing process is finished, your brew will be assigned a purity. The 
 The mod normally comes shipped with a bunch of recipes already included, but you can also choose to add your own ones. A tutorial for this can be found [here](./custom_recipes.md).
 
 ## Credits
-- [Brewery](https://www.spigotmc.org/resources/brewery.3082/) for inspiration
-- [BreweryX](https://www.spigotmc.org/resources/breweryx.114777/) for inspiration
-- [TheREDCrafter](https://github.com/TheREDCraafter) for block & item models and textures
+- [Brewery](https://www.spigotmc.org/resources/brewery.3082/) as the main inspiration
+- [BreweryX](https://www.spigotmc.org/resources/breweryx.114777/) as inspiration for newer and QoL features
+- [TheREDCrafter](https://github.com/TheREDCraafter) for great contribution to the block models
+- DerLurch for the distillery station model

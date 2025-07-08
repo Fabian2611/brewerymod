@@ -6,15 +6,16 @@ import io.fabianbuthere.brewery.block.entity.FermentationBarrelBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class FermentationBarrelMenu extends AbstractContainerMenu {
@@ -82,7 +83,7 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
                 ItemStack extracted = iItemHandler.extractItem(teSlot, sourceStack.getCount(), false);
                 if (!extracted.isEmpty()) {
                     if (!moveItemStackTo(extracted, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-                        ((IItemHandlerModifiable)iItemHandler).insertItem(teSlot, extracted, false);
+                        iItemHandler.insertItem(teSlot, extracted, false);
                     }
                 }
             });

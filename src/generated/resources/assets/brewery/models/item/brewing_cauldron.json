@@ -1,5 +1,5 @@
 {
-  "parent": "brewery:block/brewing_cauldron_level_0",
+  "parent": "brewery:block/brewing_cauldron_prerendered",
   "display": {
     "firstperson_lefthand": {
       "scale": [

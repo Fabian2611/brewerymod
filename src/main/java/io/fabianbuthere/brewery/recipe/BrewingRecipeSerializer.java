@@ -1,13 +1,14 @@
 package io.fabianbuthere.brewery.recipe;
 
-import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import io.fabianbuthere.brewery.util.ItemStackInput;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Nullable;
-import io.fabianbuthere.brewery.util.ItemStackInput;
+
 import java.util.ArrayList;
 import java.util.List;
 

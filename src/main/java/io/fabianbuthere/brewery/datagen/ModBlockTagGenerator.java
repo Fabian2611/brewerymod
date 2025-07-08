@@ -1,12 +1,8 @@
 package io.fabianbuthere.brewery.datagen;
 
 import io.fabianbuthere.brewery.BreweryMod;
-import io.fabianbuthere.brewery.block.ModBlocks;
-import io.fabianbuthere.brewery.util.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.tags.BlockTags;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;

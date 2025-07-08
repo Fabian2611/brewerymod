@@ -1,11 +1,11 @@
 package io.fabianbuthere.brewery.effect;
 
+import io.fabianbuthere.brewery.BreweryMod;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import io.fabianbuthere.brewery.BreweryMod;
 
 public class ModEffects {
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, BreweryMod.MOD_ID);

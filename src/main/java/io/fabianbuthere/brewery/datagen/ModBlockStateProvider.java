@@ -1,7 +1,6 @@
 package io.fabianbuthere.brewery.datagen;
 
 import io.fabianbuthere.brewery.BreweryMod;
-import io.fabianbuthere.brewery.block.ModBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;

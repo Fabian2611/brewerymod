@@ -1,11 +1,7 @@
 package io.fabianbuthere.brewery.block;
 
 import io.fabianbuthere.brewery.BreweryMod;
-import io.fabianbuthere.brewery.block.custom.BrewingCauldronBlock;
-import io.fabianbuthere.brewery.block.custom.DistilleryStationBlock;
-import io.fabianbuthere.brewery.block.custom.FermentationBarrelBlock;
-import io.fabianbuthere.brewery.block.custom.FermentationBarrelBlockItem;
-import io.fabianbuthere.brewery.block.custom.WoodType;
+import io.fabianbuthere.brewery.block.custom.*;
 import io.fabianbuthere.brewery.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -29,6 +25,7 @@ public class ModBlocks {
             new DistilleryStationBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
     public static final EnumMap<WoodType, RegistryObject<Block>> FERMENTATION_BARRELS = new EnumMap<>(WoodType.class);
+
     static {
         for (WoodType type : WoodType.values()) {
             String name = "fermentation_barrel_" + type.getSerializedName();

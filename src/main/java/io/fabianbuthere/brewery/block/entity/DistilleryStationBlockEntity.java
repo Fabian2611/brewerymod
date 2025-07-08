@@ -1,26 +1,24 @@
 package io.fabianbuthere.brewery.block.entity;
 
+import io.fabianbuthere.brewery.screen.DistilleryStationMenu;
 import io.fabianbuthere.brewery.util.BrewType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import io.fabianbuthere.brewery.screen.DistilleryStationMenu;
-import io.fabianbuthere.brewery.screen.ModMenus;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -61,7 +59,7 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
                 switch (pIndex) {
                     case 0 -> DistilleryStationBlockEntity.this.progress = pValue;
                     case 1 -> DistilleryStationBlockEntity.this.maxProgress = pValue;
-                };
+                }
             }
 
             @Override
@@ -125,6 +123,14 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
     }
 
     public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
+        // Explicitly cancel progress if filter is removed during processing
+        if (itemHandler.getStackInSlot(FILTER_SLOT).isEmpty()) {
+            if (progress > 0) {
+                progress = 0;
+                setChanged(pLevel, pPos, pState);
+            }
+            return;
+        }
         if (hasRecipe()) {
             progress += 1;
             setChanged(pLevel, pPos, pState);
@@ -208,13 +214,12 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
                             int effectivePurity = actualPurity; // No error, so purity is not reduced
                             float purityFactor = (float) effectivePurity / (float) maxPurity;
                             // Set up display and effects
-                            StringBuilder purityRepresentation = new StringBuilder();
-                            purityRepresentation.append("★".repeat(Math.max(0, effectivePurity)));
-                            purityRepresentation.append("☆".repeat(Math.max(0, maxPurity - effectivePurity)));
+                            String purityRepresentation = "★".repeat(Math.max(0, effectivePurity)) +
+                                    "☆".repeat(Math.max(0, maxPurity - effectivePurity));
                             BrewType brewTypeResult = BrewType.getResultBrewType(recipe.getBrewTypeId());
                             resultTag.putString("recipeId", recipe.getId().toString());
                             net.minecraft.nbt.ListTag loreList = new net.minecraft.nbt.ListTag();
-                            loreList.add(net.minecraft.nbt.StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(net.minecraft.network.chat.Component.literal(purityRepresentation.toString()))));
+                            loreList.add(net.minecraft.nbt.StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(net.minecraft.network.chat.Component.literal(purityRepresentation))));
                             loreList.add(net.minecraft.nbt.StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(net.minecraft.network.chat.Component.translatable(brewTypeResult.customLore()))));
                             net.minecraft.nbt.CompoundTag displayTag = resultTag.getCompound("display");
                             displayTag.put("Lore", loreList);

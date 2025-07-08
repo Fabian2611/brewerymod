@@ -1,7 +1,6 @@
 package io.fabianbuthere.brewery.block.entity;
 
 import io.fabianbuthere.brewery.block.custom.FermentationBarrelBlock;
-import io.fabianbuthere.brewery.screen.DistilleryStationMenu;
 import io.fabianbuthere.brewery.screen.FermentationBarrelMenu;
 import io.fabianbuthere.brewery.util.BrewType;
 import net.minecraft.core.BlockPos;
@@ -9,7 +8,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
@@ -22,7 +20,6 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -90,15 +87,14 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
             int effectivePurity = Math.round(actualPurity * errorContribution);
             float purityFactor = (float) effectivePurity / (float) maxPurity;
 
-            StringBuilder purityRepresentation = new StringBuilder();
-            purityRepresentation.append("★".repeat(Math.max(0, effectivePurity)));
-            purityRepresentation.append("☆".repeat(Math.max(0, maxPurity - effectivePurity)));
+            String purityRepresentation = "★".repeat(Math.max(0, effectivePurity)) +
+                    "☆".repeat(Math.max(0, maxPurity - effectivePurity));
 
             CompoundTag resultTag = resultItem.getOrCreateTag();
             resultTag.putString("recipeId", recipeId);
 
             ListTag loreList = new ListTag();
-            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(purityRepresentation.toString()))));
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(purityRepresentation))));
             loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable(brewTypeResult.customLore()))));
             CompoundTag displayTag = resultTag.getCompound("display");
             displayTag.put("Lore", loreList);

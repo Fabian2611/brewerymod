@@ -67,7 +67,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
             Items.GHAST_TEAR, Items.PUMPKIN_SEEDS, Items.SNOWBALL, Items.STICK, Items.CARROT, Items.DIAMOND, Items.BEETROOT, Items.GUNPOWDER}).toArray(new Item[0]);
 
     private boolean heated = false;
-    public static final Block[] allowedHeatingBlocks = new Block[]{Blocks.FURNACE, Blocks.CAMPFIRE, Blocks.SOUL_CAMPFIRE}; // Replace Items with Blocks as needed
+    public static final Block[] allowedHeatingBlocks = new Block[]{Blocks.MAGMA_BLOCK, Blocks.CAMPFIRE, Blocks.SOUL_CAMPFIRE, Blocks.LAVA, Blocks.FIRE, Blocks.SOUL_FIRE}; // Replace Items with Blocks as needed
 
     private BrewingRecipe lockedRecipe = null;
     private int brewingTicks = 0;

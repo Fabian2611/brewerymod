@@ -3,7 +3,6 @@ package io.fabianbuthere.brewery.event;
 import io.fabianbuthere.brewery.BreweryMod;
 import io.fabianbuthere.brewery.effect.ModEffects;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;

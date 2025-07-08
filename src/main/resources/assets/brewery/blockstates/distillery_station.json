@@ -1,0 +1,10 @@
+{
+  "multipart": [
+    {
+      "apply": { "model": "brewery:block/distillery_station_water" }
+    },
+    {
+      "apply": { "model": "brewery:block/distillery_station" }
+    }
+  ]
+}

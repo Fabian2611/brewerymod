@@ -39,18 +39,24 @@ public class BrewingRecipe implements Recipe<Container> {
 
     @Override
     public boolean matches(Container container, Level level) {
-        // Simple matching: check if all required items are present in the right amounts
-        for (int i = 0; i < inputs.size(); i++) {
-            ItemStackInput input = inputs.get(i);
-            boolean found = false;
+        // Sum the total count of each ingredient type across all slots
+        for (ItemStackInput input : inputs) {
+            int totalCount = 0;
             for (int j = 0; j < container.getContainerSize(); j++) {
-                if (container.getItem(j).getItem() == input.item() &&
-                    container.getItem(j).getCount() >= input.minCount()) {
-                    found = true;
-                    break;
+                if (container.getItem(j).getItem() == input.item()) {
+                    totalCount += container.getItem(j).getCount();
                 }
             }
-            if (!found) return false;
+            if (totalCount < input.minCount() || totalCount > input.maxCount()) {
+                return false;
+            }
+        }
+        // Also check that there are no extra items present
+        for (int j = 0; j < container.getContainerSize(); j++) {
+            ItemStack stack = container.getItem(j);
+            if (!stack.isEmpty() && inputs.stream().noneMatch(i -> i.item() == stack.getItem())) {
+                return false;
+            }
         }
         return true;
     }

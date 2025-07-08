@@ -3,12 +3,13 @@ package io.fabianbuthere.brewery.block.entity;
 import io.fabianbuthere.brewery.BreweryMod;
 import io.fabianbuthere.brewery.block.ModBlocks;
 import io.fabianbuthere.brewery.block.custom.WoodType;
-import java.util.EnumMap;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.EnumMap;
 
 public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, BreweryMod.MOD_ID);

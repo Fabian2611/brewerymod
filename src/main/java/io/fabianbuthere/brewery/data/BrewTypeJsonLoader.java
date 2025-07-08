@@ -1,7 +1,10 @@
 package io.fabianbuthere.brewery.data;
 
-import com.google.gson.*;
-import io.fabianbuthere.brewery.BreweryMod;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mojang.logging.LogUtils;
 import io.fabianbuthere.brewery.util.BrewType;
 import io.fabianbuthere.brewery.util.BrewTypeRegistry;
 import net.minecraft.resources.ResourceLocation;
@@ -10,9 +13,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffects;
-import com.mojang.logging.LogUtils;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 

@@ -36,7 +36,7 @@ public class HangoverEffect extends MobEffect {
     // Do not show effect particles
     @Override
     public void applyEffectTick(@NotNull LivingEntity pLivingEntity, int pAmplifier) {
-        pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, pAmplifier / 2, false, false, true));
+        pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 3, false, false, true));
 
         if (pLivingEntity.getRandom().nextFloat() < 0.04f * (pAmplifier + 1)) {
             if (!pLivingEntity.hasEffect(MobEffects.BLINDNESS)) {
@@ -46,13 +46,13 @@ public class HangoverEffect extends MobEffect {
 
         if (pLivingEntity.getRandom().nextFloat() < 0.02f * (pAmplifier + 1)) {
             if (!pLivingEntity.hasEffect(MobEffects.POISON)) {
-                pLivingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 100, pAmplifier / 2 + 1, false, false, true));
+                pLivingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 220, 0, false, false, true));
             }
         }
 
         if (pLivingEntity.getRandom().nextFloat() < 0.04f * (pAmplifier + 1)) {
             if (!pLivingEntity.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
-                pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, pAmplifier / 2 + 1, false, false, true));
+                pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, pAmplifier / 2 + 2, false, false, true));
             }
         }
     }

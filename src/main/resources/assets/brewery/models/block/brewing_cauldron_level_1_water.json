@@ -1,0 +1,154 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"render_type": "translucent",
+	"textures": {
+		"0": "brewery:block/brewing_pot_side",
+		"3": "brewery:block/chiseled_copper",
+		"4": "brewery:block/water_still",
+		"5": "brewery:block/empty",
+		"6": "brewery:block/screwless_copper_block",
+		"particle": "brewery:block/screwless_copper_block"
+	},
+	"elements": [
+		{
+			"from": [1, 8, 1],
+			"to": [15, 8, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 8, 0]},
+			"faces": {
+				"north": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"east": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"south": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"west": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"up": {"uv": [1, 1, 15, 15], "texture": "#4", "tintindex": 0},
+				"down": {"uv": [1, 1, 15, 15], "texture": "#4", "tintindex": 0}
+			}
+		},
+		{
+			"from": [15, 4, 7],
+			"to": [15, 8, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 8, 0]},
+			"faces": {
+				"north": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"east": {"uv": [7, 9, 9, 13], "texture": "#4", "tintindex": 0},
+				"south": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"west": {"uv": [0, 0, 14, 13], "texture": "#5"},
+				"up": {"uv": [2, 5, 16, 14], "texture": "#missing"},
+				"down": {"uv": [1, 11, 15, 15], "texture": "#missing"}
+			}
+		},
+		{
+			"from": [7, 4, 1],
+			"to": [9, 8, 1],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 8, 7]},
+			"faces": {
+				"north": {"uv": [7, 9, 9, 13], "texture": "#4", "tintindex": 0},
+				"east": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"south": {"uv": [0, 0, 14, 13], "texture": "#5"},
+				"west": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"up": {"uv": [2, 5, 16, 14], "rotation": 270, "texture": "#missing"},
+				"down": {"uv": [1, 11, 15, 15], "rotation": 90, "texture": "#missing"}
+			}
+		},
+		{
+			"from": [7, 4, 15],
+			"to": [9, 8, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [16, 8, 9]},
+			"faces": {
+				"north": {"uv": [0, 0, 14, 13], "texture": "#5"},
+				"east": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"south": {"uv": [7, 9, 9, 13], "texture": "#4", "tintindex": 0},
+				"west": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"up": {"uv": [2, 5, 16, 14], "rotation": 90, "texture": "#missing"},
+				"down": {"uv": [1, 11, 15, 15], "rotation": 270, "texture": "#missing"}
+			}
+		},
+		{
+			"from": [1, 4, 7],
+			"to": [1, 8, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 8, 16]},
+			"faces": {
+				"north": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"east": {"uv": [0, 0, 14, 13], "texture": "#5"},
+				"south": {"uv": [0, 0, 14, 0], "texture": "#missing"},
+				"west": {"uv": [7, 9, 9, 13], "texture": "#4", "tintindex": 0},
+				"up": {"uv": [2, 5, 16, 14], "rotation": 180, "texture": "#missing"},
+				"down": {"uv": [1, 11, 15, 15], "rotation": 180, "texture": "#missing"}
+			}
+		}
+	],
+	"overrides": [
+		{"model": "", "predicate": {"custom_model_data": 0}}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 1.75, 0.25],
+			"scale": [0.31, 0.31, 0.31]
+		},
+		"thirdperson_lefthand": {
+			"translation": [0, 1.75, 0.25],
+			"scale": [0.31, 0.31, 0.31]
+		},
+		"firstperson_righthand": {
+			"translation": [0.5, 0, 0],
+			"scale": [0.61, 0.61, 0.48]
+		},
+		"firstperson_lefthand": {
+			"translation": [0.5, 0, 0],
+			"scale": [0.61, 0.61, 0.48]
+		},
+		"ground": {
+			"translation": [0, 3.5, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [-154.32, -48.22, -180],
+			"scale": [0.65, 0.65, 0.65]
+		},
+		"head": {
+			"translation": [0, 0.75, 0]
+		}
+	},
+	"groups": [
+		0,
+		1,
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8,
+		9,
+		10,
+		11,
+		{
+			"name": "Wall East",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [12, 13, 14, 15, 16, 17, 18, 19, 20]
+		},
+		{
+			"name": "Wall West",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+		},
+		{
+			"name": "Wall North",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+		},
+		{
+			"name": "Wall South",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [52, 53, 54, 55, 56, 57, 58, 59]
+		},
+		60,
+		61,
+		62,
+		63
+	]
+}

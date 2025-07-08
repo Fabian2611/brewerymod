@@ -1,9 +1,5 @@
 package io.fabianbuthere.brewery.util;
 
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import java.util.List;
-
 public class ModBrewTypes {
 //    public static final BrewType RUM = new BrewType(
 //            "rum",

@@ -1,0 +1,26 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+      "jungle"
+    ],
+    "brew_type": "brandy",
+    "distillingItem": "glowstone_dust",
+    "inputs": [
+      {
+        "item": "minecraft:cactus",
+        "maxCount": 3,
+        "minCount": 3
+      },
+      {
+        "item": "minecraft:sugar",
+        "maxCount": 1,
+        "minCount": 1
+      }
+    ],
+    "maxAgingTimeError": 0.2,
+    "maxBrewingTimeError": 0.2,
+    "optimalAgingTime": 192000,
+    "optimalBrewingTime": 4800
+  }
+}

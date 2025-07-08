@@ -1,0 +1,29 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [],
+        "brew_type": "sweet_tea",
+        "distilling_item": "redstone",
+        "inputs": [
+            {
+                "item": "minecraft:sugar",
+                "maxCount": 8,
+                "minCount": 2
+            },
+            {
+                "item": "minecraft:oak_leaves",
+                "maxCount": 7,
+                "minCount": 1
+            },
+            {
+                "item": "minecraft:cornflower",
+                "maxCount": 1,
+                "minCount": 1
+            }
+        ],
+        "maxAgingTimeError": 0.1,
+        "maxBrewingTimeError": 0.25,
+        "optimalAgingTime": 0,
+        "optimalBrewingTime": 4800
+    }
+}

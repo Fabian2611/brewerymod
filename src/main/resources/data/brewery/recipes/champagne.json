@@ -1,0 +1,33 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "oak",
+            "dark_oak",
+            "spruce"
+        ],
+        "brew_type": "champagne",
+        "distillingItem": "glowstone_dust",
+        "inputs": [
+            {
+                "item": "minecraft:apple",
+                "maxCount": 3,
+                "minCount": 1
+            },
+            {
+                "item": "minecraft:gold_nugget",
+                "maxCount": 1,
+                "minCount": 1
+            },
+            {
+                "item": "minecraft:sugar",
+                "maxCount": 1,
+                "minCount": 1
+            }
+        ],
+        "maxAgingTimeError": 0.3,
+        "maxBrewingTimeError": 0.25,
+        "optimalAgingTime": 48000,
+        "optimalBrewingTime": 6000
+    }
+}

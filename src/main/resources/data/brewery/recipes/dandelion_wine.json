@@ -1,0 +1,31 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "acacia",
+            "birch",
+            "dark_oak",
+            "jungle",
+            "oak",
+            "spruce",
+            "crimson",
+            "warped",
+            "mangrove",
+            "bamboo",
+            "cherry"
+        ],
+        "brew_type": "dandelion_wine",
+        "distillingItem": "redstone",
+        "inputs": [
+            {
+                "item": "minecraft:dandelion",
+                "maxCount": 14,
+                "minCount": 10
+            }
+        ],
+        "maxAgingTimeError": 0.15,
+        "maxBrewingTimeError": 0.2,
+        "optimalAgingTime": 240000,
+        "optimalBrewingTime": 4800
+    }
+}

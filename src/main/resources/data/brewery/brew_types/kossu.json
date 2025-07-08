@@ -1,0 +1,24 @@
+{
+    "customLore": "brewery.brew.kossu.lore",
+    "customName": "brewery.brew.kossu.name",
+    "effects": [
+        {
+            "amplifier": 2,
+            "duration": 6000,
+            "effect": "effect.brewery.alcohol"
+        },
+        {
+            "amplifier": 1,
+            "duration": 1200,
+            "effect": "effect.minecraft.haste"
+        },
+        {
+            "amplifier": 0,
+            "duration": 2400,
+            "effect": "effect.minecraft.resistance"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 3,
+    "tintColor": 14941695
+}

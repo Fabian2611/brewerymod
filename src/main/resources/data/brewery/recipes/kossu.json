@@ -1,0 +1,38 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "birch",
+            "spruce",
+            "dark_oak"
+        ],
+        "brew_type": "kossu",
+        "distillingItem": "glowstone_dust",
+        "inputs": [
+            {
+                "item": "minecraft:seeds",
+                "maxCount": 5,
+                "minCount": 3
+            },
+            {
+                "item": "minecraft:clay_ball",
+                "maxCount": 5,
+                "minCount": 3
+            },
+            {
+                "item": "minecraft:sugar",
+                "maxCount": 8,
+                "minCount": 0
+            },
+            {
+                "item": "minecraft:quartz",
+                "maxCount": 6,
+                "minCount": 0
+            }
+        ],
+        "maxAgingTimeError": 0.2,
+        "maxBrewingTimeError": 0.1,
+        "optimalAgingTime": 96000,
+        "optimalBrewingTime": 4800
+    }
+}

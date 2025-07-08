@@ -1,0 +1,29 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [],
+        "brew_type": "nether_vodka",
+        "distillingItem": "gunpowder",
+        "inputs": [
+            {
+                "item": "minecraft:potato",
+                "maxCount": 14,
+                "minCount": 2
+            },
+            {
+                "item": "minecraft:ghast_tear",
+                "maxCount": 2,
+                "minCount": 0
+            },
+            {
+                "item": "minecraft:nether_brick",
+                "maxCount": 3,
+                "minCount": 1
+            }
+        ],
+        "maxAgingTimeError": 0.1,
+        "maxBrewingTimeError": 0.2,
+        "optimalAgingTime": 0,
+        "optimalBrewingTime": 9600
+    }
+}

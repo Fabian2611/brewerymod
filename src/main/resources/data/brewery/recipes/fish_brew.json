@@ -1,0 +1,34 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [],
+        "brew_type": "fish_brew",
+        "distillingItem": "gunpowder",
+        "inputs": [
+            {
+                "item": "minecraft:cod",
+                "maxCount": 1,
+                "minCount": 1
+            },
+            {
+                "item": "minecraft:salmon",
+                "maxCount": 1,
+                "minCount": 1
+            },
+            {
+                "item": "minecraft:pufferfish",
+                "maxCount": 1,
+                "minCount": 1
+            },
+            {
+                "item": "minecraft:tropical_fish",
+                "maxCount": 1,
+                "minCount": 1
+            }
+        ],
+        "maxAgingTimeError": 0.1,
+        "maxBrewingTimeError": 0.4,
+        "optimalAgingTime": 0,
+        "optimalBrewingTime": 4800
+    }
+}

@@ -1,0 +1,19 @@
+{
+  "customLore": "brewery.brew.brandy.lore",
+  "customName": "brewery.brew.brandy.name",
+  "effects": [
+    {
+      "amplifier": 2,
+      "duration": 3600,
+      "effect": "effect.brewery.alcohol"
+    },
+    {
+      "amplifier": 0,
+      "duration": 1800,
+      "effect": "effect.minecraft.haste"
+    }
+  ],
+  "maxAlcoholLevel": 1,
+  "maxPurity": 3,
+  "tintColor": 11367950
+}

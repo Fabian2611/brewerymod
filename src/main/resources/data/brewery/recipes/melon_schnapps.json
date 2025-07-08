@@ -1,0 +1,29 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [],
+        "brew_type": "melon_schnapps",
+        "distillingItem": "glowstone_dust",
+        "inputs": [
+            {
+                "item": "minecraft:melon_slice",
+                "maxCount": 20,
+                "minCount": 12
+            },
+            {
+                "item": "minecraft:melon_seeds",
+                "maxCount": 6,
+                "minCount": 4
+            },
+            {
+                "item": "minecraft:glistering_melon_slice",
+                "maxCount": 4,
+                "minCount": 0
+            }
+        ],
+        "maxAgingTimeError": 0.1,
+        "maxBrewingTimeError": 0.1,
+        "optimalAgingTime": 0,
+        "optimalBrewingTime": 4800
+    }
+}

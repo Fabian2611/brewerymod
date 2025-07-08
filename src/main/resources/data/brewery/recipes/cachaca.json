@@ -1,0 +1,27 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "acacia",
+            "jungle"
+        ],
+        "brew_type": "cachaca",
+        "distillingItem": "glowstone_dust",
+        "inputs": [
+            {
+                "item": "minecraft:green_wool",
+                "maxCount": 3,
+                "minCount": 1
+            },
+            {
+                "item": "minecraft:sugar_cane",
+                "maxCount": 4,
+                "minCount": 2
+            }
+        ],
+        "maxAgingTimeError": 0.2,
+        "maxBrewingTimeError": 0.3,
+        "optimalAgingTime": 96000,
+        "optimalBrewingTime": 3600
+    }
+}

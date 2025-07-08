@@ -1,0 +1,27 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+      "warped",
+      "crimson"
+    ],
+    "brew_type": "bone_tequila",
+    "distillingItem": "gunpowder",
+    "inputs": [
+      {
+        "item": "minecraft:bone",
+        "maxCount": 13,
+        "minCount": 3
+      },
+      {
+        "item": "minecraft:sugar",
+        "maxCount": 9,
+        "minCount": 3
+      }
+    ],
+    "maxAgingTimeError": 0.5,
+    "maxBrewingTimeError": 0.5,
+    "optimalAgingTime": 24000,
+    "optimalBrewingTime": 2400
+  }
+}

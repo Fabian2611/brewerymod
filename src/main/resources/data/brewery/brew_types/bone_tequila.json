@@ -1,0 +1,19 @@
+{
+  "customLore": "brewery.brew.bone_tequila.lore",
+  "customName": "brewery.brew.bone_tequila.name",
+  "effects": [
+    {
+      "amplifier": 2,
+      "duration": 6000,
+      "effect": "effect.brewery.alcohol"
+    },
+    {
+      "amplifier": 1,
+      "duration": 600,
+      "effect": "effect.minecraft.withering"
+    }
+  ],
+  "maxAlcoholLevel": 1,
+  "maxPurity": 1,
+  "tintColor": 1573902
+}

@@ -1,0 +1,24 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [],
+        "brew_type": "bright_vodka",
+        "distillingItem": "glowstone_dust",
+        "inputs": [
+            {
+                "item": "minecraft:potato",
+                "maxCount": 10,
+                "minCount": 6
+            },
+            {
+                "item": "minecraft:glowstone_dust",
+                "maxCount": 5,
+                "minCount": 3
+            }
+        ],
+        "maxAgingTimeError": 0.1,
+        "maxBrewingTimeError": 0.1,
+        "optimalAgingTime": 0,
+        "optimalBrewingTime": 9600
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "customLore": "brewery.brew.dandelion_wine.lore",
+    "customName": "brewery.brew.dandelion_wine.name",
+    "effects": [
+        {
+            "amplifier": 1,
+            "duration": 4800,
+            "effect": "effect.brewery.alcohol"
+        },
+        {
+            "amplifier": 0,
+            "duration": 2400,
+            "effect": "effect.minecraft.night_vision"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 5,
+    "tintColor": 11046479
+}

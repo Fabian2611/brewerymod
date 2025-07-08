@@ -1,0 +1,14 @@
+{
+    "customLore": "brewery.brew.gammel_dansk.lore",
+    "customName": "brewery.brew.gammel_dansk.name",
+    "effects": [
+        {
+            "amplifier": 0,
+            "duration": 2400,
+            "effect": "effect.brewery.alcohol"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 2,
+    "tintColor": 1314571
+}

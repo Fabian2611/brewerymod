@@ -1,0 +1,14 @@
+{
+    "customLore": "brewery.brew.everclear.lore",
+    "customName": "brewery.brew.everclear.name",
+    "effects": [
+        {
+            "amplifier": 3,
+            "duration": 9600,
+            "effect": "effect.brewery.alcohol"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 6,
+    "tintColor": 5220508
+}

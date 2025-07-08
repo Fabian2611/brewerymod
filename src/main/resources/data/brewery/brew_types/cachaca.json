@@ -1,0 +1,19 @@
+{
+    "customLore": "brewery.brew.cachaca.lore",
+    "customName": "brewery.brew.cachaca.name",
+    "effects": [
+        {
+            "amplifier": 1,
+            "duration": 2400,
+            "effect": "effect.brewery.alcohol"
+        },
+        {
+            "amplifier": 1,
+            "duration": 600,
+            "effect": "effect.minecraft.speed"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 3,
+    "tintColor": 15458990
+}

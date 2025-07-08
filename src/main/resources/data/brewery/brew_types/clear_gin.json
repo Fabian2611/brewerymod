@@ -1,0 +1,14 @@
+{
+    "customLore": "brewery.brew.clear_gin.lore",
+    "customName": "brewery.brew.clear_gin.name",
+    "effects": [
+        {
+            "amplifier": 2,
+            "duration": 3600,
+            "effect": "effect.brewery.alcohol"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 4,
+    "tintColor": 4232386
+}

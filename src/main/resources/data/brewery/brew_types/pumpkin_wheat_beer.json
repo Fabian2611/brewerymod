@@ -1,0 +1,19 @@
+{
+    "customLore": "brewery.brew.pumpkin_wheat_beer.lore",
+    "customName": "brewery.brew.pumpkin_wheat_beer.name",
+    "effects": [
+        {
+            "amplifier": 0,
+            "duration": 2400,
+            "effect": "effect.brewery.alcohol"
+        },
+        {
+            "amplifier": 0,
+            "duration": 1200,
+            "effect": "effect.minecraft.saturation"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 3,
+    "tintColor": 11566385
+}

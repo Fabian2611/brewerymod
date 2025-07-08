@@ -1,0 +1,24 @@
+{
+  "customLore": "brewery.brew.blood_wine.lore",
+  "customName": "brewery.brew.blood_wine.name",
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 3600,
+      "effect": "effect.brewery.alcohol"
+    },
+    {
+      "amplifier": 0,
+      "duration": 600,
+      "effect": "effect.minecraft.regeneration"
+    },
+    {
+      "amplifier": 0,
+      "duration": 600,
+      "effect": "effect.minecraft.night_vision"
+    }
+  ],
+  "maxAlcoholLevel": 1,
+  "maxPurity": 5,
+  "tintColor": 10814529
+}

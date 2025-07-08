@@ -1,0 +1,36 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+      "dark_oak"
+    ],
+    "brew_type": "blood_wine",
+    "distillingItem": "redstone",
+    "inputs": [
+      {
+        "item": "minecraft:acacia_leaves",
+        "maxCount": 7,
+        "minCount": 3
+      },
+      {
+        "item": "minecraft:nether_wart",
+        "maxCount": 5,
+        "minCount": 3
+      },
+      {
+        "item": "minecraft:pink_tulip",
+        "maxCount": 3,
+        "minCount": 1
+      },
+      {
+        "item": "minecraft:poppy",
+        "maxCount": 3,
+        "minCount": 1
+      }
+    ],
+    "maxAgingTimeError": 0.2,
+    "maxBrewingTimeError": 0.2,
+    "optimalAgingTime": 144000,
+    "optimalBrewingTime": 7200
+  }
+}

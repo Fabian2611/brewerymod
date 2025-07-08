@@ -1,0 +1,14 @@
+{
+    "customLore": "brewery.brew.bright_vodka.lore",
+    "customName": "brewery.brew.bright_vodka.name",
+    "effects": [
+        {
+            "amplifier": 2,
+            "duration": 6000,
+            "effect": "effect.brewery.alcohol"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 8,
+    "tintColor": 9622504
+}

@@ -1,0 +1,19 @@
+{
+    "customLore": "brewery.brew.nether_rum.lore",
+    "customName": "brewery.brew.nether_rum.name",
+    "effects": [
+        {
+            "amplifier": 4,
+            "duration": 2400,
+            "effect": "effect.brewery.alcohol"
+        },
+        {
+            "amplifier": 0,
+            "duration": 2400,
+            "effect": "effect.minecraft.withering"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 4,
+    "tintColor": 4654633
+}

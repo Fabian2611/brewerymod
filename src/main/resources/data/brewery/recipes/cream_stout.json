@@ -1,0 +1,31 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "acacia"
+        ],
+        "brew_type": "cream_stout",
+        "distillingItem": "redstone",
+        "inputs": [
+            {
+                "item": "minecraft:wheat",
+                "maxCount": 11,
+                "minCount": 5
+            },
+            {
+                "item": "minecraft:milk_bucket",
+                "maxCount": 1,
+                "minCount": 1
+            },
+            {
+                "item": "minecraft:cocoa_beans",
+                "maxCount": 16,
+                "minCount": 8
+            }
+        ],
+        "maxAgingTimeError": 0.45,
+        "maxBrewingTimeError": 0.3,
+        "optimalAgingTime": 48000,
+        "optimalBrewingTime": 3600
+    }
+}

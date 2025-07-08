@@ -1,0 +1,14 @@
+{
+    "customLore": "brewery.brew.nether_vodka.lore",
+    "customName": "brewery.brew.nether_vodka.name",
+    "effects": [
+        {
+            "amplifier": 4,
+            "duration": 2400,
+            "effect": "effect.brewery.alcohol"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 6,
+    "tintColor": 16757723
+}

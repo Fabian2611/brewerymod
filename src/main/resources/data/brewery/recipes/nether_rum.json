@@ -1,0 +1,41 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "acacia",
+            "birch",
+            "dark_oak",
+            "jungle",
+            "oak",
+            "spruce",
+            "crimson",
+            "warped",
+            "mangrove",
+            "bamboo",
+            "cherry"
+        ],
+        "brew_type": "nether_rum",
+        "distillingItem": "gunpowder",
+        "inputs": [
+            {
+                "item": "minecraft:sugar_cane",
+                "maxCount": 30,
+                "minCount": 0
+            },
+            {
+                "item": "minecraft:blaze_powder",
+                "maxCount": 4,
+                "minCount": 0
+            },
+            {
+                "item": "minecraft:nether_wart",
+                "maxCount": 4,
+                "minCount": 0
+            }
+        ],
+        "maxAgingTimeError": 1.0,
+        "maxBrewingTimeError": 1.0,
+        "optimalAgingTime": 24000,
+        "optimalBrewingTime": 1200
+    }
+}

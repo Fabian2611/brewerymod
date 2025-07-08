@@ -1,0 +1,19 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [],
+        "brew_type": "everclear",
+        "distillingItem": "gunpowder",
+        "inputs": [
+            {
+                "item": "minecraft:wheat",
+                "maxCount": 20,
+                "minCount": 20
+            }
+        ],
+        "maxAgingTimeError": 0.1,
+        "maxBrewingTimeError": 0.1,
+        "optimalAgingTime": 0,
+        "optimalBrewingTime": 14400
+    }
+}

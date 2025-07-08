@@ -1,0 +1,14 @@
+{
+    "customLore": "brewery.brew.sweet_tea.lore",
+    "customName": "brewery.brew.sweet_tea.name",
+    "effects": [
+        {
+            "amplifier": 0,
+            "duration": 1200,
+            "effect": "effect.minecraft.saturation"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 3,
+    "tintColor": 15453322
+}

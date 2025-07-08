@@ -1,0 +1,41 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "acacia",
+            "birch",
+            "dark_oak",
+            "jungle",
+            "oak",
+            "spruce",
+            "crimson",
+            "warped",
+            "mangrove",
+            "bamboo",
+            "cherry"
+        ],
+        "brew_type": "gammel_dansk",
+        "distillingItem": "glowstone_dust",
+        "inputs": [
+            {
+                "item": "minecraft:dark_oak_leaves",
+                "maxCount": 10,
+                "minCount": 6
+            },
+            {
+                "item": "minecraft:poppy",
+                "maxCount": 7,
+                "minCount": 5
+            },
+            {
+                "item": "minecraft:dandelion",
+                "maxCount": 2,
+                "minCount": 0
+            }
+        ],
+        "maxAgingTimeError": 0.35,
+        "maxBrewingTimeError": 0.5,
+        "optimalAgingTime": 120000,
+        "optimalBrewingTime": 7200
+    }
+}

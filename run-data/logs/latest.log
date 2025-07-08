@@ -1,31 +1,31 @@
-[08Jul2025 15:39:20.303] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgedatauserdev, --assetIndex, 5, --assetsDir, C:\Users\Fabian\.gradle\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.4.0, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --mod, brewery, --all, --output, C:\Users\Fabian\Files\Source\Minecraft\Modding\brewery\src\generated\resources, --existing, C:\Users\Fabian\Files\Source\Minecraft\Modding\brewery\src\main\resources]
-[08Jul2025 15:39:20.307] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.15 by Eclipse Adoptium; OS Windows 11 arch amd64 version 10.0
-[08Jul2025 15:39:20.574] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgedatauserdev
-[08Jul2025 15:39:20.677] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/C:/Users/Fabian/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
-[08Jul2025 15:39:21.259] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.4.0\f0c0b352173d0a378cbdcec9cfc4ba65899a721\javafmllanguage-1.20.1-47.4.0.jar is missing mods.toml file
-[08Jul2025 15:39:21.277] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.4.0\e862740d8c84d08dbfedea412bef88fe42e727c5\lowcodelanguage-1.20.1-47.4.0.jar is missing mods.toml file
-[08Jul2025 15:39:21.277] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.4.0\5719b3a297a33f877ed5dde4cb4bd75c859096af\mclanguage-1.20.1-47.4.0.jar is missing mods.toml file
-[08Jul2025 15:39:21.287] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.4.0\235975dafa4309945b59c56b53f31dc5b65a6051\fmlcore-1.20.1-47.4.0.jar is missing mods.toml file
-[08Jul2025 15:39:21.408] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
-[08Jul2025 15:39:23.949] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgedatauserdev' with arguments [--gameDir, ., --assetsDir, C:\Users\Fabian\.gradle\caches\forge_gradle\assets, --assetIndex, 5, --mod, brewery, --all, --output, C:\Users\Fabian\Files\Source\Minecraft\Modding\brewery\src\generated\resources, --existing, C:\Users\Fabian\Files\Source\Minecraft\Modding\brewery\src\main\resources]
-[08Jul2025 15:39:24.794] [main/INFO] [net.minecraftforge.data.loading.DatagenModLoader/]: Initializing Data Gatherer for mods [brewery]
-[08Jul2025 15:39:33.041] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.4.0, for MC 1.20.1 with MCP 20230612.114412
-[08Jul2025 15:39:33.045] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.4.0 Initialized
-[08Jul2025 15:39:33.907] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/Fabian/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.4.0_mapped_parchment_2023.09.03-1.20.1-recomp.jar%23191!/assets/.mcassetsroot' uses unexpected schema
-[08Jul2025 15:39:33.907] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/Fabian/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.4.0_mapped_parchment_2023.09.03-1.20.1-recomp.jar%23191!/data/.mcassetsroot' uses unexpected schema
-[08Jul2025 15:39:34.313] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Recipes
-[08Jul2025 15:39:34.440] [main/INFO] [net.minecraft.data.DataGenerator/]: Recipes finished after 125 ms
-[08Jul2025 15:39:34.440] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Loot Tables
-[08Jul2025 15:39:34.526] [main/INFO] [net.minecraft.data.DataGenerator/]: Loot Tables finished after 86 ms
-[08Jul2025 15:39:34.526] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Block States: brewery
-[08Jul2025 15:39:34.528] [main/INFO] [net.minecraft.data.DataGenerator/]: Block States: brewery finished after 0 ms
-[08Jul2025 15:39:34.528] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Item Models: brewery
-[08Jul2025 15:39:34.560] [main/INFO] [net.minecraft.data.DataGenerator/]: Item Models: brewery finished after 32 ms
-[08Jul2025 15:39:34.560] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:block mod id brewery
-[08Jul2025 15:39:34.589] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:block mod id brewery finished after 30 ms
-[08Jul2025 15:39:34.589] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:item mod id brewery
-[08Jul2025 15:39:34.589] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:item mod id brewery finished after 2 ms
-[08Jul2025 15:39:34.589] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Brew Types
-[08Jul2025 15:39:34.600] [main/INFO] [net.minecraft.data.DataGenerator/]: Brew Types finished after 5 ms
-[08Jul2025 15:39:34.600] [main/INFO] [net.minecraft.data.DataGenerator/]: All providers took: 288 ms
-[08Jul2025 15:39:34.621] [main/INFO] [net.minecraft.data.HashCache/]: Caching: total files: 50, old count: 50, new count: 51, removed stale: 0, written: 0
+[08Jul2025 18:03:48.685] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgedatauserdev, --assetIndex, 5, --assetsDir, C:\Users\Fabian\.gradle\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.4.0, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412, --mod, brewery, --all, --output, C:\Users\Fabian\Files\Source\Minecraft\Modding\brewery\src\generated\resources, --existing, C:\Users\Fabian\Files\Source\Minecraft\Modding\brewery\src\main\resources]
+[08Jul2025 18:03:48.692] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.15 by Eclipse Adoptium; OS Windows 11 arch amd64 version 10.0
+[08Jul2025 18:03:48.895] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgedatauserdev
+[08Jul2025 18:03:48.967] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/C:/Users/Fabian/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
+[08Jul2025 18:03:49.324] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.4.0\f0c0b352173d0a378cbdcec9cfc4ba65899a721\javafmllanguage-1.20.1-47.4.0.jar is missing mods.toml file
+[08Jul2025 18:03:49.327] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.4.0\e862740d8c84d08dbfedea412bef88fe42e727c5\lowcodelanguage-1.20.1-47.4.0.jar is missing mods.toml file
+[08Jul2025 18:03:49.330] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.4.0\5719b3a297a33f877ed5dde4cb4bd75c859096af\mclanguage-1.20.1-47.4.0.jar is missing mods.toml file
+[08Jul2025 18:03:49.336] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file C:\Users\Fabian\.gradle\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.4.0\235975dafa4309945b59c56b53f31dc5b65a6051\fmlcore-1.20.1-47.4.0.jar is missing mods.toml file
+[08Jul2025 18:03:49.454] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
+[08Jul2025 18:03:51.192] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgedatauserdev' with arguments [--gameDir, ., --assetsDir, C:\Users\Fabian\.gradle\caches\forge_gradle\assets, --assetIndex, 5, --mod, brewery, --all, --output, C:\Users\Fabian\Files\Source\Minecraft\Modding\brewery\src\generated\resources, --existing, C:\Users\Fabian\Files\Source\Minecraft\Modding\brewery\src\main\resources]
+[08Jul2025 18:03:51.673] [main/INFO] [net.minecraftforge.data.loading.DatagenModLoader/]: Initializing Data Gatherer for mods [brewery]
+[08Jul2025 18:03:56.741] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.4.0, for MC 1.20.1 with MCP 20230612.114412
+[08Jul2025 18:03:56.745] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.4.0 Initialized
+[08Jul2025 18:03:57.316] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/Fabian/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.4.0_mapped_parchment_2023.09.03-1.20.1-recomp.jar%23191!/assets/.mcassetsroot' uses unexpected schema
+[08Jul2025 18:03:57.317] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/C:/Users/Fabian/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.0_mapped_parchment_2023.09.03-1.20.1/forge-1.20.1-47.4.0_mapped_parchment_2023.09.03-1.20.1-recomp.jar%23191!/data/.mcassetsroot' uses unexpected schema
+[08Jul2025 18:03:57.560] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Recipes
+[08Jul2025 18:03:57.630] [main/INFO] [net.minecraft.data.DataGenerator/]: Recipes finished after 69 ms
+[08Jul2025 18:03:57.631] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Loot Tables
+[08Jul2025 18:03:57.682] [main/INFO] [net.minecraft.data.DataGenerator/]: Loot Tables finished after 51 ms
+[08Jul2025 18:03:57.682] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Block States: brewery
+[08Jul2025 18:03:57.683] [main/INFO] [net.minecraft.data.DataGenerator/]: Block States: brewery finished after 0 ms
+[08Jul2025 18:03:57.683] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Item Models: brewery
+[08Jul2025 18:03:57.698] [main/INFO] [net.minecraft.data.DataGenerator/]: Item Models: brewery finished after 14 ms
+[08Jul2025 18:03:57.698] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:block mod id brewery
+[08Jul2025 18:03:57.749] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:block mod id brewery finished after 50 ms
+[08Jul2025 18:03:57.749] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Tags for minecraft:item mod id brewery
+[08Jul2025 18:03:57.750] [main/INFO] [net.minecraft.data.DataGenerator/]: Tags for minecraft:item mod id brewery finished after 1 ms
+[08Jul2025 18:03:57.751] [main/INFO] [net.minecraft.data.DataGenerator/]: Starting provider: Brew Types
+[08Jul2025 18:03:57.754] [main/INFO] [net.minecraft.data.DataGenerator/]: Brew Types finished after 2 ms
+[08Jul2025 18:03:57.754] [main/INFO] [net.minecraft.data.DataGenerator/]: All providers took: 193 ms
+[08Jul2025 18:03:57.761] [main/INFO] [net.minecraft.data.HashCache/]: Caching: total files: 50, old count: 50, new count: 51, removed stale: 0, written: 0

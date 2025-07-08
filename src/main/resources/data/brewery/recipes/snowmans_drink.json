@@ -1,0 +1,34 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [],
+        "brew_type": "snowmans_drink",
+        "distillingItem": "gunpowder",
+        "inputs": [
+            {
+                "item": "minecraft:snowball",
+                "maxCount": 8,
+                "minCount": 6
+            },
+            {
+                "item": "minecraft:coal",
+                "maxCount": 3,
+                "minCount": 1
+            },
+            {
+                "item": "minecraft:stick",
+                "maxCount": 2,
+                "minCount": 2
+            },
+            {
+                "item": "minecraft:carrot",
+                "maxCount": 1,
+                "minCount": 1
+            }
+        ],
+        "maxAgingTimeError": 0.1,
+        "maxBrewingTimeError": 0.3,
+        "optimalAgingTime": 0,
+        "optimalBrewingTime": 24000
+    }
+}

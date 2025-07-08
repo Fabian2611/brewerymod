@@ -1,0 +1,26 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "birch"
+        ],
+        "brew_type": "clear_gin",
+        "distillingItem": "redstone",
+        "inputs": [
+            {
+                "item": "minecraft:wheat",
+                "maxCount": 4,
+                "minCount": 4
+            },
+            {
+                "item": "minecraft:beetroot_seeds",
+                "maxCount": 4,
+                "minCount": 4
+            }
+        ],
+        "maxAgingTimeError": 0.25,
+        "maxBrewingTimeError": 0.1,
+        "optimalAgingTime": 144000,
+        "optimalBrewingTime": 3600
+    }
+}

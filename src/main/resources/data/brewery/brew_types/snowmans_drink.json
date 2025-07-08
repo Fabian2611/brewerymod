@@ -1,0 +1,34 @@
+{
+    "customLore": "brewery.brew.snowmans_drink.lore",
+    "customName": "brewery.brew.snowmans_drink.name",
+    "effects": [
+        {
+            "amplifier": 0,
+            "duration": 2400,
+            "effect": "effect.minecraft.regeneration"
+        },
+        {
+            "amplifier": 2,
+            "duration": 2400,
+            "effect": "effect.minecraft.resistance"
+        },
+        {
+            "amplifier": 4,
+            "duration": 2400,
+            "effect": "effect.minecraft.slowness"
+        },
+        {
+            "amplifier": 4,
+            "duration": 2400,
+            "effect": "effect.minecraft.saturation"
+        },
+        {
+            "amplifier": 4,
+            "duration": 2400,
+            "effect": "effect.minecraft.weakness"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 3,
+    "tintColor": 6674127
+}

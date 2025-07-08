@@ -1,0 +1,27 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "acacia",
+            "oak"
+        ],
+        "brew_type": "pumpkin_wheat_beer",
+        "distilling_item": "",
+        "inputs": [
+            {
+                "item": "minecraft:wheat",
+                "maxCount": 16,
+                "minCount": 8
+            },
+            {
+                "item": "minecraft:pumpkin_seeds",
+                "maxCount": 7,
+                "minCount": 1
+            }
+        ],
+        "maxAgingTimeError": 0.3,
+        "maxBrewingTimeError": 0.2,
+        "optimalAgingTime": 192000,
+        "optimalBrewingTime": 8400
+    }
+}

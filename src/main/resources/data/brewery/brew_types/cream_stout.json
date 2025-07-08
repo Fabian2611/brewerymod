@@ -1,0 +1,14 @@
+{
+    "customLore": "brewery.brew.cream_stout.lore",
+    "customName": "brewery.brew.cream_stout.name",
+    "effects": [
+        {
+            "amplifier": 0,
+            "duration": 2400,
+            "effect": "effect.brewery.alcohol"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 3,
+    "tintColor": 5060907
+}

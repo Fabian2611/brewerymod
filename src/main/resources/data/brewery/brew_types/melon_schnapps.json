@@ -1,0 +1,19 @@
+{
+    "customLore": "brewery.brew.melon_schnapps.lore",
+    "customName": "brewery.brew.melon_schnapps.name",
+    "effects": [
+        {
+            "amplifier": 2,
+            "duration": 4800,
+            "effect": "effect.brewery.alcohol"
+        },
+        {
+            "amplifier": 0,
+            "duration": 2400,
+            "effect": "effect.minecraft.strength"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 5,
+    "tintColor": 13299070
+}

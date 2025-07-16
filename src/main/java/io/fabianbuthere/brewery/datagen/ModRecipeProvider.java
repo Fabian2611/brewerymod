@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
 import java.util.List;
@@ -70,12 +71,23 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BREWING_CAULDRON.get())
             .define('I', Items.COPPER_INGOT)
-            .define('C', Items.IRON_INGOT)
             .pattern("I I")
             .pattern("I I")
-            .pattern("ICI")
+            .pattern("III")
             .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
             .save(pWriter, new ResourceLocation("brewery", "brewing_cauldron"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DISTILLERY_STATION.get())
+                .define('S', Blocks.SMOOTH_STONE)
+                .define('G', Items.GLASS)
+                .define('L', Items.LAVA_BUCKET)
+                .define('W', Items.WATER_BUCKET)
+                .define('I', Blocks.IRON_BLOCK)
+                .pattern("GLG")
+                .pattern("IWI")
+                .pattern("SSS")
+                .unlockedBy("has_smooth_stone", has(Blocks.SMOOTH_STONE))
+                .save(pWriter, new ResourceLocation("brewery", "distillery_station"));
     }
 
     /**

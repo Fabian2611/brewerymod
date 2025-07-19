@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.logging.LogUtils;
+import io.fabianbuthere.brewery.config.BreweryConfig;
 import io.fabianbuthere.brewery.util.BrewType;
 import io.fabianbuthere.brewery.util.BrewTypeRegistry;
 import net.minecraft.resources.ResourceLocation;
@@ -33,9 +34,16 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager, net.minecraft.util.profiling.ProfilerFiller profiler) {
         BrewTypeRegistry.clear();
+        boolean useBuiltinBrews = BreweryConfig.ENABLE_BUILTIN_BREWS.get();
         object.forEach((id, jsonElement) -> {
             try {
                 JsonObject json = GsonHelper.convertToJsonObject(jsonElement, "brew_type");
+
+                if (!useBuiltinBrews && GsonHelper.getAsBoolean(json, "builtin", false)) {
+                    LOGGER.info("Skipping builtin BrewType {} as builtin brews are disabled.", id);
+                    return;
+                }
+
                 int maxAlcoholLevel = GsonHelper.getAsInt(json, "maxAlcoholLevel");
                 int maxPurity = GsonHelper.getAsInt(json, "maxPurity");
                 int tintColor = GsonHelper.getAsInt(json, "tintColor");
@@ -75,6 +83,6 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
                 LOGGER.error("Failed to load BrewType {}: {}", id, e);
             }
         });
-        LOGGER.info("Loaded {} BrewTypes from JSON.", BrewTypeRegistry.getAll().size());
+        LOGGER.info("Loaded {} BrewTypes from JSON. Registered BrewTypes: {}", BrewTypeRegistry.getAll().size(), BrewTypeRegistry.getAll().keySet());
     }
 }

@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -173,7 +172,7 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
         if (inputTag != null && inputTag.contains("recipeId")) {
             String recipeId = inputTag.getString("recipeId");
             if (level != null && !recipeId.isEmpty()) {
-                var recipes = level.getRecipeManager().getAllRecipesFor(io.fabianbuthere.brewery.recipe.ModRecipes.BREWING_TYPE);
+                var recipes = level.getRecipeManager().getAllRecipesFor(io.fabianbuthere.brewery.recipe.ModRecipes.BREWING_RECIPE_TYPE);
                 for (var recipe : recipes) {
                     if (recipe.getId().toString().equals(recipeId)) {
                         ItemStack result = BrewType.finalizeBrew(

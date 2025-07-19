@@ -1,4 +1,5 @@
 {
+    "builtin": true,
     "customLore": "brewery.brew.sweet_tea.lore",
     "customName": "brewery.brew.sweet_tea.name",
     "effects": [

@@ -1,4 +1,5 @@
 {
+  "builtin": true,
   "customLore": "brewery.brew.wheat_beer.lore",
   "customName": "brewery.brew.wheat_beer.name",
   "effects": [

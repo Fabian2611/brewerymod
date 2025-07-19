@@ -1,4 +1,5 @@
 {
+    "builtin": true,
     "customLore": "brewery.brew.kossu.lore",
     "customName": "brewery.brew.kossu.name",
     "effects": [

@@ -1,4 +1,5 @@
 {
+  "builtin": true,
   "customLore": "brewery.brew.bone_tequila.lore",
   "customName": "brewery.brew.bone_tequila.name",
   "effects": [

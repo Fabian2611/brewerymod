@@ -31,3 +31,5 @@ The mod normally comes shipped with a bunch of recipes already included, but you
 - [BreweryX](https://www.spigotmc.org/resources/breweryx.114777/) as inspiration for newer and QoL features
 - [TheREDCrafter](https://github.com/TheREDCraafter) for great contribution to the block models
 - DerLurch for the distillery station model
+
+###### By the way, as you can probably tell, this is my first larger mod, so beware of unusual design choices in the code. Or even better, don't look at the code at all. It's not pretty.

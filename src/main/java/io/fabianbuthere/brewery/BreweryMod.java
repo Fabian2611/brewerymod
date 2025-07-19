@@ -3,6 +3,7 @@ package io.fabianbuthere.brewery;
 import com.mojang.logging.LogUtils;
 import io.fabianbuthere.brewery.block.ModBlocks;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
+import io.fabianbuthere.brewery.config.BreweryConfig;
 import io.fabianbuthere.brewery.data.BrewTypeJsonLoader;
 import io.fabianbuthere.brewery.effect.ModEffects;
 import io.fabianbuthere.brewery.event.ServerEventHandling;
@@ -23,6 +24,7 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -35,10 +37,13 @@ public class BreweryMod
     // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "brewery";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public BreweryMod() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        FMLJavaModLoadingContext ctx = FMLJavaModLoadingContext.get();
+        IEventBus modEventBus = ctx.getModEventBus();
+
+        ctx.registerConfig(ModConfig.Type.COMMON, BreweryConfig.COMMON_CONFIG);
 
         ModCreativeModeTabs.register(modEventBus);
 

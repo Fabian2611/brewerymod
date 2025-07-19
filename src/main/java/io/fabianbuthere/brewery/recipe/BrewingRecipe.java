@@ -92,7 +92,7 @@ public class BrewingRecipe implements Recipe<Container> {
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.BREWING_TYPE;
+        return ModRecipes.BREWING_RECIPE_TYPE;
     }
 
     public List<ItemStackInput> getInputs() { return inputs; }

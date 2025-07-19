@@ -1,4 +1,5 @@
 {
+  "builtin": true,
   "customLore": "brewery.brew.rum.lore",
   "customName": "brewery.brew.rum.name",
   "effects": [

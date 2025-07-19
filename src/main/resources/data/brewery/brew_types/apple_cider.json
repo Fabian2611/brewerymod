@@ -1,4 +1,5 @@
 {
+  "builtin": true,
   "customLore": "brewery.brew.apple_cider.lore",
   "customName": "brewery.brew.apple_cider.name",
   "effects": [

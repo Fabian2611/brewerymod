@@ -1,4 +1,5 @@
 {
+    "builtin": true,
     "customLore": "brewery.brew.everclear.lore",
     "customName": "brewery.brew.everclear.name",
     "effects": [

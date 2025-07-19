@@ -167,7 +167,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
             for (int i = 0; i < itemHandler.getSlots(); i++) {
                 container.setItem(i, itemHandler.getStackInSlot(i));
             }
-            Optional<BrewingRecipe> match = level.getRecipeManager().getAllRecipesFor(ModRecipes.BREWING_TYPE).stream()
+            Optional<BrewingRecipe> match = level.getRecipeManager().getAllRecipesFor(ModRecipes.BREWING_RECIPE_TYPE).stream()
                 .filter(r -> r.matches(container, level)).findFirst();
             if (match.isPresent()) {
                 lockedRecipe = match.get();

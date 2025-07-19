@@ -1,4 +1,5 @@
 {
+  "builtin": true,
   "customLore": "brewery.brew.absinthe.lore",
   "customName": "brewery.brew.absinthe.name",
   "effects": [

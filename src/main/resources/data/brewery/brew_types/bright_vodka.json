@@ -1,4 +1,5 @@
 {
+    "builtin": true,
     "customLore": "brewery.brew.bright_vodka.lore",
     "customName": "brewery.brew.bright_vodka.name",
     "effects": [

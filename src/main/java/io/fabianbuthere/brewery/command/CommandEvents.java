@@ -9,6 +9,7 @@ import io.fabianbuthere.brewery.BreweryMod;
 import io.fabianbuthere.brewery.recipe.BrewingRecipe;
 import io.fabianbuthere.brewery.recipe.ModRecipes;
 import io.fabianbuthere.brewery.util.BrewType;
+import io.fabianbuthere.brewery.util.BrewTypeRegistry;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -50,17 +51,29 @@ public class CommandEvents {
                         })
                     )
                 )
-                .then(Commands.literal("list")
+                .then(Commands.literal("list_recipes")
                     .executes(context -> {
                         MinecraftServer server = context.getSource().getServer();
-                        Set<String> brewTypes = getAllBrewTypeIds(server);
-                        if (brewTypes.isEmpty()) {
-                            context.getSource().sendFailure(Component.literal("No brew types found."));
+                        Set<String> brewingRecipes = getAllBrewRecipeIds(server);
+                        if (brewingRecipes.isEmpty()) {
+                            context.getSource().sendFailure(Component.literal("No brewing recipes found."));
                         } else {
-                            context.getSource().sendSuccess(() -> Component.literal("Available brew types: " + String.join(", ", brewTypes)), false);
+                            context.getSource().sendSuccess(() -> Component.literal("Available brewing recipes: " + String.join(", ", brewingRecipes.stream().sorted().toList())), false);
                         }
                         return 1;
                     })
+                )
+                .then(Commands.literal("list_brews")
+                        .executes(context -> {
+                            MinecraftServer server = context.getSource().getServer();
+                            Set<String> brewTypes = getAllBrewTypeIds(server);
+                            if (brewTypes.isEmpty()) {
+                                context.getSource().sendFailure(Component.literal("No brew types found."));
+                            } else {
+                                context.getSource().sendSuccess(() -> Component.literal("Available brew types: " + String.join(", ", brewTypes.stream().sorted().toList())), false);
+                            }
+                            return 1;
+                        })
                 )
                 .then(Commands.literal("drink")
                     .then(Commands.argument("brew_type", StringArgumentType.word())
@@ -87,27 +100,43 @@ public class CommandEvents {
         );
     }
 
-    private static CompletableFuture<Suggestions> suggestBrewTypes(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
+    private static CompletableFuture<Suggestions> suggestBrewRecipes(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
         MinecraftServer server = context.getSource().getServer();
-        Set<String> brewTypes = getAllBrewTypeIds(server);
+        Set<String> brewTypes = getAllBrewRecipeIds(server);
         for (String brewTypeId : brewTypes) {
             builder.suggest(brewTypeId);
         }
         return builder.buildFuture();
     }
 
-    private static Set<String> getAllBrewTypeIds(MinecraftServer server) {
-        Set<String> brewTypes = new HashSet<>();
+    private static CompletableFuture<Suggestions> suggestBrewTypes(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
+        Set<String> brewTypes = BrewTypeRegistry.getAll().keySet();
+        for (String brewTypeId : brewTypes) {
+            builder.suggest(brewTypeId);
+        }
+        return builder.buildFuture();
+    }
+
+    private static Set<String> getAllBrewRecipeIds(MinecraftServer server) {
+        Set<String> brewRecipes = new HashSet<>();
         ServerLevel level = server.overworld(); // Why tf is this not in the server instance?
-        for (BrewingRecipe recipe : level.getRecipeManager().getAllRecipesFor(ModRecipes.BREWING_TYPE)) {
-            brewTypes.add(recipe.getBrewTypeId());
+        for (BrewingRecipe recipe : level.getRecipeManager().getAllRecipesFor(ModRecipes.BREWING_RECIPE_TYPE)) {
+            brewRecipes.add(recipe.getId().toString());
+        }
+        return brewRecipes;
+    }
+
+    private static Set<String> getAllBrewTypeIds (MinecraftServer server) {
+        Set<String> brewTypes = new HashSet<>();
+        for (String brewType : BrewTypeRegistry.getAll().keySet()) {
+            brewTypes.add(brewType);
         }
         return brewTypes;
     }
 
     private static BrewingRecipe getRecipeByBrewTypeId(MinecraftServer server, String brewTypeId) {
         ServerLevel level = server.overworld();
-        for (BrewingRecipe recipe : level.getRecipeManager().getAllRecipesFor(ModRecipes.BREWING_TYPE)) {
+        for (BrewingRecipe recipe : level.getRecipeManager().getAllRecipesFor(ModRecipes.BREWING_RECIPE_TYPE)) {
             if (recipe.getBrewTypeId().equals(brewTypeId)) {
                 return recipe;
             }

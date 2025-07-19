@@ -1,4 +1,5 @@
 {
+    "builtin": true,
     "customLore": "brewery.brew.snowmans_drink.lore",
     "customName": "brewery.brew.snowmans_drink.name",
     "effects": [

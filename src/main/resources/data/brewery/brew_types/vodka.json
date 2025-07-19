@@ -1,4 +1,5 @@
 {
+  "builtin": true,
   "customLore": "brewery.brew.vodka.lore",
   "customName": "brewery.brew.vodka.name",
   "effects": [

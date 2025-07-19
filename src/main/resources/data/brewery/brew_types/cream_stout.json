@@ -1,4 +1,5 @@
 {
+    "builtin": true,
     "customLore": "brewery.brew.cream_stout.lore",
     "customName": "brewery.brew.cream_stout.name",
     "effects": [

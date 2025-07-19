@@ -1,4 +1,5 @@
 {
+    "builtin": true,
     "customLore": "brewery.brew.gammel_dansk.lore",
     "customName": "brewery.brew.gammel_dansk.name",
     "effects": [

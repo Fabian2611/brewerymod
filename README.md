@@ -6,6 +6,10 @@ It is heavily inspired by the Spigot Plugin [Brewery](https://www.spigotmc.org/r
 If you find any bugs or issues, please report them on the [GitHub Issues page](https://github.com/Fabian2611/brewerymod/issues/).
 You can also use the Issues page to suggest new features or improvements, but I can not guarantee that I will implement them.
 
+## Modpack Usage
+You are allowed to use this mod in your modpack, as long as you do not claim this mod as your own and do not charge any form of payment in exchange for access to your modpack.
+You do not have to credit me, but I'd greatly appreciate it if you did.
+
 ## Compatibility
 Currently, this mod is only available for Minecraft 1.20.1 using Forge 47.4.0.
 I do not plan on updating or backporting this mod to other Minecraft versions.

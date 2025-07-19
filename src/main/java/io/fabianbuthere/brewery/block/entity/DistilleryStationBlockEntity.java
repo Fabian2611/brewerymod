@@ -169,78 +169,22 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
         ItemStack inputStack = itemHandler.getStackInSlot(INPUT_SLOT);
         ItemStack filterStack = itemHandler.getStackInSlot(FILTER_SLOT);
 
-        ItemStack result = inputStack.copyWithCount(1);
-        result.setTag(inputStack.getOrCreateTag().copy());
         CompoundTag inputTag = inputStack.getTag();
-        CompoundTag resultTag = result.getOrCreateTag();
-
-        if (inputTag.contains("recipeId")) {
+        if (inputTag != null && inputTag.contains("recipeId")) {
             String recipeId = inputTag.getString("recipeId");
             if (level != null && !recipeId.isEmpty()) {
                 var recipes = level.getRecipeManager().getAllRecipesFor(io.fabianbuthere.brewery.recipe.ModRecipes.BREWING_TYPE);
                 for (var recipe : recipes) {
                     if (recipe.getId().toString().equals(recipeId)) {
-                        String distillingItem = recipe.getDistillingItem();
-                        String filterItemId = filterStack.getItem().toString();
-
-                        // Fail if recipe does not require distilling, but a filter is used
-                        // or recipe is already distilled
-                        if (distillingItem == null || distillingItem.isEmpty() || !inputTag.getString("distillingItem").isEmpty()) {
-                            result = BrewType.INCORRECT_DISTILLERY_BREW();
-                            itemHandler.setStackInSlot(OUTPUT_SLOT, result);
-                            inputStack.shrink(1);
-                            filterStack.shrink(1);
-                            return;
-                        }
-
-                        // Fail if filter does not match
-                        if (!distillingItem.equals(filterItemId)) {
-                            result = BrewType.INCORRECT_DISTILLERY_BREW();
-                            itemHandler.setStackInSlot(OUTPUT_SLOT, result);
-                            inputStack.shrink(1);
-                            filterStack.shrink(1);
-                            return;
-                        }
-
-                        resultTag.putString("distillingItem", filterItemId);
-                        // If the recipe does not need aging, finalize the brew here
-                        if (recipe.getOptimalAgingTime() == 0L) {
-                            // Use the same logic as the FermentationBarrel for finalizing
-                            int maxPurity = BrewType.getResultBrewType(recipe.getBrewTypeId()).maxPurity();
-                            int actualPurity = inputTag.getInt("purity");
-                            // No aging error, so error = 0
-                            float error = 0f;
-                            float errorContribution = 1.0f;
-                            int effectivePurity = actualPurity; // No error, so purity is not reduced
-                            float purityFactor = (float) effectivePurity / (float) maxPurity;
-                            // Set up display and effects
-                            String purityRepresentation = "★".repeat(Math.max(0, effectivePurity)) +
-                                    "☆".repeat(Math.max(0, maxPurity - effectivePurity));
-                            BrewType brewTypeResult = BrewType.getResultBrewType(recipe.getBrewTypeId());
-                            resultTag.putString("recipeId", recipe.getId().toString());
-                            net.minecraft.nbt.ListTag loreList = new net.minecraft.nbt.ListTag();
-                            loreList.add(net.minecraft.nbt.StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(net.minecraft.network.chat.Component.literal(purityRepresentation))));
-                            loreList.add(net.minecraft.nbt.StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(net.minecraft.network.chat.Component.translatable(brewTypeResult.customLore()))));
-                            net.minecraft.nbt.CompoundTag displayTag = resultTag.getCompound("display");
-                            displayTag.put("Lore", loreList);
-                            displayTag.putString("Name", net.minecraft.network.chat.Component.Serializer.toJson(net.minecraft.network.chat.Component.translatable(brewTypeResult.customName())));
-                            resultTag.put("display", displayTag);
-                            // Apply effects
-                            java.util.List<net.minecraft.world.effect.MobEffectInstance> resultEffects = new java.util.ArrayList<>();
-                            for (net.minecraft.world.effect.MobEffectInstance effect : brewTypeResult.effects()) {
-                                net.minecraft.world.effect.MobEffect mobEffect = effect.getEffect();
-                                int duration = Math.round(effect.getDuration() * purityFactor);
-                                int amplifier = Math.max(0, Math.round(effect.getAmplifier() * purityFactor));
-                                if (duration > 0) {
-                                    resultEffects.add(new net.minecraft.world.effect.MobEffectInstance(mobEffect, duration, amplifier));
-                                }
-                            }
-                            // Add hangover effect for bad purity
-                            if (effectivePurity < (double)maxPurity / 2) {
-                                resultEffects.add(new MobEffectInstance(io.fabianbuthere.brewery.effect.ModEffects.HANGOVER.get(), 600 * (Math.max(1, maxPurity / 2 - effectivePurity + 1)), 0, false, false, true));
-                            }
-                            resultTag.put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
-                        }
+                        ItemStack result = BrewType.finalizeBrew(
+                            recipe,
+                            inputStack,
+                            filterStack,
+                            0L, // No aging/distilling progress needed for distillery
+                            null, // No barrel wood type for distillery
+                            "distillery",
+                            level
+                        );
                         itemHandler.setStackInSlot(OUTPUT_SLOT, result);
                         inputStack.shrink(1);
                         filterStack.shrink(1);
@@ -249,7 +193,7 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
                 }
             }
         } else {
-            result = BrewType.GENERIC_FAILED_BREW();
+            ItemStack result = BrewType.GENERIC_FAILED_BREW();
             itemHandler.setStackInSlot(OUTPUT_SLOT, result);
         }
     }

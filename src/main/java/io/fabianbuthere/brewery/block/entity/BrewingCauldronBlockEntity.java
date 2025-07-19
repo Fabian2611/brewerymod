@@ -132,6 +132,19 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
     public void serverTick(Level level) {
         if (level.isClientSide) return;
 
+        // Reset brewing if inventory is empty
+        boolean inventoryEmpty = true;
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            if (!itemHandler.getStackInSlot(i).isEmpty()) {
+                inventoryEmpty = false;
+                break;
+            }
+        }
+        if (inventoryEmpty) {
+            resetBrewing();
+            return;
+        }
+
         if (reValidateRecipe) {
             if (getBlockState().getValue(BrewingCauldronBlock.BREW_LEVEL) == 0) {
                 resetBrewing();
@@ -177,7 +190,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
 
         if (lockedRecipe != null) {
             brewingTicks++;
-            BrewType brewType = BrewType.getResultBrewType(lockedRecipe.getBrewTypeId());
+            BrewType brewType = BrewType.getBrewTypeFromId(lockedRecipe.getBrewTypeId());
             int prevColor = currentColor;
             if (brewingTicks <= lockedRecipe.getOptimalBrewingTime()) {
                 double progress = (double) brewingTicks / lockedRecipe.getOptimalBrewingTime();
@@ -252,7 +265,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
     // Called when a glass bottle is used on the cauldron
     public ItemStack getCurrentStateRecipeResult() {
         if (lockedRecipe == null) return BrewType.DEFAULT_POTION();
-        BrewType baseResult = BrewType.getResultBrewType(lockedRecipe.getBrewTypeId());
+        BrewType baseResult = BrewType.getBrewTypeFromId(lockedRecipe.getBrewTypeId());
         if (baseResult == null) return BrewType.DEFAULT_POTION();
         return baseResult.toItem(lockedRecipe, brewingTicks, itemHandler);
     }

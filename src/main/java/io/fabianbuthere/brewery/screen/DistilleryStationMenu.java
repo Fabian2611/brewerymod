@@ -37,7 +37,7 @@ public class DistilleryStationMenu extends AbstractContainerMenu {
     public DistilleryStationMenu(int pContainerId, Inventory playerInv, BlockEntity blockEntity, ContainerData data) {
         super(ModMenus.DISTILLERY_STATION_MENU.get(), pContainerId);
         checkContainerSize(playerInv, 3);
-        this.blockEntity = (DistilleryStationBlockEntity) blockEntity;
+        this.blockEntity = (DistilleryStationBlockEntity) blockEntity; // I did it this way for a reason, don't change it. What is that reason you ask? I don't know, but it was important at the time.
         this.level = playerInv.player.level();
         this.data = data;
 

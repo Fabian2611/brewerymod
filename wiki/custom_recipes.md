@@ -8,6 +8,7 @@ The content will look something like this:
 
 ```json5
 {
+  "builtin": false, // If true, this brew type is treated as a built-in brew type and will be disabled if the config useBuiltinBrews is set to false. You should normally keep this as false.
   "customLore": "yournamespace.brew.cool_brew.name", // The lore of the brew, as seen when hovering over it. Can be a translation key or literal text.
   "customName": "yournamespace.brew.cool_brew.name", // The name of the brew. Can be a translation key or literal text.
   "effects": [ // This opens a list of effects that the brew will apply when consumed.

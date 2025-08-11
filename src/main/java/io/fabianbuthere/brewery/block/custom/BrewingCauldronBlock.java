@@ -86,7 +86,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                 BrewingCauldronBlockEntity be = (BrewingCauldronBlockEntity) pLevel.getBlockEntity(pPos);
                 if (be != null) be.setReValidateRecipe();
             }
-            return InteractionResult.sidedSuccess(pLevel.isClientSide);
+            return InteractionResult.CONSUME;
         }
 
         if (heldItem == Items.GLASS_BOTTLE && currentLevel > 0) {
@@ -102,7 +102,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                     be.setReValidateRecipe();
                 }
             }
-            return InteractionResult.sidedSuccess(pLevel.isClientSide);
+            return InteractionResult.CONSUME;
         }
 
         if (heldItem == Items.WATER_BUCKET && currentLevel < 3) {
@@ -115,7 +115,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                 if (be != null) be.resetBrewing();
                 if (be != null) be.setReValidateRecipe();
             }
-            return InteractionResult.sidedSuccess(pLevel.isClientSide);
+            return InteractionResult.CONSUME;
         }
 
         if (heldItem == Items.POTION && held.getTag() != null && "minecraft:water".equals(held.getTag().getString("Potion")) && currentLevel < 3) {
@@ -130,7 +130,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                 if (be != null) be.resetBrewing();
                 if (be != null) be.setReValidateRecipe();
             }
-            return InteractionResult.sidedSuccess(pLevel.isClientSide);
+            return InteractionResult.CONSUME;
         }
 
         if (!pLevel.isClientSide) {
@@ -147,7 +147,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                 }
             }
         }
-        return InteractionResult.PASS;
+        return InteractionResult.FAIL;
     }
 
     @Override

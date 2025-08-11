@@ -74,7 +74,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             .pattern("I I")
             .pattern("I I")
             .pattern("III")
-            .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
+            .unlockedBy("has_copper_ingot", has(Items.COPPER_INGOT))
             .save(pWriter, new ResourceLocation("brewery", "brewing_cauldron"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DISTILLERY_STATION.get())

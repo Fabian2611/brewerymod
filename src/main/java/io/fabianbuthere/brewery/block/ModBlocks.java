@@ -26,6 +26,9 @@ public class ModBlocks {
 
     public static final EnumMap<WoodType, RegistryObject<Block>> FERMENTATION_BARRELS = new EnumMap<>(WoodType.class);
 
+    public static final RegistryObject<Block> BREW_SHELF = registerBlock("brew_shelf", () ->
+            new BrewShelfBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).noOcclusion()));
+
     static {
         for (WoodType type : WoodType.values()) {
             String name = "fermentation_barrel_" + type.getSerializedName();

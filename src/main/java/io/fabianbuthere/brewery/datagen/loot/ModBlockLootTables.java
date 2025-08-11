@@ -20,6 +20,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         for (var barrel : ModBlocks.FERMENTATION_BARRELS.values()) {
             this.dropSelf(barrel.get());
         }
+        this.dropSelf(ModBlocks.BREW_SHELF.get());
     }
 
     @Override

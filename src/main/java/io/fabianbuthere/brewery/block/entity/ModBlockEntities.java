@@ -35,6 +35,11 @@ public class ModBlockEntities {
         }
     }
 
+    public static final RegistryObject<BlockEntityType<BrewShelfBlockEntity>> BREW_SHELF = BLOCK_ENTITIES.register(
+            "brew_shelf",
+            () -> BlockEntityType.Builder.of(BrewShelfBlockEntity::new, ModBlocks.BREW_SHELF.get()).build(null)
+    );
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }

@@ -13,6 +13,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -56,15 +57,9 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
     };
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
-    public static final Item[] ALLOWED_INGREDIENTS = Set.of(new Item[]{Items.WHEAT, Items.SUGAR, Items.GLOWSTONE_DUST,
-            Items.SUGAR_CANE, Items.APPLE, Items.POTATO, Items.GRASS, Items.COCOA_BEANS, Items.BEETROOT_SEEDS,
-            Items.WHEAT_SEEDS, Items.ROTTEN_FLESH, Items.ACACIA_LEAVES, Items.NETHER_WART, Items.PINK_TULIP,
-            Items.MILK_BUCKET, Items.POPPY, Items.BONE, Items.BLUE_ORCHID, Items.CACTUS, Items.ROSE_BUSH,
-            Items.GLISTERING_MELON_SLICE, Items.BROWN_MUSHROOM, Items.GREEN_WOOL, Items.GOLD_NUGGET,
-            Items.ENDER_PEARL, Items.POPPED_CHORUS_FRUIT, Items.DANDELION, Items.COAL, Items.IRON_INGOT,
-            Items.CHORUS_FRUIT, Items.LAPIS_LAZULI, Items.COD, Items.SALMON, Items.TROPICAL_FISH, Items.PUFFERFISH,
-            Items.DARK_OAK_LEAVES, Items.GOLDEN_APPLE, Items.CLAY_BALL, Items.QUARTZ, Items.END_ROD, Items.BLAZE_POWDER,
-            Items.GHAST_TEAR, Items.PUMPKIN_SEEDS, Items.SNOWBALL, Items.STICK, Items.CARROT, Items.DIAMOND, Items.BEETROOT, Items.GUNPOWDER}).toArray(new Item[0]);
+    public static final Item[] BLACKLISTED_INGREDIENTS = Set.of(new Item[]{
+            Items.WATER_BUCKET, Items.LAVA_BUCKET, Items.GLASS_BOTTLE, Items.POTION, Items.SPLASH_POTION, Items.LINGERING_POTION, Items.BUCKET
+    }).toArray(new Item[0]);
 
     private boolean heated = false;
     public static final Block[] allowedHeatingBlocks = new Block[]{Blocks.MAGMA_BLOCK, Blocks.CAMPFIRE, Blocks.SOUL_CAMPFIRE, Blocks.LAVA, Blocks.FIRE, Blocks.SOUL_FIRE}; // Replace Items with Blocks as needed
@@ -101,7 +96,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         } else {
             return false;
         }
-        return Arrays.asList(ALLOWED_INGREDIENTS).contains(stack.getItem());
+        return !Arrays.asList(BLACKLISTED_INGREDIENTS).contains(stack.getItem()) && !stack.isEmpty() && !(stack.getItem() instanceof SpawnEggItem);
     }
 
     public ItemStack insertItemStack(ItemStack stack) {

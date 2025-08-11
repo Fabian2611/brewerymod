@@ -1,5 +1,6 @@
-// 1.20.1	2025-06-19T17:17:20.5536454	Loot Tables
+// 1.20.1	2025-08-11T21:12:30.0177955	Loot Tables
 91337bf040766924f091cb3750deda55e8902674 data/brewery/loot_tables/blocks/brewing_cauldron.json
+9eed54db76ca581d03190cc456bc78f4bd453bf4 data/brewery/loot_tables/blocks/brew_shelf.json
 bc26c784b283fb63aa97f3dd7663121fa7647040 data/brewery/loot_tables/blocks/distillery_station.json
 f11df6cd5fb4c5378c87e8ba9431d6e1d479b32e data/brewery/loot_tables/blocks/fermentation_barrel_acacia.json
 deaeee93bd7b0fa51d7a43d0ffbb6fb205e16a6b data/brewery/loot_tables/blocks/fermentation_barrel_bamboo.json

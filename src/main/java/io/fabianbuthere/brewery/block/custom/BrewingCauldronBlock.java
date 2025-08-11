@@ -74,6 +74,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                     pPlayer.displayClientMessage(Component.literal((brewTime / 1200) + "min " + ((brewTime / 20) % 60) + "s"), true);
                 }
             }
+            return InteractionResult.SUCCESS;
         }
 
         if (heldItem == Items.BUCKET && currentLevel == 3) {
@@ -86,7 +87,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                 BrewingCauldronBlockEntity be = (BrewingCauldronBlockEntity) pLevel.getBlockEntity(pPos);
                 if (be != null) be.setReValidateRecipe();
             }
-            return InteractionResult.CONSUME;
+            return InteractionResult.SUCCESS;
         }
 
         if (heldItem == Items.GLASS_BOTTLE && currentLevel > 0) {
@@ -102,7 +103,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                     be.setReValidateRecipe();
                 }
             }
-            return InteractionResult.CONSUME;
+            return InteractionResult.SUCCESS;
         }
 
         if (heldItem == Items.WATER_BUCKET && currentLevel < 3) {
@@ -115,7 +116,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                 if (be != null) be.resetBrewing();
                 if (be != null) be.setReValidateRecipe();
             }
-            return InteractionResult.CONSUME;
+            return InteractionResult.SUCCESS;
         }
 
         if (heldItem == Items.POTION && held.getTag() != null && "minecraft:water".equals(held.getTag().getString("Potion")) && currentLevel < 3) {
@@ -130,24 +131,27 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                 if (be != null) be.resetBrewing();
                 if (be != null) be.setReValidateRecipe();
             }
-            return InteractionResult.CONSUME;
+            return InteractionResult.SUCCESS;
+        }
+
+        if (held.isEmpty()) {
+            return InteractionResult.PASS;
         }
 
         if (!pLevel.isClientSide) {
             BrewingCauldronBlockEntity be = (BrewingCauldronBlockEntity) pLevel.getBlockEntity(pPos);
-            if (be != null) {
-                if (!held.isEmpty() && be.canInsert(held)) {
-                    ItemStack toInsert = held.copyWithCount(1);
-                    ItemStack remainder = be.insertItemStack(toInsert);
-                    if (remainder.isEmpty()) {
-                        held.shrink(1);
-                        be.setReValidateRecipe();
-                        return InteractionResult.CONSUME;
-                    }
+            if (be != null && !held.isEmpty() && be.canInsert(held)) {
+                ItemStack toInsert = held.copyWithCount(1);
+                ItemStack remainder = be.insertItemStack(toInsert);
+                if (remainder.isEmpty()) {
+                    held.shrink(1);
+                    be.setReValidateRecipe();
                 }
+                return InteractionResult.SUCCESS;
             }
         }
-        return InteractionResult.FAIL;
+        return InteractionResult.CONSUME;
+
     }
 
     @Override

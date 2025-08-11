@@ -1,1 +1,5 @@
-// 1.20.1	2025-06-19T17:03:12.2036671	Tags for minecraft:block mod id brewery
+// 1.20.1	2025-08-11T21:12:30.0137817	Tags for minecraft:block mod id brewery
+2451cf01001bf8c0fcf0e21d48537950ec1c7330 data/minecraft/tags/blocks/mineable/axe.json
+c8986ec00121b5c93f9beaff51d372285b9a3ef6 data/minecraft/tags/blocks/mineable/pickaxe.json
+c8986ec00121b5c93f9beaff51d372285b9a3ef6 data/minecraft/tags/blocks/needs_iron_tool.json
+68efeeed6fd3f36d91ff8d5c45020d8e237c86db data/minecraft/tags/blocks/needs_stone_tool.json

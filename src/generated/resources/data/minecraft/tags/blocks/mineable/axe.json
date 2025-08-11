@@ -1,0 +1,16 @@
+{
+  "values": [
+    "brewery:fermentation_barrel_acacia",
+    "brewery:fermentation_barrel_bamboo",
+    "brewery:fermentation_barrel_birch",
+    "brewery:fermentation_barrel_cherry",
+    "brewery:fermentation_barrel_dark_oak",
+    "brewery:fermentation_barrel_jungle",
+    "brewery:fermentation_barrel_mangrove",
+    "brewery:fermentation_barrel_oak",
+    "brewery:fermentation_barrel_crimson",
+    "brewery:fermentation_barrel_warped",
+    "brewery:fermentation_barrel_spruce",
+    "brewery:brew_shelf"
+  ]
+}

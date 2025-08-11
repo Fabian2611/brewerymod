@@ -32,5 +32,7 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
             itp.add(b.get());
             itp2.add(b.get());
         });
+
+        itp.add(ModBlocks.BREW_SHELF.get());
     }
 }

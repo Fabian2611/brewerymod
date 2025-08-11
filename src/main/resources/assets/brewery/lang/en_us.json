@@ -15,6 +15,7 @@
   "effect.brewery.alcohol": "Drunkenness",
   "effect.brewery.hangover": "Hangover",
 
+  "block.brewery.brew_shelf": "Brew Shelf",
   "block.brewery.fermentation_barrel_acacia": "Acacia Fermentation Barrel",
   "block.brewery.fermentation_barrel_birch": "Birch Fermentation Barrel",
   "block.brewery.fermentation_barrel_dark_oak": "Dark Oak Fermentation Barrel",

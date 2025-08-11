@@ -23,6 +23,7 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -43,7 +44,9 @@ public class BreweryMod
         FMLJavaModLoadingContext ctx = FMLJavaModLoadingContext.get();
         IEventBus modEventBus = ctx.getModEventBus();
 
-        ctx.registerConfig(ModConfig.Type.COMMON, BreweryConfig.COMMON_CONFIG);
+        ModLoadingContext.get().registerConfig(
+                ModConfig.Type.COMMON, BreweryConfig.COMMON_CONFIG
+        );
 
         ModCreativeModeTabs.register(modEventBus);
 

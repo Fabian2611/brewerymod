@@ -87,7 +87,7 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
                     }
                 }
             });
-            sourceSlot.set(ItemStack.EMPTY);
+            sourceSlot.setChanged();
             return copyStack;
         }
 

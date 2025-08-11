@@ -1,0 +1,36 @@
+[33m9448fb1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Fixed relative file path in README.md
+[33m4755522[m move wiki files, modify wiki files, add new wiki file
+[33m5383cd4[m v1.0.3 Modify README.md
+[33mad1d0e5[m Added a config system, added a sketchy way to disable builtin brews, Added another testing command, some boring code cleanup and refactoring (chores)
+[33mef80664[m Added central brew finalization method to fix redundancy, added testing and util commands, fixed occasional recipe matching for empty brewing cauldrons
+[33mb9a7b44[m[33m ([m[1;33mtag: [m[1;33m1.0.2[m[33m)[m v1.0.2 Added missing distillery station recipe
+[33m277c0dc[m[33m ([m[1;33mtag: [m[1;33m1.0.1[m[33m)[m v1.0.1 FIXed stupid server specific loading error
+[33m869caa9[m[33m ([m[1;33mtag: [m[1;33m1.0.0[m[33m)[m v1.0.0
+[33ma030d2b[m v0.2.0 Distillery Station is DONE, extreme cleanup, better models, fixed readme and curseforge correspondence
+[33m34d5903[m Some functionality fixes
+[33m334c318[m FIXed cullfaces
+[33md5ec498[m Brewing is now correctly reset when the brewing cauldron is emptied
+[33m76bbf9d[m Update README.md
+[33mf231e1f[m[33m ([m[1;33mtag: [m[1;33m0.1.4[m[33m)[m DEV 0.1.4 - I'm stupid
+[33md7e51a1[m DEV 0.1.4 I forgot datagen, also removed the old distillery_station.png
+[33mfb67c00[m DEV 0.1.3
+[33m4a91b4a[m ADDed "wiki" page for custom recipes, cleanup
+[33me397862[m DEV 0.1.2
+[33m066118d[m DEV 0.1.1
+[33m6d3b3d3[m New recipes, new models, cleanup, ADDed util gentable.py
+[33m69a2a1f[m ADDed barrel textures, more cleanup
+[33m3e30565[m REMOVEd tutorial stuff, mod is now clean
+[33mc955f51[m Effects first stuff, removed hard coded recipe RUM
+[33m3e2442e[m Made recipes more modular
+[33ma948de6[m ADDed auto-finalization after distillation for brews which don't need aging
+[33mbe2a55c[m Fermentation DONE
+[33mae101fd[m FIXed distillery stuff, ADDed fermentation for the most part
+[33mca710ae[m Removed old TODO
+[33m2a01e90[m DISTILLERY WORKS + Barrel Variant Textures
+[33m0a16c48[m ADDed README.md, modified LICENSE.txt to attribute original plugin authors
+[33m10d08b3[m HOLY SHIT BREWING WORKS, also did the first setup for the new DistilleryStationBlock
+[33m9284be8[m ADDed Brewing Cauldron, with item insertion / extraction, custom tint and heating checking
+[33m03e39e1[m Datagen works NOW, forgot a file
+[33ma7ca4fa[m Datagen works now
+[33m481b9a3[m First Item, Block, Creative Mode Tab, custom Tag, Food and Recipes.
+[33m62cf155[m Init

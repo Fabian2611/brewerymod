@@ -28,7 +28,7 @@ Some brews need to be barrel aged. For this, make a fermentation barrel of the c
 ### Purity
 After the brewing process is finished, your brew will be assigned a purity. The value will be decided by how precise your ingredient amounts were and how well you chose the brewing and aging times of the brew.
 ### Custom Brews & Recipes
-The mod normally comes shipped with a bunch of recipes already included, but you can also choose to add your own ones. A tutorial for this can be found [here](./wiki/custom_recipes.md).
+The mod normally comes shipped with [a bunch of recipes already included](./wiki/builtins.md), but you can also choose to add your own ones. A tutorial for this can be found [here](./wiki/custom_recipes.md).
 
 ## Credits
 - [Brewery](https://www.spigotmc.org/resources/brewery.3082/) as the main inspiration

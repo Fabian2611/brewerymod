@@ -32,7 +32,7 @@ public class ModBlocks {
     static {
         for (WoodType type : WoodType.values()) {
             String name = "fermentation_barrel_" + type.getSerializedName();
-            RegistryObject<Block> barrel = registerBlock(name, () -> new FermentationBarrelBlock(BlockBehaviour.Properties.copy(Blocks.BARREL), type));
+            RegistryObject<Block> barrel = registerBlock(name, () -> new FermentationBarrelBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS), type));
             FERMENTATION_BARRELS.put(type, barrel);
         }
     }

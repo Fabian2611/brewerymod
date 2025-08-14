@@ -50,7 +50,7 @@
   "brewery.brew.nether_vodka.name": "Nether Vodka",
   "brewery.brew.pumpkin_wheat_beer.name": "Kürbis Weizenbier",
   "brewery.brew.snowmans_drink.name": "Schneegetränk",
-  "brewery.sweet_tea.name": "Süßer Tee",
+  "brewery.brew.sweet_tea.name": "Süßer Tee",
   "brewery.brew.blood_wine.name": "Blutwein",
   "brewery.brew.bone_tequila.name": "Knochen Tequila",
   "brewery.brew.brandy.name": "Brandy",
@@ -79,8 +79,9 @@
   "brewery.brew.nether_vodka.lore": "Ein klarer und aromatischer Schnaps, hergestellt aus vergorenen Nether-Zutaten, bekannt für seinen einzigartigen Geschmack und seine starke Wirkung.",
   "brewery.brew.pumpkin_wheat_beer.lore": "Ein saisonales Bier, das aus Weizen und Kürbis hergestellt wird, bekannt für seinen herbstlichen Geschmack und seine leichte Süße.",
   "brewery.brew.snowmans_drink.lore": "Ein frostiges Getränk aus Schnee und Aromen, das perfekt für kalte Wintertage ist. Kann unerwartete Nebenwirkungen haben.",
-  "brewery.sweet_tea.lore": "Ein erfrischendes und süßes Getränk, das aus aufgebrühtem Tee und Zucker hergestellt wird, ideal für heiße Sommertage.",
+  "brewery.brew.sweet_tea.lore": "Ein erfrischendes und süßes Getränk, das aus aufgebrühtem Tee und Zucker hergestellt wird, ideal für heiße Sommertage.",
   "brewery.brew.blood_wine.lore": "Ein mysteriöses Getränk, das aus Trauben und... etwas anderem hergestellt wird. Bekannt für seinen intensiven Geschmack und seine blutrote Farbe.",
   "brewery.brew.bone_tequila.lore": "Ein ungewöhnlicher Tequila, der aus Knochen und Agave hergestellt wird, bekannt für seinen einzigartigen Geschmack und seine starke Wirkung.",
-  "brewery.brew.brandy.lore": "Ein reichhaltiger und aromatischer Weinbrand, der aus destilliertem Wein hergestellt wird, bekannt für seinen vollen Körper und seine komplexen Aromen."
+  "brewery.brew.brandy.lore": "Ein reichhaltiger und aromatischer Weinbrand, der aus destilliertem Wein hergestellt wird, bekannt für seinen vollen Körper und seine komplexen Aromen.",
+  "block.brewery.fermentation_barrel": "Fermentationsfass"
 }

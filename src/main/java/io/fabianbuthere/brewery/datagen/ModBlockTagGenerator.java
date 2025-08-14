@@ -27,12 +27,9 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
                 .add(ModBlocks.DISTILLERY_STATION.get());
 
         IntrinsicTagAppender<Block> itp = tag(BlockTags.MINEABLE_WITH_AXE);
-        IntrinsicTagAppender<Block> itp2 = tag(BlockTags.NEEDS_STONE_TOOL);
         ModBlocks.FERMENTATION_BARRELS.forEach((t, b) -> {
             itp.add(b.get());
-            itp2.add(b.get());
         });
-
         itp.add(ModBlocks.BREW_SHELF.get());
     }
 }

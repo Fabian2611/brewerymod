@@ -1,5 +1,6 @@
 package io.fabianbuthere.brewery.screen;
 
+import io.fabianbuthere.brewery.BreweryMod;
 import io.fabianbuthere.brewery.block.ModBlocks;
 import io.fabianbuthere.brewery.block.custom.FermentationBarrelBlock;
 import io.fabianbuthere.brewery.block.entity.FermentationBarrelBlockEntity;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class FermentationBarrelMenu extends AbstractContainerMenu {
@@ -43,7 +45,8 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
             for (int i = 0; i < 9; i++) {
-                this.addSlot(new FilterSlot(iItemHandler, i, 8 + i * 18, 18, ALLOWED_INPUT_ITEMS));
+                // Use a menu-local Slot that finalizes on normal take. FilterSlot remains generic and unmodified.
+                this.addSlot(new BarrelFinalizeSlot(iItemHandler, i, 8 + i * 18, 18, ALLOWED_INPUT_ITEMS, this.blockEntity));
             }
         });
 
@@ -73,25 +76,31 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
         if (!sourceSlot.hasItem()) {
             return ItemStack.EMPTY;
         }
+        BreweryMod.LOGGER.debug("Quick move stack at index: {}", pIndex);
         ItemStack sourceStack = sourceSlot.getItem();
         ItemStack copyStack = sourceStack.copy();
 
-        // Moving from TE inventory to player inventory
+        // TE -> Player (shift-click)
         if (pIndex >= TE_INVENTORY_FIRST_SLOT_INDEX && pIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
             int teSlot = pIndex - TE_INVENTORY_FIRST_SLOT_INDEX;
-            this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-                ItemStack extracted = iItemHandler.extractItem(teSlot, sourceStack.getCount(), false);
-                if (!extracted.isEmpty()) {
-                    if (!moveItemStackTo(extracted, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-                        iItemHandler.insertItem(teSlot, extracted, false);
-                    }
-                }
-            });
+            ItemStack toMove = sourceStack.copy();
+
+            // Finalize only on server; client will sync
+            if (!pPlayer.level().isClientSide) {
+                toMove = this.blockEntity.finalizeStackFromSlot(teSlot, toMove);
+            }
+
+            if (!moveItemStackTo(toMove, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
+                return ItemStack.EMPTY;
+            }
+
+            // Remove the item from TE since we moved it to the player
+            sourceSlot.remove(1);
             sourceSlot.setChanged();
             return copyStack;
         }
 
-        // Moving from player inventory to TE inventory (normal insert logic)
+        // Player -> TE
         if (pIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
             if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT, false)) {
                 return ItemStack.EMPTY;
@@ -99,6 +108,7 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
         } else {
             return ItemStack.EMPTY;
         }
+
         if (sourceStack.isEmpty()) {
             sourceSlot.set(ItemStack.EMPTY);
         } else {
@@ -111,7 +121,7 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
     public boolean stillValid(Player pPlayer) {
         // Accept any fermentation barrel variant
         return blockEntity != null && ModBlocks.FERMENTATION_BARRELS.values().stream()
-            .anyMatch(barrel -> blockEntity.getBlockState().is(barrel.get()));
+                .anyMatch(barrel -> blockEntity.getBlockState().is(barrel.get()));
     }
 
     @Override
@@ -131,6 +141,32 @@ public class FermentationBarrelMenu extends AbstractContainerMenu {
                     FermentationBarrelBlock.closeBarrel(blockEntity.getLevel(), blockEntity.getBlockPos(), blockEntity.getBlockState());
                 }
             }
+        }
+    }
+
+    // Menu-local slot: reuse FilterSlot filtering, but add finalization on normal take for this menu only
+    private static class BarrelFinalizeSlot extends FilterSlot {
+        private final FermentationBarrelBlockEntity barrel;
+
+        public BarrelFinalizeSlot(IItemHandler itemHandler, int index, int x, int y, Item[] allowedItems, FermentationBarrelBlockEntity barrel) {
+            super(itemHandler, index, x, y, allowedItems);
+            this.barrel = barrel;
+        }
+
+        @Override
+        public void onTake(Player player, @NotNull ItemStack stack) {
+            // Server-side finalize of normal extractions
+            if (!player.level().isClientSide && barrel != null && !stack.isEmpty()) {
+                int handlerIndex = getSlotIndex();
+                ItemStack finalized = barrel.finalizeStackFromSlot(handlerIndex, stack.copy());
+
+                // Mutate the taken stack in place so wherever it ends up (carried or swapped hotbar) is finalized
+                if (!ItemStack.isSameItemSameTags(stack, finalized)) {
+                    stack.setTag(finalized.hasTag() ? finalized.getTag().copy() : null);
+                    stack.setCount(finalized.getCount());
+                }
+            }
+            super.onTake(player, stack);
         }
     }
 }

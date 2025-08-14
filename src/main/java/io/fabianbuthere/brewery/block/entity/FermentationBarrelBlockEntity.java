@@ -2,17 +2,12 @@ package io.fabianbuthere.brewery.block.entity;
 
 import io.fabianbuthere.brewery.block.custom.FermentationBarrelBlock;
 import io.fabianbuthere.brewery.screen.FermentationBarrelMenu;
-import io.fabianbuthere.brewery.util.BrewType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -29,19 +24,13 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 @SuppressWarnings("removal")
 public class FermentationBarrelBlockEntity extends BlockEntity implements MenuProvider {
+    // Keep handler side-effect free (no transformation in extractItem)
     private final ItemStackHandler itemHandler = new ItemStackHandler(9) {
         @Override
-        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            ItemStack stack = super.extractItem(slot, amount, simulate);
-            if (!simulate && !stack.isEmpty()) {
-                setChanged();
-                return getResultItem(stack, progresses[slot]);
-            }
-            return stack;
+        protected void onContentsChanged(int slot) {
+            FermentationBarrelBlockEntity.this.setChanged();
         }
     };
 
@@ -55,17 +44,28 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
         var recipeOpt = level.getRecipeManager().byKey(rl);
         if (recipeOpt.isPresent() && recipeOpt.get() instanceof io.fabianbuthere.brewery.recipe.BrewingRecipe brewingRecipe) {
             String woodType = getBlockState().getValue(FermentationBarrelBlock.WOOD_TYPE).getSerializedName();
-            return BrewType.finalizeBrew(
-                brewingRecipe,
-                stack,
-                null, // No filter for barrel
-                progress,
-                woodType,
-                "barrel",
-                level
+            // Only on server do we safely access registry
+            if (level.isClientSide) {
+                return stack;
+            }
+            ItemStack result = io.fabianbuthere.brewery.util.BrewType.finalizeBrew(
+                    brewingRecipe,
+                    stack,
+                    null,
+                    progress,
+                    woodType,
+                    "barrel",
+                    level
             );
+            return result;
         }
         return stack;
+    }
+
+    // Expose a safe finalization helper for menu logic
+    public @NotNull ItemStack finalizeStackFromSlot(int slot, @NotNull ItemStack original) {
+        long progress = (slot >= 0 && slot < progresses.length) ? progresses[slot] : 0L;
+        return getResultItem(original, progress);
     }
 
     private long[] progresses = new long[9];
@@ -74,26 +74,17 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
     // Define constants for data indices
-    private static final int DATA_PROGRESS_0 = 0;
-    private static final int DATA_PROGRESS_1 = 1;
-    private static final int DATA_PROGRESS_2 = 2;
-    private static final int DATA_PROGRESS_3 = 3;
-    private static final int DATA_PROGRESS_4 = 4;
-    private static final int DATA_PROGRESS_5 = 5;
-    private static final int DATA_PROGRESS_6 = 6;
-    private static final int DATA_PROGRESS_7 = 7;
-    private static final int DATA_PROGRESS_8 = 8;
     private static final int DATA_SIZE = 9;
 
     public FermentationBarrelBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.FERMENTATION_BARRELS.get(
-            pBlockState.getValue(FermentationBarrelBlock.WOOD_TYPE)).get(), pPos, pBlockState);
+                pBlockState.getValue(io.fabianbuthere.brewery.block.custom.FermentationBarrelBlock.WOOD_TYPE)).get(), pPos, pBlockState);
         this.data = new ContainerData() {
             @Override
             public int get(int pIndex) {
                 if (pIndex >= 0 && pIndex < progresses.length) {
                     // Clamp to int range for syncing
-                    return (int)Math.min(progresses[pIndex], Integer.MAX_VALUE);
+                    return (int) Math.min(progresses[pIndex], Integer.MAX_VALUE);
                 }
                 return 0;
             }

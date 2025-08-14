@@ -13,6 +13,7 @@ import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = BreweryMod.MOD_ID)
@@ -33,8 +34,15 @@ public class ServerEventHandling {
                     vomiting.put(player.getUUID(), vomiting.get(player.getUUID()) - 1);
                 } else {
                     int amplifier = alcohol.getAmplifier();
+                    int duration = alcohol.getDuration();
                     if (amplifier >= 3 && player.getRandom().nextFloat() < 0.0005f * (amplifier - 2)) {
                         vomiting.put(player.getUUID(), 60L);
+                        StackingEffectHandler.IGNORE.set(true);
+                        player.removeEffect(ModEffects.ALCOHOL.get());
+                        if (duration > 400) {
+                            player.addEffect(new MobEffectInstance(ModEffects.ALCOHOL.get(), duration - 400, amplifier - 2, false, false));
+                        }
+                        StackingEffectHandler.IGNORE.set(false);
                     }
                 }
             } else {

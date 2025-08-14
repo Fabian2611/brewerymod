@@ -1,5 +1,6 @@
-// 1.20.1	2025-08-11T21:12:30.0197965	Recipes
+// 1.20.1	2025-08-14T15:48:05.2625862	Recipes
 97809afed878c0621890ecf319c4bf926da7c055 data/brewery/advancements/recipes/misc/brewing_cauldron.json
+dfbd850b635fe87072129d410883b66844470ac3 data/brewery/advancements/recipes/misc/brew_shelf.json
 d7a8c8ab989dfd89ffa542c257541ca0911ec64e data/brewery/advancements/recipes/misc/distillery_station.json
 bc1df8f2003e39a85f59b2f84ba57367f0ff7202 data/brewery/advancements/recipes/misc/fermentation_barrel_acacia.json
 23b06d4e9b91c4f158c6e81bea643d1d26f77311 data/brewery/advancements/recipes/misc/fermentation_barrel_bamboo.json
@@ -13,6 +14,7 @@ a3f8845d36d9810ab9318c0671bf67054710bdd4 data/brewery/advancements/recipes/misc/
 e2ee256190ce8b3103caf428e5f681e1f4d7531a data/brewery/advancements/recipes/misc/fermentation_barrel_spruce.json
 a29ba8835650db7987b8eaa768707553d6662b3b data/brewery/advancements/recipes/misc/fermentation_barrel_warped.json
 8ff6b156d10453bbb4ebf4d540a3a64a84146c03 data/brewery/recipes/brewing_cauldron.json
+38c3394eb2974f42b73f9c93deccd6c64762c86d data/brewery/recipes/brew_shelf.json
 31952af86a9acada509498137ea9308555127356 data/brewery/recipes/distillery_station.json
 03306d9d645816b88064e6d22ff719fa39886723 data/brewery/recipes/fermentation_barrel_acacia.json
 49c408bde552f52870ebdb858f79eaf00c73dfdd data/brewery/recipes/fermentation_barrel_bamboo.json

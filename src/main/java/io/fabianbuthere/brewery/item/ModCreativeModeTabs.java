@@ -23,6 +23,7 @@ public class ModCreativeModeTabs {
                 for (var barrel : ModBlocks.FERMENTATION_BARRELS.values()) {
                     pOutput.accept(barrel.get());
                 }
+                pOutput.accept(ModBlocks.BREW_SHELF.get());
             })
             .build());
 

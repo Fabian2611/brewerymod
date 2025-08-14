@@ -23,4 +23,3 @@ public class FilterSlot extends SlotItemHandler {
         return false;
     }
 }
-

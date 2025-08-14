@@ -57,9 +57,9 @@ public class FermentationBarrelBlock extends BaseEntityBlock {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if (blockEntity instanceof net.minecraftforge.items.IItemHandler handler) {
                 for (int i = 0; i < handler.getSlots(); i++) {
-                    net.minecraft.world.item.ItemStack stack = handler.getStackInSlot(i);
+                    ItemStack stack = handler.getStackInSlot(i);
                     if (!stack.isEmpty()) {
-                        net.minecraft.world.level.block.Block.popResource(pLevel, pPos, stack);
+                        Block.popResource(pLevel, pPos, stack);
                     }
                 }
             }

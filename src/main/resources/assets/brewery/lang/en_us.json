@@ -53,11 +53,10 @@
   "brewery.brew.nether_vodka.name": "Nether Vodka",
   "brewery.brew.pumpkin_wheat_beer.name": "Pumpkin Wheat Beer",
   "brewery.brew.snowmans_drink.name": "Snowman's Drink",
-  "brewery.sweet_tea.name": "Sweet Tea",
+  "brewery.brew.sweet_tea.name": "Sweet Tea",
   "brewery.brew.blood_wine.name": "Blood Wine",
   "brewery.brew.bone_tequila.name": "Bone Tequila",
   "brewery.brew.brandy.name": "Brandy",
-
   "brewery.brew.absinthe.lore": "A strong alcoholic beverage made from wormwood and other herbs.",
   "brewery.brew.apple_cider.lore": "A refreshing drink made from fermented apples.",
   "brewery.brew.apple_mead.lore": "A sweet and fruity mead made from apples.",
@@ -83,8 +82,9 @@
   "brewery.brew.nether_vodka.lore": "A strong and fiery spirit made from fermented nether ingredients, known for its intense flavor.",
   "brewery.brew.pumpkin_wheat_beer.lore": "A seasonal beer made with pumpkin and wheat, perfect for autumn.",
   "brewery.brew.snowmans_drink.lore": "A frosty beverage made with snow and spices, perfect for winter celebrations. Could present unknown side effects.",
-  "brewery.sweet_tea.lore": "A refreshing and sweetened tea, perfect for hot days.",
+  "brewery.brew.sweet_tea.lore": "A refreshing and sweetened tea, perfect for hot days.",
   "brewery.brew.blood_wine.lore": "A rich and dark wine made from blood, known for its unique flavor and texture.",
   "brewery.brew.bone_tequila.lore": "A strong and potent tequila made from bones, known for its intense flavor and effects.",
-  "brewery.brew.brandy.lore": "A smooth and rich spirit made from distilled wine, known for its warming qualities."
+  "brewery.brew.brandy.lore": "A smooth and rich spirit made from distilled wine, known for its warming qualities.",
+  "block.brewery.fermentation_barrel": "Fermentation Barrel"
 }

@@ -12,6 +12,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -68,6 +69,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_" + wood + "_planks", has(plank))
                 .save(pWriter, new ResourceLocation("brewery", "fermentation_barrel_" + wood));
         }
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BREW_SHELF.get())
+                .define('S', ItemTags.SLABS)
+                .define('P', ItemTags.PLANKS)
+                .pattern("SSS")
+                .pattern("PPP")
+                .unlockedBy("has_planks", has(ItemTags.PLANKS))
+                .save(pWriter, new ResourceLocation("brewery", "brew_shelf"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BREWING_CAULDRON.get())
             .define('I', Items.COPPER_INGOT)

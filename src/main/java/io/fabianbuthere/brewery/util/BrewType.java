@@ -229,6 +229,9 @@ public record BrewType(
     ) {
         // Get BrewType result
         BrewType brewTypeResult = BrewType.getBrewTypeFromId(recipe.getBrewTypeId());
+        if (brewTypeResult == null) {
+            return BrewType.GENERIC_FAILED_BREW();
+        }
         int maxPurity = brewTypeResult.maxPurity();
         CompoundTag inputTag = inputStack.getOrCreateTag();
         int actualPurity = inputTag.getInt("purity");

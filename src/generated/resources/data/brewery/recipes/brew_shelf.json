@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "S": {
+      "tag": "minecraft:slabs"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "PPP"
+  ],
+  "result": {
+    "item": "brewery:brew_shelf"
+  },
+  "show_notification": true
+}

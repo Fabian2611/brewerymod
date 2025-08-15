@@ -12,6 +12,7 @@ public class ModEffects {
 
     public static final RegistryObject<MobEffect> ALCOHOL = EFFECTS.register("alcohol", AlcoholEffect::new);
     public static final RegistryObject<MobEffect> HANGOVER = EFFECTS.register("hangover", HangoverEffect::new);
+    public static final RegistryObject<MobEffect> ALCOHOL_POISONING = EFFECTS.register("alcohol_poisoning", AlcoholPoisoningEffect::new);
 
     public static void register(IEventBus eventBus) {
         EFFECTS.register(eventBus);

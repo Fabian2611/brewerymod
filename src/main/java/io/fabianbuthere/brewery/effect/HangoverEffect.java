@@ -13,7 +13,7 @@ import java.util.List;
 
 /// Only instantiate using .create() to ensure correct properties.
 public class HangoverEffect extends MobEffect {
-    public static final List<ItemStack> CURATIVE_ITEMS = List.of(new ItemStack(Items.HONEY_BOTTLE));
+    public static final List<ItemStack> CURATIVE_ITEMS = List.of();
 
     /// Only for internal use.
     public HangoverEffect() {
@@ -36,21 +36,21 @@ public class HangoverEffect extends MobEffect {
     // Do not show effect particles
     @Override
     public void applyEffectTick(@NotNull LivingEntity pLivingEntity, int pAmplifier) {
-        pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 3, false, false, true));
+        pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, pAmplifier / 3 + 1, false, false, true));
 
         if (pLivingEntity.getRandom().nextFloat() < 0.04f * (pAmplifier + 1)) {
-            if (!pLivingEntity.hasEffect(MobEffects.BLINDNESS)) {
-                pLivingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 160, pAmplifier / 2, false, false, true));
+            if (!pLivingEntity.hasEffect(MobEffects.DARKNESS)) {
+                pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 160, pAmplifier / 2, false, false, true));
             }
         }
 
-        if (pLivingEntity.getRandom().nextFloat() < 0.02f * (pAmplifier + 1)) {
+        if (pLivingEntity.getRandom().nextFloat() < 0.01f * (pAmplifier + 1)) {
             if (!pLivingEntity.hasEffect(MobEffects.POISON)) {
-                pLivingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 220, 0, false, false, true));
+                pLivingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 120, 0, false, false, true));
             }
         }
 
-        if (pLivingEntity.getRandom().nextFloat() < 0.04f * (pAmplifier + 1)) {
+        if (pLivingEntity.getRandom().nextFloat() < 0.03f * (pAmplifier + 1)) {
             if (!pLivingEntity.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
                 pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, pAmplifier / 2 + 2, false, false, true));
             }

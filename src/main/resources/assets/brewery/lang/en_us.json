@@ -14,6 +14,7 @@
   "block.brewery.distillery_station": "Distillery Station",
   "effect.brewery.alcohol": "Drunkenness",
   "effect.brewery.hangover": "Hangover",
+  "effect.brewery.alcohol_poisoning": "Alcohol Poisoning",
 
   "block.brewery.brew_shelf": "Brew Shelf",
   "block.brewery.fermentation_barrel_acacia": "Acacia Fermentation Barrel",

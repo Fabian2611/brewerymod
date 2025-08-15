@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.level.SleepFinishedTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.joml.Vector3f;
@@ -47,6 +48,21 @@ public class ServerEventHandling {
                 }
             } else {
                 vomiting.put(player.getUUID(), 0L);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onSleepFinished(SleepFinishedTimeEvent event) {
+        if (!(event.getLevel() instanceof ServerLevel serverLevel)) return;
+
+        for (ServerPlayer player : serverLevel.players()) {
+            if (player.isSleeping() && player.hasEffect(ModEffects.ALCOHOL.get())) {
+                int amplifier = player.getEffect(ModEffects.ALCOHOL.get()).getAmplifier();
+                player.removeEffect(ModEffects.ALCOHOL.get());
+                if (amplifier >= 2) {
+                    player.addEffect(new MobEffectInstance(ModEffects.HANGOVER.get(), 2400, amplifier - 2, false, false));
+                }
             }
         }
     }

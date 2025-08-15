@@ -117,30 +117,34 @@ public class ClientEventHandling {
                 } else if (player.getRandom().nextFloat() < 0.002f * (amplifier - 2)) {
                     mc.gameRenderer.loadEffect(new ResourceLocation("minecraft", "shaders/post/phosphor.json"));
                     alcoholShadersEnabled = true;
-                } else if (player.getRandom().nextFloat() < 0.001f * (amplifier - 2)) {
+                } else if (player.getRandom().nextFloat() < 0.004f * (amplifier - 4)) {
                     mc.gameRenderer.loadEffect(new ResourceLocation("minecraft", "shaders/post/blobs2.json"));
                     alcoholShadersEnabled = true;
                 }
-            } else if (player.getRandom().nextFloat() < 0.001f) {
+            } else if (player.getRandom().nextFloat() < 0.002f) {
                 alcoholShadersEnabled = false;
                 mc.gameRenderer.shutdownEffect();
             }
-        } else {
+        } else if (alcoholShadersEnabled) {
             alcoholShadersEnabled = false;
             mc.gameRenderer.shutdownEffect();
         }
     }
 
-    @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
-
+    private static void performTickEnd(TickEvent.ClientTickEvent event) {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         if (player == null) return;
 
         doPlayerBoatInversion(mc, player);
         doPlayerAlcoholShaders(mc, player);
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END) {
+            performTickEnd(event);
+        }
     }
 
     @SubscribeEvent
@@ -152,16 +156,15 @@ public class ClientEventHandling {
             if ((strafe != 0 || forward != 0) && !player.input.shiftKeyDown) {
                 if (player.hasEffect(ModEffects.ALCOHOL.get())) {
                     if (remainingAlcoholInversionTicks <= 0 && (player.getRandom().nextFloat() < 0.015f * (player.getEffect(ModEffects.ALCOHOL.get()).getAmplifier() + 1))) {
-                        remainingAlcoholInversionTicks = player.getRandom().nextIntBetweenInclusive(10, 20);
+                        remainingAlcoholInversionTicks = player.getRandom().nextIntBetweenInclusive(5, 15 * (player.getEffect(ModEffects.ALCOHOL.get()).getAmplifier() + 1));
                         alcoholInversionState = (byte) player.getRandom().nextIntBetweenInclusive(0, 3);
                     } else if (remainingAlcoholInversionTicks > 0) {
-                        // Swap and optionally invert axes
                         player.input.forwardImpulse = strafe * ((alcoholInversionState == 1 || alcoholInversionState == 2) ? -1 : 1);
                         player.input.leftImpulse = forward * ((alcoholInversionState == 3 || alcoholInversionState == 2) ? -1 : 1);
                         remainingAlcoholInversionTicks--;
                     }
                 } else {
-                    if (remainingAlcoholInversionTicks <= 0) {
+                    if (remainingAlcoholInversionTicks != 0) {
                         remainingAlcoholInversionTicks = 0L;
                     }
                 }

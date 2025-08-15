@@ -47,6 +47,9 @@ public class BreweryMod
         ModLoadingContext.get().registerConfig(
                 ModConfig.Type.COMMON, BreweryConfig.COMMON_CONFIG
         );
+        ModLoadingContext.get().registerConfig(
+                ModConfig.Type.SERVER, BreweryConfig.SERVER_CONFIG
+        );
 
         ModCreativeModeTabs.register(modEventBus);
 

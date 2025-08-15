@@ -1,7 +1,5 @@
 package io.fabianbuthere.brewery.effect;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -36,9 +34,7 @@ public class AlcoholEffect extends MobEffect {
 
     // Do not show effect particles
     @Override
-    @SuppressWarnings("removal")
     public void applyEffectTick(@NotNull LivingEntity pLivingEntity, int pAmplifier) {
-        Minecraft mc = Minecraft.getInstance();
         if (pLivingEntity.getRandom().nextFloat() < 0.04f * (pAmplifier + 1)) {
             if (!pLivingEntity.hasEffect(MobEffects.CONFUSION)) {
                 pLivingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 140, pAmplifier / 2 + 1, false, false, true));
@@ -49,20 +45,27 @@ public class AlcoholEffect extends MobEffect {
                 pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 80, pAmplifier / 2, false, false, true));
             }
         }
+        if (pLivingEntity.getRandom().nextFloat() < 0.03f * (pAmplifier + 1)) {
+            if (!pLivingEntity.hasEffect(MobEffects.BLINDNESS)) {
+                pLivingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 80, pAmplifier / 2, false, false, true));
+            }
+        }
+        if (pLivingEntity.getRandom().nextFloat() < 0.02f * (pAmplifier + 1)) {
+            if (!pLivingEntity.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+                pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, pAmplifier / 2, false, false, true));
+            }
+        }
         if (pAmplifier >= 7) {
-            if (pLivingEntity.getRandom().nextFloat() < 0.03f * (pAmplifier - 6)) {
+            if (pLivingEntity.getRandom().nextFloat() < 0.05f * (pAmplifier - 6)) {
                 if (!pLivingEntity.hasEffect(MobEffects.POISON)) {
-                    pLivingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 60, (pAmplifier - 3) / 2, false, false, true));
+                    pLivingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 100, (pAmplifier - 4) / 2, false, false, true));
                 }
             }
-            if (pLivingEntity.getRandom().nextFloat() < 0.02f * (pAmplifier - 6)) {
-                if (!pLivingEntity.hasEffect(MobEffects.BLINDNESS)) {
-                    pLivingEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, (pAmplifier - 3) / 2, false, false, true));
-                }
-            }
-            if (pLivingEntity.getRandom().nextFloat() < 0.015f * (pAmplifier - 6)) {
-                if (!pLivingEntity.hasEffect(MobEffects.WITHER)) {
-                    pLivingEntity.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, (pAmplifier - 3) / 2, false, false, true));
+        }
+        if (pAmplifier >= 9) {
+            if (pLivingEntity.getRandom().nextFloat() < 0.04f * (pAmplifier - 8)) {
+                if (!pLivingEntity.hasEffect(ModEffects.ALCOHOL_POISONING.get())) {
+                    pLivingEntity.addEffect(new MobEffectInstance(ModEffects.ALCOHOL_POISONING.get(), 100, (pAmplifier - 6) / 2, false, false, true));
                 }
             }
         }

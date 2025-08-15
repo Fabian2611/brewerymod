@@ -9,7 +9,7 @@ The content will look something like this:
 ```json5
 {
   "builtin": false, // If true, this brew type is treated as a built-in brew type and will be disabled if the config useBuiltinBrews is set to false. You should normally keep this as false.
-  "customLore": "yournamespace.brew.cool_brew.name", // The lore of the brew, as seen when hovering over it. Can be a translation key or literal text.
+  "customLore": "yournamespace.brew.cool_brew.lore", // The lore of the brew, as seen when hovering over it. Can be a translation key or literal text.
   "customName": "yournamespace.brew.cool_brew.name", // The name of the brew. Can be a translation key or literal text.
   "effects": [ // This opens a list of effects that the brew will apply when consumed.
     {
@@ -31,8 +31,6 @@ The content will look something like this:
                         // I usually use a color picker tool to get the RGB hex value and then convert it to decimal.
 }
 ```
-For the customLore and customName, you can use translation keys to allow for localization. `yournamespace` should be replaced with your resource pack's namespace, where the localization files are stored. More on this can be found at the [Minecraft Wiki](https://minecraft.wiki/w/Resource_pack#Language).
-You can also (unintendedly) use literal text. If your text collides with a translation key, the translation key will take priority.
 
 ## Adding a recipe
 To add a recipe for your brew type, you need to create a new JSON file in the `data/brewery/recipes/` folder of your datapack.
@@ -55,12 +53,47 @@ The content will look something like this:
         "maxCount": 17, // The maximum amount of this item that can be used in the recipe. If the player has input more than this amount, the brew will fail.
         "minCount": 11  // The minimum amount of this item that is needed in the recipe. If the player has input less than this amount, the brewing will not start.
                         // The optimal amount for purity calculation is the average of minCount and maxCount, so in this case 14. To ensure that the player can achieve the optimal purity, you should set minCount and maxCount so that this value is an integer.
+      },
+      { // Adding a second item for demonstation purposes; up to 5 items can be used in a recipe.
+        "item": "minecraft:redstone",
+        "maxCount": 5,
+        "minCount": 3
       }
     ],
     "optimalAgingTime": 336000, // The optimal aging time in ticks, where one second consists of 20 ticks. This should usually be some multiple of 24000 (20 minutes), since this is the time it takes for a day to pass in Minecraft. e.g. 336000 for 28 days.
     "optimalBrewingTime": 6000, // The optimal brewing time in ticks, where one second consists of 20 ticks, e.g. 6000 for 300 seconds, or 5 minutes.
-    "maxAgingTimeError": 0.1 ,  // The maximum allowed error for the aging time in percent so that the brew still succeeds, e.g. 0.1 for 10%. This means that the aging time can be between 90% and 110% of the optimal aging time.
-    "maxBrewingTimeError": 0.15 // The maximum allowed error for the brewing time in percent so that the brew still succeeds, e.g. 0.15 for 15%. This means that the brewing time can be between 85% and 115% of the optimal brewing time.
+    "maxAgingTimeError": 0.1 ,  // The maximum allowed error for the aging time in a fraction so that the brew still succeeds, e.g. 0.1 for 10%. This means that the aging time can be between 90% and 110% of the optimal aging time.
+    "maxBrewingTimeError": 0.15 // The maximum allowed error for the brewing time in a fraction so that the brew still succeeds, e.g. 0.15 for 15%. This means that the brewing time can be between 85% and 115% of the optimal brewing time.
   }
+}
+```
+
+## Localization
+For the customLore and customName, you can use translation keys to allow for localization.
+`yournamespace` should be replaced with your resource pack's namespace, where the localization files are stored.
+More on this can be found at the [Minecraft Wiki](https://minecraft.wiki/w/Resource_pack#Language). You can also (unintendedly) use literal text. If your text collides with a translation key, the translation key will be prioritized.
+
+### Example
+Your folder structure could look like this:
+```text
+data/
+└── yournamespace/
+    └── lang/
+        └── en_us.json
+        └── de_de.json
+```
+where `en_us.json` contains the English translations and `de_de.json` contains the German translations.
+The content of `en_us.json` could look like this:
+```json5
+{
+  "yournamespace.brew.cool_brew.name": "Cool Brew",
+  "yournamespace.brew.cool_brew.lore": "This is a cool brew that makes you feel cool."
+}
+```
+And the content of `de_de.json` could look like this:
+```json5
+{
+    "yournamespace.brew.cool_brew.name": "Cooles Gebräu",
+    "yournamespace.brew.cool_brew.lore": "Dies ist ein cooles Gebräu, das dich cool fühlen lässt."
 }
 ```

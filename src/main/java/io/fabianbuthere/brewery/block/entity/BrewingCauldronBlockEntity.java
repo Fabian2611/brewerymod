@@ -42,7 +42,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
     // New: color used for particles = final optimal brew color (brew type tint), not water color
     private int syncedBrewColor = DEFAULT_COLOR;
 
-    public static final int INVENTORY_SIZE = 3;
+    public static final int INVENTORY_SIZE = 5;
     private boolean inventoryChanged = false;
     private final ItemStackHandler itemHandler = new ItemStackHandler(INVENTORY_SIZE) {
         @Override

@@ -2,6 +2,7 @@ package io.fabianbuthere.brewery.datagen;
 
 import io.fabianbuthere.brewery.BreweryMod;
 import io.fabianbuthere.brewery.block.custom.WoodType;
+import io.fabianbuthere.brewery.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -90,6 +91,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .scale(0.7F)
                 .end()
             .end();
+        simpleItem(ModItems.GUIDE_BOOK);
     }
 
     @SuppressWarnings("removal")

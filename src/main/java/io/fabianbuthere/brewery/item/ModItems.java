@@ -1,15 +1,18 @@
 package io.fabianbuthere.brewery.item;
 
 import io.fabianbuthere.brewery.BreweryMod;
+import io.fabianbuthere.brewery.item.custom.GuideBookItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, BreweryMod.MOD_ID);
 
-
+    public static final RegistryObject<Item> GUIDE_BOOK = ITEMS.register("guide_book", () ->
+            new GuideBookItem(new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

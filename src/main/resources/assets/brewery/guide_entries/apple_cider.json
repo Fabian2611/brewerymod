@@ -1,0 +1,7 @@
+{
+    "title": "brewery.brew.apple_cider.guide_name",
+    "description": "brewery.brew.apple_cider.hint",
+    "tint": 13060400,
+    "icon_item": "minecraft:potion",
+    "order": 0
+}

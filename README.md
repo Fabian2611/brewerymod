@@ -30,6 +30,15 @@ After the brewing process is finished, your brew will be assigned a purity. The 
 ### Custom Brews & Recipes
 The mod normally comes shipped with [a bunch of recipes already included](./wiki/builtins.md), but you can also choose to add your own ones. A tutorial for this can be found [here](./wiki/custom_recipes.md).
 
+## How to figure out recipes
+Ususally, the players won't know the recipes for the brews, so they will have to figure them out themselves.
+It is recommended you provide your players with small hints, like the names or descriptions of brew, or an approximate description of their ingredients.
+
+With this, they can tweak the ingredients' amounts and brewing time until they get an "Unfinished Brew", at which point they can distill or barrel age it to get the final brew.
+
+This is already provided for the built-in brews in form of the "Brew Guide" book.
+If you want to add your own brews to this book, the instructions can be found [here](./wiki/custom_book_entries.md).
+
 ## Credits
 - [Brewery](https://www.spigotmc.org/resources/brewery.3082/) as the main inspiration
 - [BreweryX](https://www.spigotmc.org/resources/breweryx.114777/) as inspiration for newer and QoL features

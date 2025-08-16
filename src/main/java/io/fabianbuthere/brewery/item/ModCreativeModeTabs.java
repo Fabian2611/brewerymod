@@ -24,9 +24,9 @@ public class ModCreativeModeTabs {
                     pOutput.accept(barrel.get());
                 }
                 pOutput.accept(ModBlocks.BREW_SHELF.get());
+                pOutput.accept(ModItems.GUIDE_BOOK.get());
             })
             .build());
-
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);

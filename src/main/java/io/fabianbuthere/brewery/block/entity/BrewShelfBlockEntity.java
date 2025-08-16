@@ -1,5 +1,6 @@
 package io.fabianbuthere.brewery.block.entity;
 
+import io.fabianbuthere.brewery.util.SyncUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -20,9 +21,7 @@ public class BrewShelfBlockEntity extends BlockEntity {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-            if (level != null && !level.isClientSide) {
-                level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
-            }
+            SyncUtil.syncToClient(BrewShelfBlockEntity.this);
         }
     };
 

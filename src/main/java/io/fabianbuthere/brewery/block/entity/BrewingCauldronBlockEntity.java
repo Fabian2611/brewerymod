@@ -38,6 +38,10 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
     private int currentColor = DEFAULT_COLOR;
     private int syncedBrewingTicks = 0;
     private int syncedCurrentColor = DEFAULT_COLOR;
+
+    // New: color used for particles = final optimal brew color (brew type tint), not water color
+    private int syncedBrewColor = DEFAULT_COLOR;
+
     public static final int INVENTORY_SIZE = 3;
     private boolean inventoryChanged = false;
     private final ItemStackHandler itemHandler = new ItemStackHandler(INVENTORY_SIZE) {
@@ -163,10 +167,17 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
                 container.setItem(i, itemHandler.getStackInSlot(i));
             }
             Optional<BrewingRecipe> match = level.getRecipeManager().getAllRecipesFor(ModRecipes.BREWING_RECIPE_TYPE).stream()
-                .filter(r -> r.matches(container, level)).findFirst();
+                    .filter(r -> r.matches(container, level)).findFirst();
             if (match.isPresent()) {
                 lockedRecipe = match.get();
                 brewingTicks = 0;
+                // Update synced brew color immediately from the recipe's brew type
+                BrewType bt = BrewType.getBrewTypeFromId(lockedRecipe.getBrewTypeId());
+                int target = (bt != null) ? bt.tintColor() : DEFAULT_COLOR;
+                if (syncedBrewColor != target) {
+                    syncedBrewColor = target;
+                    setChanged();
+                }
                 setChanged();
             } else {
                 // Only clear inventory if cauldron is empty
@@ -177,6 +188,10 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
                     lockedRecipe = null;
                     brewingTicks = 0;
                     setCurrentColor(DEFAULT_COLOR);
+                    if (syncedBrewColor != DEFAULT_COLOR) {
+                        syncedBrewColor = DEFAULT_COLOR;
+                        setChanged();
+                    }
                     setChanged();
                 }
                 return;
@@ -184,8 +199,15 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         }
 
         if (lockedRecipe != null) {
-            brewingTicks++;
+            // Ensure brew-type color stays synced for particles
             BrewType brewType = BrewType.getBrewTypeFromId(lockedRecipe.getBrewTypeId());
+            int targetBrewColor = (brewType != null) ? brewType.tintColor() : DEFAULT_COLOR;
+            if (syncedBrewColor != targetBrewColor) {
+                syncedBrewColor = targetBrewColor;
+                setChanged();
+            }
+
+            brewingTicks++;
             int prevColor = currentColor;
             if (brewingTicks <= lockedRecipe.getOptimalBrewingTime()) {
                 double progress = (double) brewingTicks / lockedRecipe.getOptimalBrewingTime();
@@ -213,6 +235,12 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
             if (currentColor != prevColor) {
                 setChanged();
             }
+        } else {
+            // No active recipe: ensure default particle color
+            if (syncedBrewColor != DEFAULT_COLOR) {
+                syncedBrewColor = DEFAULT_COLOR;
+                setChanged();
+            }
         }
     }
 
@@ -221,14 +249,16 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         if (level.isClientSide) {
             setChanged();
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
-            // Use syncedBrewingTicks and syncedCurrentColor for client-side effects
+            // Use syncedBrewingTicks and the brew-type tint color for client-side particles
             if (syncedBrewingTicks > 0 && level.getGameTime() % 5 == 0) {
                 double x = worldPosition.getX() + 0.5 + (level.random.nextDouble() - 0.5) * 0.6;
                 double y = worldPosition.getY() + 1.2;
                 double z = worldPosition.getZ() + 0.5 + (level.random.nextDouble() - 0.5) * 0.6;
-                float r = ((syncedCurrentColor >> 16) & 0xFF) / 255.0f;
-                float g = ((syncedCurrentColor >> 8) & 0xFF) / 255.0f;
-                float b = (syncedCurrentColor & 0xFF) / 255.0f;
+
+                // Use final optimal brew color (brew type tint), not water color
+                float r = ((syncedBrewColor >> 16) & 0xFF) / 255.0f;
+                float g = ((syncedBrewColor >> 8) & 0xFF) / 255.0f;
+                float b = (syncedBrewColor & 0xFF) / 255.0f;
                 if (r == 0.0f && g == 0.0f && b == 0.0f) {
                     r = g = b = 0.001f;
                 }
@@ -254,6 +284,10 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         setReValidateRecipe();
         lockedRecipe = null;
         brewingTicks = 0;
+        // Reset particle color to default when brewing resets
+        if (syncedBrewColor != DEFAULT_COLOR) {
+            syncedBrewColor = DEFAULT_COLOR;
+        }
         setChanged();
     }
 
@@ -272,6 +306,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         if (tag.contains("CurrentColor")) this.currentColor = tag.getInt("CurrentColor");
         if (tag.contains("BrewingTicks")) this.syncedBrewingTicks = tag.getInt("BrewingTicks");
         if (tag.contains("CurrentWaterColor")) this.syncedCurrentColor = tag.getInt("CurrentWaterColor");
+        if (tag.contains("BrewTypeColor")) this.syncedBrewColor = tag.getInt("BrewTypeColor");
     }
 
     @Override
@@ -281,6 +316,8 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         tag.putInt("CurrentColor", currentColor);
         tag.putInt("BrewingTicks", brewingTicks);
         tag.putInt("CurrentWaterColor", currentColor);
+        // Save the brew type tint color used for particles
+        tag.putInt("BrewTypeColor", syncedBrewColor);
     }
 
     @Override
@@ -289,6 +326,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         tag.putInt("CurrentColor", currentColor);
         tag.putInt("BrewingTicks", brewingTicks);
         tag.putInt("CurrentWaterColor", currentColor); // Sync the animated/interpolated color
+        tag.putInt("BrewTypeColor", syncedBrewColor);  // Sync the final optimal brew color for particles
         return tag;
     }
 
@@ -303,6 +341,9 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         }
         if (tag.contains("CurrentWaterColor")) {
             this.syncedCurrentColor = tag.getInt("CurrentWaterColor");
+        }
+        if (tag.contains("BrewTypeColor")) {
+            this.syncedBrewColor = tag.getInt("BrewTypeColor");
         }
     }
 

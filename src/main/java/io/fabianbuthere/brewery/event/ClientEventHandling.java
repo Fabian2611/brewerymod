@@ -14,6 +14,9 @@ import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.util.TriConsumer;
+
+import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = BreweryMod.MOD_ID, value = Dist.CLIENT)
 public class ClientEventHandling {
@@ -52,7 +55,7 @@ public class ClientEventHandling {
 
     }
 
-    private static void doPlayerBoatInversion(Minecraft mc, LocalPlayer player) {
+    private static void doPlayerBoatInversion(TickEvent.ClientTickEvent event, Minecraft mc, LocalPlayer player) {
         Entity vehicle = player.getVehicle();
         if (!(vehicle instanceof Boat boat)) return;
 
@@ -107,7 +110,7 @@ public class ClientEventHandling {
     }
 
     @SuppressWarnings("removal")
-    public static void doPlayerAlcoholShaders(Minecraft mc, LocalPlayer player) {
+    public static void doPlayerAlcoholShaders(TickEvent.ClientTickEvent event, Minecraft mc, LocalPlayer player) {
         if (player.hasEffect(ModEffects.ALCOHOL.get())) {
             if (!alcoholShadersEnabled) {
                 float amplifier = player.getEffect(ModEffects.ALCOHOL.get()).getAmplifier();
@@ -121,7 +124,7 @@ public class ClientEventHandling {
                     mc.gameRenderer.loadEffect(new ResourceLocation("minecraft", "shaders/post/blobs2.json"));
                     alcoholShadersEnabled = true;
                 }
-            } else if (player.getRandom().nextFloat() < 0.002f) {
+            } else if (player.getRandom().nextFloat() < 0.0025f) {
                 alcoholShadersEnabled = false;
                 mc.gameRenderer.shutdownEffect();
             }
@@ -136,8 +139,8 @@ public class ClientEventHandling {
         LocalPlayer player = mc.player;
         if (player == null) return;
 
-        doPlayerBoatInversion(mc, player);
-        doPlayerAlcoholShaders(mc, player);
+        doPlayerBoatInversion(event, mc, player);
+        doPlayerAlcoholShaders(event, mc, player);
     }
 
     @SubscribeEvent

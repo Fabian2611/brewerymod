@@ -14,9 +14,6 @@ import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.apache.logging.log4j.util.TriConsumer;
-
-import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = BreweryMod.MOD_ID, value = Dist.CLIENT)
 public class ClientEventHandling {

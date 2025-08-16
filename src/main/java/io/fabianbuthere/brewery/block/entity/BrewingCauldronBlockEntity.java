@@ -213,7 +213,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
                 double progress = (double) brewingTicks / lockedRecipe.getOptimalBrewingTime();
                 progress = Math.max(0.0, Math.min(1.0, progress));
                 if (brewType != null) {
-                    setCurrentColor(UtilMath.lerpColor(DEFAULT_COLOR, brewType.tintColor(), (float)progress));
+                    setCurrentColor(UtilMath.expInterpolateColor(DEFAULT_COLOR, brewType.tintColor(), (float)progress));
                 } else {
                     setCurrentColor(DEFAULT_COLOR);
                 }
@@ -223,7 +223,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
                     double revertProgress = (brewingTicks - lockedRecipe.getOptimalBrewingTime()) / (maxTicks - lockedRecipe.getOptimalBrewingTime());
                     revertProgress = Math.max(0.0, Math.min(1.0, revertProgress));
                     if (brewType != null) {
-                        setCurrentColor(UtilMath.lerpColor(brewType.tintColor(), DEFAULT_FAILED_COLOR, (float)revertProgress));
+                        setCurrentColor(UtilMath.expInterpolateColor(brewType.tintColor(), DEFAULT_FAILED_COLOR, (float)revertProgress));
                     } else {
                         setCurrentColor(DEFAULT_COLOR);
                     }

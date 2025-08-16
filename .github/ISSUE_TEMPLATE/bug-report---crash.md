@@ -38,5 +38,5 @@ Upload your game logs or, if a crash happened, the crash report to mclo.gs and p
 List all your mods and their versions you have installed. Please do not provide a list of a modpack with tens or hundreds of mods, but try adding mods one at a time until you find which specific mod causes problems when paired with brewery.
 
 **I have made sure that...**
-[ ] both the client and the server use the same version of the mod
-[ ] my forge modloader version is 47.4.0
+- [ ] both the client and the server use the same version of the mod
+- [ ] my forge modloader version is 47.4.0

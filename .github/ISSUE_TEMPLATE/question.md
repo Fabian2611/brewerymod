@@ -11,5 +11,5 @@ assignees: ''
 How can I...?
 
 **Before you post this issue, make sure that:**
-[ ] This is not about a bug or crash
-[ ] You have read the mod's [wiki pages](github.com/Fabian2611/brewerymod/tree/master/wiki)
+- [ ] This is not about a bug or crash
+- [ ] You have read the mod's [wiki pages](github.com/Fabian2611/brewerymod/tree/master/wiki) and description

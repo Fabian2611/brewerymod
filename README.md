@@ -36,4 +36,7 @@ The mod normally comes shipped with [a bunch of recipes already included](./wiki
 - [TheREDCrafter](https://github.com/TheREDCraafter) for great contribution to the block models
 - DerLurch for the distillery station model
 
+## Build validation
+If you want to create your own build of the mod, just clone the repository to your local machine and run `gradlew build` and tehen `gradlew jar` in the root directory. The output jar will be located at `/libs/<version>.jar`.
+
 ###### By the way, as you can probably tell, this is my first larger mod, so beware of unusual design choices in the code. Or even better, don't look at the code at all. It's not pretty.

@@ -1,5 +1,6 @@
 package io.fabianbuthere.brewery.block.entity;
 
+import io.fabianbuthere.brewery.recipe.ModRecipes;
 import io.fabianbuthere.brewery.screen.DistilleryStationMenu;
 import io.fabianbuthere.brewery.util.BrewType;
 import net.minecraft.core.BlockPos;
@@ -73,7 +74,6 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
         for (int i = 0; i < itemHandler.getSlots(); i++) {
             inventory.setItem(i, itemHandler.getStackInSlot(i));
         }
-
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 
@@ -172,14 +172,14 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
         if (inputTag != null && inputTag.contains("recipeId")) {
             String recipeId = inputTag.getString("recipeId");
             if (level != null && !recipeId.isEmpty()) {
-                var recipes = level.getRecipeManager().getAllRecipesFor(io.fabianbuthere.brewery.recipe.ModRecipes.BREWING_RECIPE_TYPE);
+                var recipes = level.getRecipeManager().getAllRecipesFor(ModRecipes.BREWING_RECIPE_TYPE);
                 for (var recipe : recipes) {
                     if (recipe.getId().toString().equals(recipeId)) {
                         ItemStack result = BrewType.finalizeBrew(
                             recipe,
                             inputStack,
                             filterStack,
-                            0L, // No aging/distilling progress needed for distillery
+                            0L, // No aging progress needed for distillery
                             null, // No barrel wood type for distillery
                             "distillery",
                             level

@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BooleanSupplier;
 
 @SuppressWarnings("removal")
 public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
@@ -34,7 +35,8 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager, net.minecraft.util.profiling.ProfilerFiller profiler) {
         BrewTypeRegistry.clear();
-        boolean useBuiltinBrews = BreweryConfig.ENABLE_BUILTIN_BREWS.get();
+        final boolean useBuiltinBrews = BreweryConfig.ENABLE_BUILTIN_BREWS.get();
+
         object.forEach((id, jsonElement) -> {
             try {
                 JsonObject json = GsonHelper.convertToJsonObject(jsonElement, "brew_type");
@@ -49,6 +51,7 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
                 int tintColor = GsonHelper.getAsInt(json, "tintColor");
                 String customLore = GsonHelper.getAsString(json, "customLore");
                 String customName = GsonHelper.getAsString(json, "customName");
+
                 List<MobEffectInstance> effects = new ArrayList<>();
                 JsonArray effectsArray = GsonHelper.getAsJsonArray(json, "effects");
                 for (JsonElement effElem : effectsArray) {
@@ -56,19 +59,18 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
                     String effectId = GsonHelper.getAsString(effObj, "effect");
                     int duration = GsonHelper.getAsInt(effObj, "duration");
                     int amplifier = GsonHelper.getAsInt(effObj, "amplifier");
-                    // Accept both registry names (e.g. minecraft:speed) and translation keys (e.g. effect.minecraft.speed)
+
                     MobEffect mobEffect = ForgeRegistries.MOB_EFFECTS.getValue(ResourceLocation.tryParse(effectId));
                     if (mobEffect == null) {
-                        // Try to resolve from translation key (e.g. effect.minecraft.speed)
                         String[] split = effectId.split("\\.");
                         if (split.length > 1) {
-                            mobEffect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(split[split.length-2], split[split.length-1]));
+                            mobEffect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(split[split.length - 2], split[split.length - 1]));
                         }
                     }
-                    if (mobEffect == null) mobEffect = MobEffects.LUCK; // fallback
-                    // Always set showParticles to false for all loaded effects
+                    if (mobEffect == null) mobEffect = MobEffects.LUCK;
                     effects.add(new MobEffectInstance(mobEffect, duration, amplifier, false, false));
                 }
+
                 BrewType brewType = new BrewType(
                         id.getPath(),
                         maxAlcoholLevel,

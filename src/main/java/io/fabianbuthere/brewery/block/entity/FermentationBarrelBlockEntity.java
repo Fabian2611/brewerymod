@@ -1,7 +1,9 @@
 package io.fabianbuthere.brewery.block.entity;
 
 import io.fabianbuthere.brewery.block.custom.FermentationBarrelBlock;
+import io.fabianbuthere.brewery.recipe.BrewingRecipe;
 import io.fabianbuthere.brewery.screen.FermentationBarrelMenu;
+import io.fabianbuthere.brewery.util.BrewType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -42,13 +44,13 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
 
         ResourceLocation rl = new ResourceLocation(recipeId);
         var recipeOpt = level.getRecipeManager().byKey(rl);
-        if (recipeOpt.isPresent() && recipeOpt.get() instanceof io.fabianbuthere.brewery.recipe.BrewingRecipe brewingRecipe) {
+        if (recipeOpt.isPresent() && recipeOpt.get() instanceof BrewingRecipe brewingRecipe) {
             String woodType = getBlockState().getValue(FermentationBarrelBlock.WOOD_TYPE).getSerializedName();
             // Only on server do we safely access registry
             if (level.isClientSide) {
                 return stack;
             }
-            ItemStack result = io.fabianbuthere.brewery.util.BrewType.finalizeBrew(
+            return BrewType.finalizeBrew(
                     brewingRecipe,
                     stack,
                     null,
@@ -57,7 +59,6 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
                     "barrel",
                     level
             );
-            return result;
         }
         return stack;
     }

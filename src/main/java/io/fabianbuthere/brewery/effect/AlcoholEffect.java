@@ -1,5 +1,6 @@
 package io.fabianbuthere.brewery.effect;
 
+import io.fabianbuthere.brewery.config.BreweryConfig;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -55,15 +56,15 @@ public class AlcoholEffect extends MobEffect {
                 pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, pAmplifier / 2, false, false, true));
             }
         }
-        if (pAmplifier >= 7) {
-            if (pLivingEntity.getRandom().nextFloat() < 0.05f * (pAmplifier - 6)) {
+        if (pAmplifier >= BreweryConfig.MIN_ALCOHOL_LEVEL_FOR_POISON.get()) {
+            if (pLivingEntity.getRandom().nextFloat() < 0.05f * (pAmplifier - BreweryConfig.MIN_ALCOHOL_LEVEL_FOR_POISON.get() + 1)) {
                 if (!pLivingEntity.hasEffect(MobEffects.POISON)) {
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, 100, (pAmplifier - 4) / 2, false, false, true));
                 }
             }
         }
-        if (pAmplifier >= 9) {
-            if (pLivingEntity.getRandom().nextFloat() < 0.04f * (pAmplifier - 8)) {
+        if (pAmplifier >= BreweryConfig.MIN_ALCOHOL_LEVEL_FOR_ALCOHOL_POISONING.get()) {
+            if (pLivingEntity.getRandom().nextFloat() < 0.04f * (pAmplifier - BreweryConfig.MIN_ALCOHOL_LEVEL_FOR_ALCOHOL_POISONING.get() + 1)) {
                 if (!pLivingEntity.hasEffect(ModEffects.ALCOHOL_POISONING.get())) {
                     pLivingEntity.addEffect(new MobEffectInstance(ModEffects.ALCOHOL_POISONING.get(), 100, (pAmplifier - 6) / 2, false, false, true));
                 }

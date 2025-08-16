@@ -65,7 +65,6 @@ public class BreweryMod
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
-        MinecraftForge.EVENT_BUS.addListener(this::onAddReloadListeners);
         MinecraftForge.EVENT_BUS.register(ServerEventHandling.class);
     }
 
@@ -78,10 +77,6 @@ public class BreweryMod
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
 
-    }
-
-    private void onAddReloadListeners(AddReloadListenerEvent event) {
-        event.addListener(new BrewTypeJsonLoader());
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

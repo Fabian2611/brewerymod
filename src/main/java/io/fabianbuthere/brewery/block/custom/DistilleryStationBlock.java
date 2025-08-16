@@ -115,7 +115,7 @@ public class DistilleryStationBlock extends BaseEntityBlock {
         if (!level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof DistilleryStationBlockEntity) {
-                NetworkHooks.openScreen((ServerPlayer) player, (DistilleryStationBlockEntity) be, pos); // WILL NOT WORK FOR 1.20.2
+                NetworkHooks.openScreen((ServerPlayer) player, (DistilleryStationBlockEntity) be, pos);
             }
         }
         return InteractionResult.sidedSuccess(level.isClientSide());

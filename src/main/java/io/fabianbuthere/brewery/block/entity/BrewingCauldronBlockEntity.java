@@ -296,7 +296,26 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         if (lockedRecipe == null) return BrewType.DEFAULT_POTION();
         BrewType baseResult = BrewType.getBrewTypeFromId(lockedRecipe.getBrewTypeId());
         if (baseResult == null) return BrewType.DEFAULT_POTION();
-        return baseResult.toItem(lockedRecipe, brewingTicks, itemHandler);
+
+        // First, produce the "unfinished or failed" brew based on current state
+        ItemStack preliminary = baseResult.toItem(lockedRecipe, brewingTicks, itemHandler);
+
+        // If recipe requires NO distillation AND NO aging, finalize directly in the cauldron.
+        boolean noDistillation = lockedRecipe.getDistillingItem() == null || lockedRecipe.getDistillingItem().isEmpty();
+        boolean noAging = lockedRecipe.getOptimalAgingTime() == 0L || lockedRecipe.getAllowedWoodTypes().isEmpty();
+
+        if (noDistillation && noAging) {
+            // If the brew failed (no purity tag), just return as-is.
+            CompoundTag tag = preliminary.getTag();
+            if (tag == null || !tag.contains("purity")) {
+                return preliminary;
+            }
+            int purity = tag.getInt("purity");
+            return BrewType.buildFinalBrew(lockedRecipe, purity, level);
+        }
+
+        // Otherwise, return the unfinished brew which will be finalized by distillery or barrel
+        return preliminary;
     }
 
     @Override

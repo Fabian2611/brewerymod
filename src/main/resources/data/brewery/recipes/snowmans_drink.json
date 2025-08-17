@@ -3,7 +3,7 @@
     "brewing_data": {
         "allowedWoodTypes": [],
         "brew_type": "snowmans_drink",
-        "distillingItem": "gunpowder",
+        "distillingItem": "",
         "inputs": [
             {
                 "item": "minecraft:snowball",

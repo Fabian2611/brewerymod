@@ -3,7 +3,7 @@
     "brewing_data": {
         "allowedWoodTypes": [],
         "brew_type": "sweet_tea",
-        "distilling_item": "redstone",
+        "distilling_item": "",
         "inputs": [
             {
                 "item": "minecraft:sugar",

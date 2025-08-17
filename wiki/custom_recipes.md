@@ -68,6 +68,8 @@ The content will look something like this:
 }
 ```
 
+If you are still unsure on how to use this, you can take a look at this mod's source code, which contains the built-in brews [here](../src/main/resources/data/brewery/brew_types), and the built-in recipes [here](../src/main/resources/data/brewery/recipes).
+
 ## Localization
 For the customLore and customName, you can use translation keys to allow for localization.
 `yournamespace` should be replaced with your resource pack's namespace, where the localization files are stored.

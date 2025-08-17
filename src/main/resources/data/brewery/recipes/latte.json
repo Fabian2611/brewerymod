@@ -5,7 +5,7 @@
 
     ],
     "brew_type": "latte",
-    "distillingItem": "glowstone_dust",
+    "distillingItem": "",
     "inputs": [
       {
         "item": "minecraft:cocoa_beans",

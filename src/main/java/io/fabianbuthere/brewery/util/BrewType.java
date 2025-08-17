@@ -207,6 +207,50 @@ public record BrewType(
     }
 
     /**
+     * Build a finalized brew ItemStack with display and effects, reused by all workstations.
+     */
+    public static ItemStack buildFinalBrew(BrewingRecipe recipe, int effectivePurity, Level level) {
+        BrewType brewTypeResult = BrewType.getBrewTypeFromId(recipe.getBrewTypeId());
+        if (brewTypeResult == null) return BrewType.GENERIC_FAILED_BREW();
+
+        int maxPurity = brewTypeResult.maxPurity();
+        int clampedPurity = Math.max(0, Math.min(effectivePurity, maxPurity));
+        float purityFactor = maxPurity <= 0 ? 0f : ((float) clampedPurity / (float) maxPurity);
+
+        ItemStack resultItem = recipe.getResultItem(level.registryAccess());
+        CompoundTag resultTag = resultItem.getOrCreateTag();
+
+        String purityRepresentation = "★".repeat(Math.max(0, clampedPurity)) + "☆".repeat(Math.max(0, maxPurity - clampedPurity));
+        resultTag.putString("recipeId", recipe.getId().toString());
+        ListTag loreList = new ListTag();
+        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(purityRepresentation))));
+        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable(brewTypeResult.customLore()))));
+        CompoundTag displayTag = resultTag.getCompound("display");
+        displayTag.put("Lore", loreList);
+        displayTag.putString("Name", Component.Serializer.toJson(Component.translatable(brewTypeResult.customName())));
+        resultTag.put("display", displayTag);
+
+        // Effects scaled by purity
+        java.util.List<MobEffectInstance> resultEffects = new java.util.ArrayList<>();
+        for (MobEffectInstance effect : brewTypeResult.effects()) {
+            net.minecraft.world.effect.MobEffect mobEffect = effect.getEffect();
+            int duration = Math.round(effect.getDuration() * purityFactor);
+            int amplifier = Math.max(0, Math.round(effect.getAmplifier() * purityFactor));
+            if (duration > 0) {
+                resultEffects.add(new MobEffectInstance(mobEffect, duration, amplifier));
+            }
+        }
+        // Hangover effect for bad purity
+        if (clampedPurity < (double)maxPurity / 2) {
+            resultEffects.add(new MobEffectInstance(io.fabianbuthere.brewery.effect.ModEffects.HANGOVER.get(), 600 * (Math.max(1, maxPurity / 2 - clampedPurity + 1)), 0, false, false, true));
+        }
+        resultTag.put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
+
+        resultItem.setTag(resultTag);
+        return resultItem;
+    }
+
+    /**
      * Finalizes a brew, returning a finished or failed brew ItemStack.
      * Used by both Fermentation Barrel and Distillery Station.
      * @param recipe The BrewingRecipe
@@ -254,43 +298,13 @@ public record BrewType(
             long maxTime = Math.round(recipe.getOptimalAgingTime() * (1 + maxError));
             long minTime = Math.round(recipe.getOptimalAgingTime() * (1 - maxError));
             if (progress < minTime || progress > maxTime) {return BrewType.INCORRECT_AGING_BREW();}
-            // Return the resulting brew
+            // Purity from aging error curve
             float error = (float) Math.abs(progress - recipe.getOptimalAgingTime()) / recipe.getOptimalAgingTime();
-            resultItem = recipe.getResultItem(level.registryAccess());
-            resultTag = resultItem.getOrCreateTag();
-            // Calculate purity
             float errorContribution = (float) Math.pow(1.0f - error, 2);
             int effectivePurity = Math.round(actualPurity * errorContribution);
-            float purityFactor = (float) effectivePurity / (float) maxPurity;
-            // Display
-            String purityRepresentation = "★".repeat(Math.max(0, effectivePurity)) + "☆".repeat(Math.max(0, maxPurity - effectivePurity));
-            resultTag.putString("recipeId", recipe.getId().toString());
-            ListTag loreList = new ListTag();
-            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(purityRepresentation))));
-            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable(brewTypeResult.customLore()))));
-            CompoundTag displayTag = resultTag.getCompound("display");
-            displayTag.put("Lore", loreList);
-            displayTag.putString("Name", Component.Serializer.toJson(Component.translatable(brewTypeResult.customName())));
-            resultTag.put("display", displayTag);
-            resultItem.setTag(resultTag);
-            // Effects
-            java.util.List<MobEffectInstance> resultEffects = new java.util.ArrayList<>();
-            for (MobEffectInstance effect : brewTypeResult.effects()) {
-                net.minecraft.world.effect.MobEffect mobEffect = effect.getEffect();
-                int duration = Math.round(effect.getDuration() * purityFactor);
-                int amplifier = Math.max(0, Math.round(effect.getAmplifier() * purityFactor));
-                if (duration > 0) {
-                    resultEffects.add(new MobEffectInstance(mobEffect, duration, amplifier));
-                }
-            }
-            // Hangover effect for bad purity
-            if (effectivePurity < (double)maxPurity / 2) {
-                resultEffects.add(new MobEffectInstance(io.fabianbuthere.brewery.effect.ModEffects.HANGOVER.get(), 600 * (Math.max(1, maxPurity / 2 - effectivePurity + 1)), 0, false, false, true));
-            }
-            resultItem.getTag().put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
-            return resultItem;
+            return buildFinalBrew(recipe, effectivePurity, level);
         } else if ("distillery".equals(context)) {
-            // Fail if recipe does not require distilling, but a filter is used or already distilled
+            // Fail if recipe does not require distilling, or already distilled
             if (recipe.getDistillingItem() == null || recipe.getDistillingItem().isEmpty() || !inputTag.getString("distillingItem").isEmpty()) {
                 return BrewType.INCORRECT_DISTILLERY_BREW();
             }
@@ -299,39 +313,20 @@ public record BrewType(
             if (!recipe.getDistillingItem().equals(filterItemId)) {
                 return BrewType.INCORRECT_DISTILLERY_BREW();
             }
-            // Set distilling item
+            // Set distilling item on a working copy
             resultItem = inputStack.copyWithCount(1);
             resultTag = resultItem.getOrCreateTag();
             resultTag.putString("distillingItem", filterItemId);
-            // If the recipe does not need aging, finalize the brew here
-            if (recipe.getOptimalAgingTime() == 0L) {
-                int effectivePurity = actualPurity;
-                float purityFactor = (float) effectivePurity / (float) maxPurity;
-                String purityRepresentation = "★".repeat(Math.max(0, effectivePurity)) + "☆".repeat(Math.max(0, maxPurity - effectivePurity));
-                resultTag.putString("recipeId", recipe.getId().toString());
-                ListTag loreList = new ListTag();
-                loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(purityRepresentation))));
-                loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable(brewTypeResult.customLore()))));
-                CompoundTag displayTag = resultTag.getCompound("display");
-                displayTag.put("Lore", loreList);
-                displayTag.putString("Name", Component.Serializer.toJson(Component.translatable(brewTypeResult.customName())));
-                resultTag.put("display", displayTag);
-                // Effects
-                java.util.List<MobEffectInstance> resultEffects = new java.util.ArrayList<>();
-                for (MobEffectInstance effect : brewTypeResult.effects()) {
-                    net.minecraft.world.effect.MobEffect mobEffect = effect.getEffect();
-                    int duration = Math.round(effect.getDuration() * purityFactor);
-                    int amplifier = Math.max(0, Math.round(effect.getAmplifier() * purityFactor));
-                    if (duration > 0) {
-                        resultEffects.add(new MobEffectInstance(mobEffect, duration, amplifier));
-                    }
-                }
-                // Hangover effect for bad purity
-                if (effectivePurity < (double)maxPurity / 2) {
-                    resultEffects.add(new MobEffectInstance(io.fabianbuthere.brewery.effect.ModEffects.HANGOVER.get(), 600 * (Math.max(1, maxPurity / 2 - effectivePurity + 1)), 0, false, false, true));
-                }
-                resultTag.put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
+
+            // If the recipe does not need aging (no time or no allowed wood types), finalize the brew here
+            if (recipe.getOptimalAgingTime() == 0L || recipe.getAllowedWoodTypes().isEmpty()) {
+                ItemStack finalized = buildFinalBrew(recipe, actualPurity, level);
+                // Preserve the distillingItem info on the finalized result for traceability
+                finalized.getOrCreateTag().putString("distillingItem", filterItemId);
+                return finalized;
             }
+
+            // Otherwise, return the partially processed item (with distilling tag) to be aged
             resultItem.setTag(resultTag);
             return resultItem;
         }

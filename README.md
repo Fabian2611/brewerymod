@@ -28,7 +28,7 @@ Some brews need to be barrel aged. For this, make a fermentation barrel of the c
 ### Purity
 After the brewing process is finished, your brew will be assigned a purity. The value will be decided by how precise your ingredient amounts were and how well you chose the brewing and aging times of the brew.
 ### Custom Brews & Recipes
-The mod normally comes shipped with [a bunch of recipes already included](./wiki/builtins.md), but you can also choose to add your own ones. A tutorial for this can be found [here](./wiki/custom_recipes.md).
+The mod normally comes shipped with [a bunch of recipes already included](https://github.com/Fabian2611/brewerymod/wiki/Builtins), but you can also choose to add your own ones. A tutorial for this can be found [here](https://github.com/Fabian2611/brewerymod/wiki/Custom-Brews-&-Recipes).
 
 ## How to figure out recipes
 Ususally, the players won't know the recipes for the brews, so they will have to figure them out themselves.
@@ -37,7 +37,7 @@ It is recommended you provide your players with small hints, like the names or d
 With this, they can tweak the ingredients' amounts and brewing time until they get an "Unfinished Brew", at which point they can distill or barrel age it to get the final brew.
 
 This is already provided for the built-in brews in form of the "Brew Guide" book.
-If you want to add your own brews to this book, the instructions can be found [here](./wiki/custom_book_entries.md).
+If you want to add your own brews to this book, the instructions can be found [here](https://github.com/Fabian2611/brewerymod/wiki/Guide-Book-Entries).
 
 ## Credits
 - [Brewery](https://www.spigotmc.org/resources/brewery.3082/) as the main inspiration

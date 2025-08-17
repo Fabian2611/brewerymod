@@ -32,7 +32,7 @@ The mod normally comes shipped with [a bunch of recipes already included](https:
 
 ## How to figure out recipes
 Ususally, the players won't know the recipes for the brews, so they will have to figure them out themselves.
-It is recommended you provide your players with small hints, like the names or descriptions of brew, or an approximate description of their ingredients.
+It is recommended you provide your players with small hints, like the names or descriptions of brews, or an approximate description of their ingredients.
 
 With this, they can tweak the ingredients' amounts and brewing time until they get an "Unfinished Brew", at which point they can distill or barrel age it to get the final brew.
 

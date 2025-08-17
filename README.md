@@ -46,6 +46,7 @@ If you want to add your own brews to this book, the instructions can be found [h
 - DerLurch for the distillery station model
 
 ## Build validation
-If you want to create your own build of the mod, just clone the repository to your local machine and run `gradlew build` and tehen `gradlew jar` in the root directory. The output jar will be located at `/libs/<version>.jar`.
+If you want to create your own build of the mod, just clone the repository to your local machine and run `gradlew build` and then `gradlew jar` in the root directory. The output jar will be located at `/libs/<version>.jar`. Make sure that your JAVA_HOME system variable is set to a local installation of Java 17, or you explicitly run gradlew with your Java 17 installation.
+I recommend the [Eclipse Adoptium Temurin JDK](https://adoptium.net/temurin/releases?version=17&os=any&arch=any).
 
 ###### By the way, as you can probably tell, this is my first larger mod, so beware of unusual design choices in the code. Or even better, don't look at the code at all. It's not pretty.

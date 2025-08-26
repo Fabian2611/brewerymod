@@ -1,9 +1,472 @@
 ---
 layout: default
-title: Brewery Forgified - Utilities
+title: Brewery Datapack Generator
 ---
 
-<h1>Brewery Forgified - Utilities</h1>
-<ul>
-    <li><p><a href="./brewgen.html">Custom Brew Generator</a></p></li>
-</ul>
+<main class="page-content" aria-label="Content">
+  <div class="wrapper">
+    <h1>Brewery Datapack Generator</h1>
+    <p>
+      This page generates Brewery <code>brew_types</code> and <code>recipes</code> JSON files following your Python generator's structure, then packages them into a Minecraft 1.20.1 datapack (.zip).
+    </p>
+
+    <details open>
+      <summary><strong>Pack Settings</strong></summary>
+      <div class="settings">
+        <label>
+          Namespace (lowercase, a-z, 0-9, _ . -)
+          <input id="namespace" type="text" placeholder="e.g. brewery" pattern="[a-z0-9._-]+" required value="brewery">
+        </label>
+        <label>
+          Pack description
+          <input id="packDescription" type="text" placeholder="e.g. Brewery datapack generated on this page" value="Brewery datapack generated on this page">
+        </label>
+        <p class="hint">
+          Output structure (zip):
+        </p>
+        <pre class="structure">
+(root)
+/pack.mcmeta -> {"pack": {"description": "&lt;description&gt;", "pack_format": 15}}
+/data
+  /&lt;namespace&gt;
+    /recipes
+      &lt;generated recipes&gt;
+    /brew_types
+      &lt;generated brew types&gt;
+        </pre>
+      </div>
+    </details>
+
+    <hr>
+
+    <section>
+      <div class="controls">
+        <button id="addBrewBtn" type="button">+ Add Brew</button>
+        <button id="generateZipBtn" type="button" class="primary">Generate Datapack .zip</button>
+      </div>
+      <p id="globalError" class="error" role="alert" aria-live="polite"></p>
+      <div id="brewsContainer"></div>
+    </section>
+
+    <hr>
+
+    <details>
+      <summary><strong>Notes</strong></summary>
+      <ul>
+        <li>Brewing time is in seconds and converted to ticks (seconds × 20).</li>
+        <li>Aging time is in minutes and converted to ticks (minutes × 1200).</li>
+        <li>Effect duration is in minutes and converted to ticks (minutes × 1200).</li>
+        <li>Effect names are specified as extended registry keys, usually being <code>effect.&lt;namespace&gt;.&lt;effect_name&gt;</code>.</li>
+        <li>Ingredients are full item IDs. If the namespace is omitted, <code>minecraft:</code> is used by default.</li>
+        <li>Distilling item must be one of: redstone, glowstone_dust, gunpowder (or left blank).</li>
+        <li>Wood types can be Any or selected from the valid list.</li>
+      </ul>
+    </details>
+  </div>
+</main>
+
+<style>
+  .settings, .brew-card, .controls { margin-bottom: 1rem; }
+  label { display: block; margin: 0.25rem 0; }
+  input[type="text"], input[type="number"], input[type="color"], select {
+    width: 100%; max-width: 480px; padding: 0.4rem;
+  }
+  .row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .row > * { flex: 1 1 180px; }
+  .brew-card {
+    border: 1px solid #dfe2e5; border-radius: 6px; padding: 1rem; background: #f9f9f9;
+  }
+  .brew-header { display: flex; justify-content: space-between; align-items: center; }
+  .section-title { margin-top: 0.75rem; margin-bottom: 0.25rem; font-weight: bold; }
+  .list { margin: 0.5rem 0; }
+  .list .row { align-items: flex-end; }
+  .list .row input { max-width: none; }
+  button { padding: 0.4rem 0.7rem; }
+  button.small { padding: 0.25rem 0.5rem; font-size: 0.9rem; }
+  button.primary { background: #2c974b; color: #fff; border: none; }
+  .hint { color: #666; font-size: 0.9rem; }
+  .structure { background: #f6f8fa; padding: 0.5rem; border-radius: 6px; }
+  .chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .chip { border: 1px solid #d0d7de; border-radius: 999px; padding: 0.15rem 0.6rem; background: #fff; }
+  .wood-types { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.25rem 1rem; margin-bottom: 0.5rem; }
+  .error { color: #b00020; }
+</style>
+
+<!-- Try to load JSZip first; robust fallback is implemented in script below if it fails -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-rbnw3fAGH6dnR0p0J+zOZ3eTEbH0oYR7b+oVNK2bC4rL8wxlfc7hXSf9LxNzYzJ6uQm6Qku0mwDfx3w0G6R1NQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const VALID_WOOD_TYPES = ["acacia","birch","dark_oak","jungle","oak","spruce","crimson","warped","mangrove","bamboo","cherry"];
+    const VALID_DISTILLING_ITEMS = ["", "redstone", "glowstone_dust", "gunpowder"]; // allow blank
+
+    const brewsContainer = document.getElementById('brewsContainer');
+    const addBrewBtn = document.getElementById('addBrewBtn');
+    const generateZipBtn = document.getElementById('generateZipBtn');
+    const globalErrorEl = document.getElementById('globalError');
+
+    addBrewBtn.addEventListener('click', () => addBrewCard());
+    generateZipBtn.addEventListener('click', () => generateZip().catch(showGlobalError));
+
+    let brewCounter = 0;
+
+    function showGlobalError(err) {
+      console.error(err);
+      globalErrorEl.textContent = (err && err.message) ? err.message : String(err);
+    }
+
+    function clearGlobalError() {
+      globalErrorEl.textContent = '';
+    }
+
+    function ensureJSZip() {
+      return new Promise((resolve, reject) => {
+        if (window.JSZip) return resolve(window.JSZip);
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/jszip@3.10.1/dist/jszip.min.js';
+        script.async = true;
+        script.onload = () => window.JSZip ? resolve(window.JSZip) : reject(new Error('JSZip failed to load.'));
+        script.onerror = () => reject(new Error('Could not load JSZip from CDN.'));
+        document.head.appendChild(script);
+      });
+    }
+
+    function hexToInt(hex) {
+      hex = (hex || "").trim();
+      if (hex.startsWith("#")) hex = hex.slice(1);
+      if (!/^[0-9a-fA-F]{6}$/.test(hex)) {
+        throw new Error(`Invalid hex color: ${hex}`);
+      }
+      return parseInt(hex, 16);
+    }
+
+    function addBrewCard(prefill = {}) {
+      const idx = ++brewCounter;
+      const card = document.createElement('div');
+      card.className = 'brew-card';
+      card.dataset.idx = String(idx);
+      card.innerHTML = `
+        <div class="brew-header">
+          <h3>Brew #${idx}</h3>
+          <button type="button" class="small" data-action="remove">Remove</button>
+        </div>
+
+        <div class="row">
+          <label> Brew name
+            <input type="text" data-field="brewName" placeholder="e.g. mead" required>
+          </label>
+          <label> Max purity
+            <input type="number" data-field="maxPurity" min="0" step="1" value="5">
+          </label>
+          <label> Brew color (hex)
+            <input type="text" data-field="brewColor" placeholder="#RRGGBB" value="#ffffff">
+          </label>
+        </div>
+
+        <div class="section-title">Effects</div>
+        <div class="list effects" data-list="effects"></div>
+        <button type="button" class="small" data-action="addEffect">+ Add effect</button>
+
+        <div class="section-title">Brewing & Aging</div>
+        <p class="hint">Aging time is supplied in minutes, where 20 minutes equal one Minecraft day.</p>
+        <div class="row">
+          <label> Brewing time (seconds)
+            <input type="number" data-field="brewingMinutes" min="0" step="1" value="10">
+          </label>
+          <label> Brewing time max error (0-1)
+            <input type="number" data-field="brewingError" min="0" max="1" step="0.01" value="0.1">
+          </label>
+          <label> Aging time (minutes)
+            <input type="number" data-field="agingDays" min="0" step="1" value="0">
+          </label>
+          <label> Aging time max error (0-1)
+            <input type="number" data-field="agingError" min="0" max="1" step="0.01" value="0.1">
+          </label>
+        </div>
+
+        <div class="section-title">Wood types</div>
+        <div class="row">
+          <label style="flex:0 0 100%;">
+            <input type="checkbox" data-field="anyWood"> Any valid wood type
+          </label>
+        </div>
+        <div class="wood-types" data-list="woods">
+          ${VALID_WOOD_TYPES.map(w => `
+            <label><input type="checkbox" data-wood="${w}"> ${w}</label>
+          `).join('')}
+        </div>
+
+        <div class="row">
+          <label> Distilling item
+            <select data-field="distillingItem">
+              <option value="">(none)</option>
+              <option value="redstone">redstone</option>
+              <option value="glowstone_dust">glowstone_dust</option>
+              <option value="gunpowder">gunpowder</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="section-title">Ingredients</div>
+        <p class="hint">Enter item IDs with namespace. If omitted, will use minecraft: by default.</p>
+        <div class="list ingredients" data-list="ingredients"></div>
+        <button type="button" class="small" data-action="addIngredient">+ Add ingredient</button>
+
+        <p class="error" data-field="error"></p>
+      `;
+
+      card.addEventListener('click', (e) => {
+        const target = e.target;
+        if (!(target instanceof HTMLElement)) return;
+        const act = target.getAttribute('data-action');
+        if (act === 'remove') {
+          card.remove();
+        } else if (act === 'addEffect') {
+          addEffectRow(card.querySelector('[data-list="effects"]'));
+        } else if (act === 'addIngredient') {
+          addIngredientRow(card.querySelector('[data-list="ingredients"]'));
+        } else if (act === 'removeRow') {
+          target.closest('.row')?.remove();
+        }
+      });
+
+      const anyWood = card.querySelector('[data-field="anyWood"]');
+      const woodsDiv = card.querySelector('[data-list="woods"]');
+      anyWood.addEventListener('change', () => {
+        const checked = anyWood.checked;
+        woodsDiv.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          cb.checked = checked;
+          cb.disabled = checked;
+        });
+      });
+
+      brewsContainer.appendChild(card);
+      // Prefill one empty effect and ingredient row for convenience
+      addEffectRow(card.querySelector('[data-list="effects"]'));
+      addIngredientRow(card.querySelector('[data-list="ingredients"]'));
+    }
+
+    function addEffectRow(container) {
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML = `
+        <label> Effect key
+          <input type="text" data-effect="name" placeholder="e.g. effect.minecraft.speed">
+        </label>
+        <label> Duration (minutes)
+          <input type="number" data-effect="minutes" min="1" step="1" value="1">
+        </label>
+        <label> Amplifier (0-255)
+          <input type="number" data-effect="amplifier" min="0" max="255" step="1" value="0">
+        </label>
+        <button type="button" class="small" data-action="removeRow">Remove</button>
+      `;
+      container.appendChild(row);
+    }
+
+    function addIngredientRow(container) {
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML = `
+        <label> Item (with namespace)
+          <input type="text" data-ing="name" placeholder="e.g. minecraft:apple">
+        </label>
+        <label> Min count
+          <input type="number" data-ing="min" min="0" max="64" step="1" value="1">
+        </label>
+        <label> Max count
+          <input type="number" data-ing="max" min="0" max="64" step="1" value="1">
+        </label>
+        <button type="button" class="small" data-action="removeRow">Remove</button>
+      `;
+      container.appendChild(row);
+    }
+
+    function sanitizeNamespace(ns) {
+      ns = (ns || "").trim().toLowerCase();
+      ns = ns.replace(/[^a-z0-9._-]/g, '');
+      return ns;
+    }
+
+    function getCardValue(card, selector) {
+      const el = card.querySelector(selector);
+      return el ? el.value : '';
+    }
+
+    function collectBrew(card) {
+      // Clear previous error
+      card.querySelector('[data-field="error"]').textContent = '';
+
+      const brewName = getCardValue(card, '[data-field="brewName"]').trim().toLowerCase();
+      if (!brewName) throw new Error('Brew name is required.');
+
+      const maxPurity = parseInt(getCardValue(card, '[data-field="maxPurity"]') || '0', 10);
+      const brewColorHex = getCardValue(card, '[data-field="brewColor"]').trim();
+      const tintColor = hexToInt(brewColorHex);
+
+      // Effects (minutes -> ticks)
+      const effects = [];
+      card.querySelectorAll('[data-list="effects"] .row').forEach(row => {
+        const nameEl = row.querySelector('[data-effect="name"]');
+        const minutesEl = row.querySelector('[data-effect="minutes"]');
+        const ampEl = row.querySelector('[data-effect="amplifier"]');
+        const name = nameEl ? nameEl.value.trim() : '';
+        const minutes = minutesEl ? parseInt(minutesEl.value || '0', 10) : 0;
+        const amplifier = ampEl ? parseInt(ampEl.value || '0', 10) : 0;
+        if (!name) return; // skip empty
+        if (!(minutes > 0)) throw new Error(`Effect "${name}": duration (minutes) must be > 0.`);
+        if (amplifier < 0 || amplifier > 255) throw new Error(`Effect "${name}": amplifier must be between 0 and 255.`);
+        effects.push({
+          effect: name,
+          duration: minutes * 1200,
+          amplifier: amplifier
+        });
+      });
+
+      // Brewing & aging conversions
+      const brewingSeconds = parseInt(getCardValue(card, '[data-field="brewingMinutes"]') || '0', 10);
+      const brewingError = parseFloat(getCardValue(card, '[data-field="brewingError"]') || '0');
+      const agingMinutes = parseInt(getCardValue(card, '[data-field="agingDays"]') || '0', 10);
+      const agingError = parseFloat(getCardValue(card, '[data-field="agingError"]') || '0');
+
+      const optimalBrewingTime = brewingSeconds * 20;   // seconds -> ticks
+      const optimalAgingTime = agingMinutes * 1200;     // minutes -> ticks
+
+      // Woods
+      const anyWood = card.querySelector('[data-field="anyWood"]').checked;
+      let allowedWoodTypes = [];
+      if (anyWood) {
+        allowedWoodTypes = [...VALID_WOOD_TYPES];
+      } else {
+        card.querySelectorAll('[data-list="woods"] input[type="checkbox"]').forEach(cb => {
+          if (cb.checked) {
+            const w = cb.getAttribute('data-wood');
+            if (VALID_WOOD_TYPES.includes(w)) allowedWoodTypes.push(w);
+          }
+        });
+      }
+
+      // Distilling item
+      const distillingItem = getCardValue(card, '[data-field="distillingItem"]').trim().toLowerCase();
+      if (!VALID_DISTILLING_ITEMS.includes(distillingItem)) {
+        throw new Error(`Invalid distilling item: ${distillingItem}. Choose from: redstone, glowstone_dust, gunpowder, or leave blank.`);
+      }
+
+      // Ingredients
+      const ingredients = [];
+      card.querySelectorAll('[data-list="ingredients"] .row').forEach(row => {
+        const nameEl = row.querySelector('[data-ing="name"]');
+        const minEl = row.querySelector('[data-ing="min"]');
+        const maxEl = row.querySelector('[data-ing="max"]');
+        const name = nameEl ? nameEl.value.trim().toLowerCase() : '';
+        const minCount = minEl ? parseInt(minEl.value || '0', 10) : 0;
+        const maxCount = maxEl ? parseInt(maxEl.value || '0', 10) : 0;
+        if (!name) return; // skip empty
+        if (minCount < 0 || maxCount < 0 || maxCount < minCount) {
+          throw new Error(`Ingredient "${name}": counts must be >= 0 and max >= min.`);
+        }
+        const ingredientName = name.includes(':') ? name : `minecraft:${name}`;
+        ingredients.push({
+          item: ingredientName,
+          maxCount: maxCount,
+          minCount: minCount
+        });
+      });
+
+      const brew_type = {
+        customLore: `brewery.brew.${brewName}.lore`,
+        customName: `brewery.brew.${brewName}.name`,
+        effects: effects.map(e => ({ amplifier: e.amplifier, duration: e.duration, effect: e.effect })),
+        maxAlcoholLevel: 1,
+        maxPurity: maxPurity,
+        tintColor: tintColor
+      };
+
+      const recipe = {
+        type: "brewery:brewing",
+        brewing_data: {
+          allowedWoodTypes: allowedWoodTypes.filter(w => VALID_WOOD_TYPES.includes(w)),
+          brew_type: brewName,
+          distillingItem: distillingItem, // can be empty string
+          inputs: ingredients,
+          maxAgingTimeError: agingError,
+          maxBrewingTimeError: brewingError,
+          optimalAgingTime: optimalAgingTime,
+          optimalBrewingTime: optimalBrewingTime
+        }
+      };
+
+      return { brewName, brew_type, recipe };
+    }
+
+    async function generateZip() {
+      clearGlobalError();
+      const nsInput = document.getElementById('namespace');
+      const descInput = document.getElementById('packDescription');
+      const namespace = sanitizeNamespace(nsInput.value);
+      const description = (descInput.value || '').toString();
+
+      if (!namespace) {
+        throw new Error('Please provide a valid namespace (lowercase letters, digits, ., _, -).');
+      }
+
+      const brewCards = Array.from(brewsContainer.querySelectorAll('.brew-card'));
+      if (brewCards.length === 0) {
+        throw new Error('Please add at least one brew.');
+      }
+
+      // Disable button during generation
+      const prevText = generateZipBtn.textContent;
+      generateZipBtn.disabled = true;
+      generateZipBtn.textContent = 'Generating...';
+
+      try {
+        const JSZipLib = await ensureJSZip();
+        const zip = new JSZipLib();
+
+        const packMeta = { pack: { description: description, pack_format: 15 } };
+        zip.file('pack.mcmeta', JSON.stringify(packMeta, null, 2));
+
+        const recipesDir = zip.folder(`data/${namespace}/recipes`);
+        const typesDir = zip.folder(`data/${namespace}/brew_types`);
+
+        let successCount = 0;
+        for (const card of brewCards) {
+          try {
+            const { brewName, brew_type, recipe } = collectBrew(card);
+            typesDir.file(`${brewName}.json`, JSON.stringify(brew_type, null, 4));
+            recipesDir.file(`${brewName}.json`, JSON.stringify(recipe, null, 4));
+            successCount++;
+          } catch (err) {
+            // Show per-card error and continue
+            card.querySelector('[data-field="error"]').textContent = (err && err.message) ? err.message : String(err);
+          }
+        }
+
+        if (successCount === 0) {
+          throw new Error('No valid brews to generate. Please fix the errors shown in each brew card.');
+        }
+
+        const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+        const filename = `${namespace}_brewery_datapack.zip`;
+        downloadBlob(blob, filename);
+      } finally {
+        generateZipBtn.disabled = false;
+        generateZipBtn.textContent = prevText;
+      }
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename || 'datapack.zip';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    // Start with one brew card to guide the user
+    addBrewCard();
+  });
+</script>

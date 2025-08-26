@@ -7,7 +7,8 @@ title: Brewery Datapack Generator
   <div class="wrapper">
     <h1>Brewery Datapack Generator</h1>
     <p>
-      This page generates Brewery <code>brew_types</code> and <code>recipes</code> JSON files following your Python generator's structure, then packages them into a Minecraft 1.20.1 datapack (.zip).
+      This page generates Brewery <code>brew_types</code> and <code>recipes</code> JSON files, packages them into a Minecraft 1.20.1 datapack (.zip), and also generates a separate resource pack (.zip) containing the localization (en_us.json). Datapacks do not apply translations; the resource pack is required for names and lores to show in-game. <br/>
+      While the datapack needs to be installed on both the server and client, the resource pack only needs to be installed on the client, or can alternatively be served to the client on server join by setting the server's primary resource pack to the generated one..
     </p>
 
     <details open>
@@ -22,17 +23,26 @@ title: Brewery Datapack Generator
           <input id="packDescription" type="text" placeholder="e.g. Brewery datapack generated on this page" value="Brewery datapack generated on this page">
         </label>
         <p class="hint">
-          Output structure (zip):
+          Output structure (two zips):
         </p>
         <pre class="structure">
+Datapack (.zip)
 (root)
-/pack.mcmeta -> {"pack": {"description": "&lt;description&gt;", "pack_format": 15}}
+/pack.mcmeta -> {"pack": {"description": "<description>", "pack_format": 15}}
 /data
   /&lt;namespace&gt;
     /recipes
       &lt;generated recipes&gt;
     /brew_types
       &lt;generated brew types&gt;
+
+Resource pack (.zip)
+(root)
+/pack.mcmeta -> {"pack": {"description": "<description>", "pack_format": 15}}
+/assets
+  /brewery
+    /lang
+      en_us.json (generated from your Name and Lore)
         </pre>
       </div>
     </details>
@@ -42,7 +52,7 @@ title: Brewery Datapack Generator
     <section>
       <div class="controls">
         <button id="addBrewBtn" type="button">+ Add Brew</button>
-        <button id="generateZipBtn" type="button" class="primary">Generate Datapack .zip</button>
+        <button id="generateZipBtn" type="button" class="primary">Generate Packs (.zip)</button>
       </div>
       <p id="globalError" class="error" role="alert" aria-live="polite"></p>
       <div id="brewsContainer"></div>
@@ -53,6 +63,9 @@ title: Brewery Datapack Generator
     <details>
       <summary><strong>Notes</strong></summary>
       <ul>
+        <li>Brew names and lores are converted to translation keys internally. Your specified values are written into the resource pack's <code>assets/brewery/lang/en_us.json</code>. If you want to add custom localization, please read the <a href="https://github.com/Fabian2611/brewerymod/wiki/Custom-Brews-&-Recipes#localization">wiki on github</a>.</li>
+        <li>Each brew has an internal Brew ID (lowercase letters and underscores only), used for filenames, JSON references, and translation keys:
+          <code>brewery.brew.&lt;brew_id&gt;.name</code> and <code>brewery.brew.&lt;brew_id&gt;.lore</code>. The display Name and Lore you enter are written into <code>en_us.json</code> for those keys.</li>
         <li>Brewing time is in seconds and converted to ticks (seconds × 20).</li>
         <li>Aging time is in minutes and converted to ticks (minutes × 1200).</li>
         <li>Effect duration is in minutes and converted to ticks (minutes × 1200).</li>
@@ -68,11 +81,13 @@ title: Brewery Datapack Generator
 <style>
   .settings, .brew-card, .controls { margin-bottom: 1rem; }
   label { display: block; margin: 0.25rem 0; }
-  input[type="text"], input[type="number"], input[type="color"], select {
+  input[type="text"], input[type="number"], input[type="color"], select, textarea {
     width: 100%; max-width: 480px; padding: 0.4rem;
   }
+  textarea { min-height: 3.5rem; }
   .row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
   .row > * { flex: 1 1 180px; }
+  .row .full { flex: 1 1 100%; max-width: 980px; }
   .brew-card {
     border: 1px solid #dfe2e5; border-radius: 6px; padding: 1rem; background: #f9f9f9;
   }
@@ -98,6 +113,7 @@ title: Brewery Datapack Generator
   window.addEventListener('DOMContentLoaded', () => {
     const VALID_WOOD_TYPES = ["acacia","birch","dark_oak","jungle","oak","spruce","crimson","warped","mangrove","bamboo","cherry"];
     const VALID_DISTILLING_ITEMS = ["", "redstone", "glowstone_dust", "gunpowder"]; // allow blank
+    const BREW_ID_REGEX = /^[a-z_]+$/; // lowercase letters + underscores only
 
     const brewsContainer = document.getElementById('brewsContainer');
     const addBrewBtn = document.getElementById('addBrewBtn');
@@ -151,14 +167,23 @@ title: Brewery Datapack Generator
         </div>
 
         <div class="row">
-          <label> Brew name
-            <input type="text" data-field="brewName" placeholder="e.g. mead" required>
+          <label> Brew ID (lowercase letters and underscores)
+            <input type="text" data-field="brewId" placeholder="e.g. mead" pattern="[a-z_]+" required>
+          </label>
+          <label> Display name
+            <input type="text" data-field="displayName" placeholder="e.g. Mead">
           </label>
           <label> Max purity
             <input type="number" data-field="maxPurity" min="0" step="1" value="5">
           </label>
           <label> Brew color (hex)
             <input type="text" data-field="brewColor" placeholder="#RRGGBB" value="#ffffff">
+          </label>
+        </div>
+
+        <div class="row">
+          <label class="full"> Lore (multi-line allowed)
+            <textarea data-field="displayLore" placeholder="e.g. A sweet fermented honey drink."></textarea>
           </label>
         </div>
 
@@ -296,8 +321,15 @@ title: Brewery Datapack Generator
       // Clear previous error
       card.querySelector('[data-field="error"]').textContent = '';
 
-      const brewName = getCardValue(card, '[data-field="brewName"]').trim().toLowerCase();
-      if (!brewName) throw new Error('Brew name is required.');
+      const brewIdRaw = getCardValue(card, '[data-field="brewId"]').trim();
+      const brewId = brewIdRaw.toLowerCase();
+      if (!brewId) throw new Error('Brew ID is required.');
+      if (!BREW_ID_REGEX.test(brewId)) {
+        throw new Error('Brew ID must contain only lowercase letters and underscores.');
+      }
+
+      const displayName = getCardValue(card, '[data-field="displayName"]');
+      const displayLore = getCardValue(card, '[data-field="displayLore"]');
 
       const maxPurity = parseInt(getCardValue(card, '[data-field="maxPurity"]') || '0', 10);
       const brewColorHex = getCardValue(card, '[data-field="brewColor"]').trim();
@@ -372,9 +404,12 @@ title: Brewery Datapack Generator
         });
       });
 
+      const nameKey = `brewery.brew.${brewId}.name`;
+      const loreKey = `brewery.brew.${brewId}.lore`;
+
       const brew_type = {
-        customLore: `brewery.brew.${brewName}.lore`,
-        customName: `brewery.brew.${brewName}.name`,
+        customLore: loreKey,
+        customName: nameKey,
         effects: effects.map(e => ({ amplifier: e.amplifier, duration: e.duration, effect: e.effect })),
         maxAlcoholLevel: 1,
         maxPurity: maxPurity,
@@ -385,7 +420,7 @@ title: Brewery Datapack Generator
         type: "brewery:brewing",
         brewing_data: {
           allowedWoodTypes: allowedWoodTypes.filter(w => VALID_WOOD_TYPES.includes(w)),
-          brew_type: brewName,
+          brew_type: brewId,
           distillingItem: distillingItem, // can be empty string
           inputs: ingredients,
           maxAgingTimeError: agingError,
@@ -395,7 +430,12 @@ title: Brewery Datapack Generator
         }
       };
 
-      return { brewName, brew_type, recipe };
+      const translations = {
+        [nameKey]: displayName || "",
+        [loreKey]: displayLore || ""
+      };
+
+      return { brewId, brew_type, recipe, translations };
     }
 
     async function generateZip() {
@@ -417,24 +457,46 @@ title: Brewery Datapack Generator
       // Disable button during generation
       const prevText = generateZipBtn.textContent;
       generateZipBtn.disabled = true;
-      generateZipBtn.textContent = 'Generating...';
+      generateZipBtn.textContent = 'Generating packs...';
 
       try {
         const JSZipLib = await ensureJSZip();
-        const zip = new JSZipLib();
 
-        const packMeta = { pack: { description: description, pack_format: 15 } };
-        zip.file('pack.mcmeta', JSON.stringify(packMeta, null, 2));
+        // Create both zips: datapack and resource pack
+        const datapackZip = new JSZipLib();
+        const resourceZip = new JSZipLib();
 
-        const recipesDir = zip.folder(`data/${namespace}/recipes`);
-        const typesDir = zip.folder(`data/${namespace}/brew_types`);
+        // pack.mcmeta for both (1.20.1 uses pack_format 15 for both data and resource packs)
+        const datapackMeta = { pack: { description: description, pack_format: 15 } };
+        const resourceMeta = { pack: { description: `${description} (resources)`, pack_format: 15 } };
+        datapackZip.file('pack.mcmeta', JSON.stringify(datapackMeta, null, 2));
+        resourceZip.file('pack.mcmeta', JSON.stringify(resourceMeta, null, 2));
+
+        // Datapack folders
+        const recipesDir = datapackZip.folder(`data/${namespace}/recipes`);
+        const typesDir = datapackZip.folder(`data/${namespace}/brew_types`);
+
+        // Resource pack folder for Brewery translations
+        const langDir = resourceZip.folder(`assets/brewery/lang`);
 
         let successCount = 0;
+        const idsSeen = new Set();
+        const enUS = {};
+
         for (const card of brewCards) {
           try {
-            const { brewName, brew_type, recipe } = collectBrew(card);
-            typesDir.file(`${brewName}.json`, JSON.stringify(brew_type, null, 4));
-            recipesDir.file(`${brewName}.json`, JSON.stringify(recipe, null, 4));
+            const { brewId, brew_type, recipe, translations } = collectBrew(card);
+
+            if (idsSeen.has(brewId)) {
+              throw new Error(`Duplicate Brew ID "${brewId}". Each brew must have a unique ID.`);
+            }
+            idsSeen.add(brewId);
+
+            typesDir.file(`${brewId}.json`, JSON.stringify(brew_type, null, 4));
+            recipesDir.file(`${brewId}.json`, JSON.stringify(recipe, null, 4));
+
+            Object.assign(enUS, translations);
+
             successCount++;
           } catch (err) {
             // Show per-card error and continue
@@ -446,9 +508,18 @@ title: Brewery Datapack Generator
           throw new Error('No valid brews to generate. Please fix the errors shown in each brew card.');
         }
 
-        const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
-        const filename = `${namespace}_brewery_datapack.zip`;
-        downloadBlob(blob, filename);
+        // Write en_us.json to the resource pack
+        langDir.file('en_us.json', JSON.stringify(enUS, null, 2));
+
+        // Build both zips
+        const [datapackBlob, resourceBlob] = await Promise.all([
+          datapackZip.generateAsync({ type: 'blob', compression: 'DEFLATE' }),
+          resourceZip.generateAsync({ type: 'blob', compression: 'DEFLATE' })
+        ]);
+
+        // Download both
+        downloadBlob(datapackBlob, `${namespace}_brewery_datapack.zip`);
+        downloadBlob(resourceBlob, `${namespace}_brewery_resource_pack.zip`);
       } finally {
         generateZipBtn.disabled = false;
         generateZipBtn.textContent = prevText;
@@ -459,7 +530,7 @@ title: Brewery Datapack Generator
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = filename || 'datapack.zip';
+      a.download = filename || 'pack.zip';
       document.body.appendChild(a);
       a.click();
       a.remove();

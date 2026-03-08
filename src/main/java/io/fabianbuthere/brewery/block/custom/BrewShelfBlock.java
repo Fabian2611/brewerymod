@@ -138,7 +138,9 @@ public class BrewShelfBlock extends BaseEntityBlock {
             ItemStack one = inHand.copy();
             one.setCount(1);
             shelf.setItem(slot, one);
-            inHand.shrink(1);
+            if (!pPlayer.isCreative()) {
+                inHand.shrink(1);
+            }
             return InteractionResult.CONSUME;
         }
 

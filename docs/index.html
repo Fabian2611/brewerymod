@@ -69,7 +69,7 @@ Resource pack (.zip)
         <li>Brewing time is in seconds and converted to ticks (seconds × 20).</li>
         <li>Aging time is in minutes and converted to ticks (minutes × 1200).</li>
         <li>Effect duration is in minutes and converted to ticks (minutes × 1200).</li>
-        <li>Effect names are specified as extended registry keys, usually being <code>effect.&lt;namespace&gt;.&lt;effect_name&gt;</code>.</li>
+        <li>Effect names are specified as extended registry keys, usually <code>effect.&lt;namespace&gt;.&lt;effect_name&gt;</code>; pick a preset from the dropdown or select "Custom effect ID" to enter your own.</li>
         <li>Ingredients are full item IDs. If the namespace is omitted, <code>minecraft:</code> is used by default.</li>
         <li>Distilling item must be one of: redstone, glowstone_dust, gunpowder (or left blank).</li>
         <li>Wood types can be Any or selected from the valid list.</li>
@@ -113,6 +113,41 @@ Resource pack (.zip)
   window.addEventListener('DOMContentLoaded', () => {
     const VALID_WOOD_TYPES = ["acacia","birch","dark_oak","jungle","oak","spruce","crimson","warped","mangrove","bamboo","cherry"];
     const VALID_DISTILLING_ITEMS = ["", "redstone", "glowstone_dust", "gunpowder"]; // allow blank
+    const VALID_EFFECTS = {
+      alcohol: "effect.brewery.alcohol",
+      hangover: "effect.brewery.hangover",
+      alcohol_poisoning: "effect.brewery.alcohol_poisoning",
+      absorption: "effect.minecraft.absorption",
+      bad_luck: "effect.minecraft.unluck",
+      bad_omen: "effect.minecraft.bad_omen",
+      blindness: "effect.minecraft.blindness",
+      conduit_power: "effect.minecraft.conduit_power",
+      darkness: "effect.minecraft.darkness",
+      dolphins_grace: "effect.minecraft.dolphins_grace",
+      fire_resistance: "effect.minecraft.fire_resistance",
+      glowing: "effect.minecraft.glowing",
+      haste: "effect.minecraft.haste",
+      hunger: "effect.minecraft.hunger",
+      invisibility: "effect.minecraft.invisibility",
+      jump_boost: "effect.minecraft.jump_boost",
+      mining_fatigue: "effect.minecraft.mining_fatigue",
+      levitation: "effect.minecraft.levitation",
+      luck: "effect.minecraft.luck",
+      nausea: "effect.minecraft.nausea",
+      night_vision: "effect.minecraft.night_vision",
+      poison: "effect.minecraft.poison",
+      regeneration: "effect.minecraft.regeneration",
+      resistance: "effect.minecraft.resistance",
+      saturation: "effect.minecraft.saturation",
+      slowness: "effect.minecraft.slowness",
+      slow_falling: "effect.minecraft.slow_falling",
+      speed: "effect.minecraft.speed",
+      strength: "effect.minecraft.strength",
+      water_breathing: "effect.minecraft.water_breathing",
+      weakness: "effect.minecraft.weakness",
+      wither: "effect.minecraft.wither"
+    };
+    const EFFECT_PRESETS = Object.entries(VALID_EFFECTS);
     const BREW_ID_REGEX = /^[a-z_]+$/; // lowercase letters + underscores only
 
     const brewsContainer = document.getElementById('brewsContainer');
@@ -176,8 +211,8 @@ Resource pack (.zip)
           <label> Max purity
             <input type="number" data-field="maxPurity" min="0" step="1" value="5">
           </label>
-          <label> Brew color (hex)
-            <input type="text" data-field="brewColor" placeholder="#RRGGBB" value="#ffffff">
+          <label> Brew color
+            <input type="color" data-field="brewColor" value="#ffffff">
           </label>
         </div>
 
@@ -254,28 +289,38 @@ Resource pack (.zip)
         }
       });
 
-      const anyWood = card.querySelector('[data-field="anyWood"]');
-      const woodsDiv = card.querySelector('[data-list="woods"]');
-      anyWood.addEventListener('change', () => {
-        const checked = anyWood.checked;
-        woodsDiv.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-          cb.checked = checked;
-          cb.disabled = checked;
-        });
-      });
-
       brewsContainer.appendChild(card);
       // Prefill one empty effect and ingredient row for convenience
       addEffectRow(card.querySelector('[data-list="effects"]'));
       addIngredientRow(card.querySelector('[data-list="ingredients"]'));
+      const anyWood = card.querySelector('[data-field="anyWood"]');
+      const woodsDiv = card.querySelector('[data-list="woods"]');
+      if (anyWood) {
+        anyWood.addEventListener('change', () => {
+          const checked = anyWood.checked;
+          woodsDiv.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.checked = checked;
+            cb.disabled = checked;
+          });
+        });
+      }
     }
 
     function addEffectRow(container) {
       const row = document.createElement('div');
       row.className = 'row';
       row.innerHTML = `
-        <label> Effect key
-          <input type="text" data-effect="name" placeholder="e.g. effect.minecraft.speed">
+        <label>
+          <span>Effect</span>
+          <select data-effect="preset">
+            <option value="">Select an effect</option>
+            ${EFFECT_PRESETS.map(([key, value]) => `<option value="${value}">${key} (${value})</option>`).join('')}
+            <option value="custom">Custom effect ID</option>
+          </select>
+        </label>
+        <label>
+          <span>Custom effect ID</span>
+          <input type="text" data-effect="custom" placeholder="e.g. effect.minecraft.speed" disabled>
         </label>
         <label> Duration (minutes)
           <input type="number" data-effect="minutes" min="1" step="1" value="1">
@@ -285,6 +330,20 @@ Resource pack (.zip)
         </label>
         <button type="button" class="small" data-action="removeRow">Remove</button>
       `;
+
+      const presetSelect = row.querySelector('[data-effect="preset"]');
+      const customInput = row.querySelector('[data-effect="custom"]');
+      if (presetSelect && customInput) {
+        presetSelect.addEventListener('change', () => {
+          const isCustom = presetSelect.value === 'custom';
+          customInput.disabled = !isCustom;
+          if (!isCustom) {
+            customInput.value = '';
+          } else {
+            customInput.focus();
+          }
+        });
+      }
       container.appendChild(row);
     }
 
@@ -338,17 +397,25 @@ Resource pack (.zip)
       // Effects (minutes -> ticks)
       const effects = [];
       card.querySelectorAll('[data-list="effects"] .row').forEach(row => {
-        const nameEl = row.querySelector('[data-effect="name"]');
+        const presetEl = row.querySelector('[data-effect="preset"]');
+        const customEl = row.querySelector('[data-effect="custom"]');
         const minutesEl = row.querySelector('[data-effect="minutes"]');
         const ampEl = row.querySelector('[data-effect="amplifier"]');
-        const name = nameEl ? nameEl.value.trim() : '';
+        const presetValue = presetEl ? presetEl.value : '';
+        const customValue = customEl ? customEl.value.trim() : '';
+        let effectKey = '';
+        if (presetValue === 'custom') {
+          effectKey = customValue;
+        } else {
+          effectKey = presetValue;
+        }
+        if (!effectKey) return; // skip empty entries
         const minutes = minutesEl ? parseInt(minutesEl.value || '0', 10) : 0;
         const amplifier = ampEl ? parseInt(ampEl.value || '0', 10) : 0;
-        if (!name) return; // skip empty
-        if (!(minutes > 0)) throw new Error(`Effect "${name}": duration (minutes) must be > 0.`);
-        if (amplifier < 0 || amplifier > 255) throw new Error(`Effect "${name}": amplifier must be between 0 and 255.`);
+        if (!(minutes > 0)) throw new Error(`Effect "${effectKey}": duration (minutes) must be > 0.`);
+        if (amplifier < 0 || amplifier > 255) throw new Error(`Effect "${effectKey}": amplifier must be between 0 and 255.`);
         effects.push({
-          effect: name,
+          effect: effectKey,
           duration: minutes * 1200,
           amplifier: amplifier
         });
@@ -364,7 +431,7 @@ Resource pack (.zip)
       const optimalAgingTime = agingMinutes * 1200;     // minutes -> ticks
 
       // Woods
-      const anyWood = card.querySelector('[data-field="anyWood"]').checked;
+      const anyWood = card.querySelector('[data-field="anyWood"]')?.checked;
       let allowedWoodTypes = [];
       if (anyWood) {
         allowedWoodTypes = [...VALID_WOOD_TYPES];

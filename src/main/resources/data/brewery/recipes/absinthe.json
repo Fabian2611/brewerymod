@@ -9,8 +9,8 @@
     "inputs": [
       {
         "item": "minecraft:grass",
-        "minCount": 18,
-        "maxCount": 12
+        "minCount": 12,
+        "maxCount": 18
       }
     ],
     "maxAgingTimeError": 0.5,

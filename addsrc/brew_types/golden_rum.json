@@ -1,0 +1,19 @@
+{
+    "customLore": "brewery.brew.golden_rum.lore",
+    "customName": "brewery.brew.golden_rum.name",
+    "effects": [
+        {
+            "amplifier": 2,
+            "duration": 4800,
+            "effect": "effect.brewery.alcohol"
+        },
+        {
+            "amplifier": 0,
+            "duration": 2400,
+            "effect": "effect.brewery.haste"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 6,
+    "tintColor": 16541187
+}

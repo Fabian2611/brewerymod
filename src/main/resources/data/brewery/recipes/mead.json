@@ -9,8 +9,8 @@
     "inputs": [
       {
         "item": "minecraft:sugar_cane",
-        "maxCount": 7,
-        "minCount": 5
+        "minCount": 5,
+        "maxCount": 7
       }
     ],
     "maxAgingTimeError": 0.2,

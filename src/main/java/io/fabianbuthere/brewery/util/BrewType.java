@@ -25,7 +25,8 @@ public record BrewType(
         List<MobEffectInstance> effects,
         int tintColor,
         String customLore,
-        String customName
+        String customName,
+        String customTexture
 ) {
     public static ItemStack DEFAULT_POTION() {
         ItemStack stack = new ItemStack(Items.POTION);
@@ -134,6 +135,9 @@ public record BrewType(
         stack.getOrCreateTag().putInt("maxPurity", brewType.maxPurity());
         stack.getOrCreateTag().putInt("tintColor", brewType.tintColor());
         stack.getOrCreateTag().putInt("CustomPotionColor", brewType.tintColor());
+        if (brewType.customTexture() != null && !brewType.customTexture().isEmpty()) {
+            stack.getOrCreateTag().putString("customTexture", brewType.customTexture());
+        }
         ListTag loreList = new ListTag();
         loreList.add(StringTag.valueOf(Component.translatable(brewType.customLore()).getString()));
         stack.getOrCreateTag().getCompound("display").put("Lore", loreList);
@@ -229,6 +233,12 @@ public record BrewType(
         displayTag.put("Lore", loreList);
         displayTag.putString("Name", Component.Serializer.toJson(Component.translatable(brewTypeResult.customName())));
         resultTag.put("display", displayTag);
+
+        if (brewTypeResult.customTexture() != null && !brewTypeResult.customTexture().isEmpty()) {
+            resultTag.putString("customTexture", brewTypeResult.customTexture());
+            // If custom texture is present, remove CustomPotionColor so it doesn't get tinted by default renderer logic if we fail
+            // Actually, we keep it but our renderer will ignore it.
+        }
 
         // Effects scaled by purity
         java.util.List<MobEffectInstance> resultEffects = new java.util.ArrayList<>();
@@ -356,6 +366,9 @@ public record BrewType(
         displayTag.put("Lore", loreList);
         displayTag.putString("Name", Component.Serializer.toJson(Component.translatable(brewTypeResult.customName())));
         resultTag.put("display", displayTag);
+        if (brewTypeResult.customTexture() != null && !brewTypeResult.customTexture().isEmpty()) {
+            resultTag.putString("customTexture", brewTypeResult.customTexture());
+        }
         resultItem.setTag(resultTag);
         // Effects
         java.util.List<MobEffectInstance> resultEffects = new java.util.ArrayList<>();

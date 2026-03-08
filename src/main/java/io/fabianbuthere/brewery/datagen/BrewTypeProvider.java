@@ -52,6 +52,9 @@ public class BrewTypeProvider implements DataProvider {
         json.addProperty("tintColor", brewType.tintColor());
         json.addProperty("customLore", brewType.customLore());
         json.addProperty("customName", brewType.customName());
+        if (brewType.customTexture() != null && !brewType.customTexture().isEmpty()) {
+            json.addProperty("customTexture", brewType.customTexture());
+        }
         JsonArray effects = new JsonArray();
         for (MobEffectInstance effect : brewType.effects()) {
             JsonObject eff = new JsonObject();

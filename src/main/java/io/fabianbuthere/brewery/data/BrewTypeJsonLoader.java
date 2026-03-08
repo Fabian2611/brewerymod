@@ -51,6 +51,7 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
                 int tintColor = GsonHelper.getAsInt(json, "tintColor");
                 String customLore = GsonHelper.getAsString(json, "customLore");
                 String customName = GsonHelper.getAsString(json, "customName");
+                String customTexture = GsonHelper.getAsString(json, "customTexture", "");
 
                 List<MobEffectInstance> effects = new ArrayList<>();
                 JsonArray effectsArray = GsonHelper.getAsJsonArray(json, "effects");
@@ -78,7 +79,8 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
                         effects,
                         tintColor,
                         customLore,
-                        customName
+                        customName,
+                        customTexture
                 );
                 BrewTypeRegistry.register(brewType);
             } catch (Exception e) {

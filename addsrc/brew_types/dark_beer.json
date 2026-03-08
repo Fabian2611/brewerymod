@@ -1,0 +1,14 @@
+{
+    "customLore": "brewery.brew.dark_beer.lore",
+    "customName": "brewery.brew.dark_beer.name",
+    "effects": [
+        {
+            "amplifier": 1,
+            "duration": 8400,
+            "effect": "effect.brewery.alcohol"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 3,
+    "tintColor": 10379289
+}

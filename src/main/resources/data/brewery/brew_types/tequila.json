@@ -1,6 +1,7 @@
 {
     "customLore": "brewery.brew.tequila.lore",
     "customName": "brewery.brew.tequila.name",
+    "overageable": true,
     "effects": [
         {
             "amplifier": 1,

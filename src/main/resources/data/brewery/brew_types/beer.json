@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.beer.lore",
   "customName": "brewery.brew.beer.name",
+  "overageable": true,
   "effects": [
     {
       "amplifier": 1,

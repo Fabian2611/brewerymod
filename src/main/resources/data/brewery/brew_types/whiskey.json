@@ -1,6 +1,7 @@
 {
     "customLore": "brewery.brew.whiskey.lore",
     "customName": "brewery.brew.whiskey.name",
+    "overageable": true,
     "effects": [
         {
             "amplifier": 2,

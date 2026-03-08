@@ -52,6 +52,7 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
                 String customLore = GsonHelper.getAsString(json, "customLore");
                 String customName = GsonHelper.getAsString(json, "customName");
                 String customTexture = GsonHelper.getAsString(json, "customTexture", "");
+                boolean isOverageable = GsonHelper.getAsBoolean(json, "overageable", false);
 
                 List<MobEffectInstance> effects = new ArrayList<>();
                 JsonArray effectsArray = GsonHelper.getAsJsonArray(json, "effects");
@@ -80,7 +81,8 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
                         tintColor,
                         customLore,
                         customName,
-                        customTexture
+                        customTexture,
+                        isOverageable
                 );
                 BrewTypeRegistry.register(brewType);
             } catch (Exception e) {

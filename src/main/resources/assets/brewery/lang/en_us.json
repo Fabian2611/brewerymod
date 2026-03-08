@@ -133,5 +133,6 @@
   "brewery.brew.whiskey.hint": "A strong brew made from grains, with a long and complex brewing process.",
 
   "block.brewery.fermentation_barrel": "Fermentation Barrel",
-  "item.brewery.guide_book": "Brewing Guide Book"
+  "item.brewery.guide_book": "Brewing Guide Book",
+  "brewery.brew.overaged_lore": "Aged for %d years."
 }

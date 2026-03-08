@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.blood_wine.lore",
   "customName": "brewery.brew.blood_wine.name",
+  "overageable": true,
   "effects": [
     {
       "amplifier": 0,

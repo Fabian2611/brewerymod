@@ -1,6 +1,7 @@
 package io.fabianbuthere.brewery.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
@@ -44,11 +45,26 @@ public class CommandEvents {
                                 context.getSource().sendFailure(Component.literal("Unknown brew_type: " + brewType));
                                 return 0;
                             }
-                            ItemStack result = BrewType.finalizeBrew(recipe, context.getSource().getLevel());
+                            ItemStack result = BrewType.finalizeBrew(recipe, context.getSource().getLevel(), 24000);
                             context.getSource().getPlayerOrException().getInventory().add(result);
                             context.getSource().sendSuccess(() -> Component.literal("Given brew '" + brewType + "'!"), false);
                             return 1;
                         })
+                        .then(Commands.argument("age", LongArgumentType.longArg(0))
+                            .executes(context -> {
+                                String brewType = StringArgumentType.getString(context, "brew_type");
+                                long age = LongArgumentType.getLong(context, "age");
+                                BrewingRecipe recipe = getRecipeByBrewTypeId(context.getSource().getServer(), brewType);
+                                if (recipe == null) {
+                                    context.getSource().sendFailure(Component.literal("Unknown brew_type: " + brewType));
+                                    return 0;
+                                }
+                                ItemStack result = BrewType.finalizeBrew(recipe, context.getSource().getLevel(), age * 24000);
+                                context.getSource().getPlayerOrException().getInventory().add(result);
+                                context.getSource().sendSuccess(() -> Component.literal("Given brew '" + brewType + "' aged for " + age + " days!"), false);
+                                return 1;
+                            })
+                        )
                     )
                 )
                 .then(Commands.literal("list_recipes")

@@ -1,5 +1,6 @@
 package io.fabianbuthere.brewery.util;
 
+import io.fabianbuthere.brewery.BreweryMod;
 import io.fabianbuthere.brewery.recipe.BrewingRecipe;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -27,7 +28,8 @@ public record BrewType(
         int tintColor,
         String customLore,
         String customName,
-        String customTexture
+        String customTexture,
+        boolean isOverageable
 ) {
     public static ItemStack DEFAULT_POTION() {
         ItemStack stack = new ItemStack(Items.POTION);
@@ -259,6 +261,17 @@ public record BrewType(
         return resultItem;
     }
 
+    /// Build an overaged brew with aging time included in the tag.
+    public static ItemStack buildFinalBrew(BrewingRecipe recipe, int effectivePurity, Level level, long agingTime) {
+        ItemStack brew = buildFinalBrew(recipe, effectivePurity, level);
+        CompoundTag tag = brew.getOrCreateTag();
+        tag.putLong("agingTime", agingTime);
+        // Divide progress by 20 * 60 * 20 to convert ticks to ingame days, and display in the lore
+        tag.getCompound("display").getList("Lore", Tag.TAG_STRING).add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable("brewery.brew.overaged_lore", agingTime / 24000))));
+        brew.setTag(tag);
+        return brew;
+    }
+
     /**
      * Finalizes a brew, returning a finished or failed brew ItemStack.
      * Used by both Fermentation Barrel and Distillery Station.
@@ -306,12 +319,16 @@ public record BrewType(
             float maxError = recipe.getMaxAgingTimeError();
             long maxTime = Math.round(recipe.getOptimalAgingTime() * (1 + maxError));
             long minTime = Math.round(recipe.getOptimalAgingTime() * (1 - maxError));
-            if (progress < minTime || progress > maxTime) {return BrewType.INCORRECT_AGING_BREW();}
+            if (progress < minTime || (progress > maxTime && !brewTypeResult.isOverageable())) {return BrewType.INCORRECT_AGING_BREW();}
             // Purity from aging error curve
-            float error = (float) Math.abs(progress - recipe.getOptimalAgingTime()) / recipe.getOptimalAgingTime();
+            float error = brewTypeResult.isOverageable() && progress > recipe.getOptimalAgingTime() ? 0.0f : (float) Math.abs(progress - recipe.getOptimalAgingTime()) / recipe.getOptimalAgingTime();
             float errorContribution = (float) Math.pow(1.0f - error, 2);
             int effectivePurity = Math.round(actualPurity * errorContribution);
-            return buildFinalBrew(recipe, effectivePurity, level);
+            if (brewTypeResult.isOverageable()) {
+                return buildFinalBrew(recipe, effectivePurity, level, progress);
+            } else {
+                return buildFinalBrew(recipe, effectivePurity, level);
+            }
         } else if ("distillery".equals(context)) {
             // Fail if recipe does not require distilling, or already distilled
             if (recipe.getDistillingItem() == null || recipe.getDistillingItem().isEmpty() || !inputTag.getString("distillingItem").isEmpty()) {
@@ -348,7 +365,7 @@ public record BrewType(
      * @param level The Level
      * @return The perfect finalized ItemStack
      */
-    public static ItemStack finalizeBrew(BrewingRecipe recipe, Level level) {
+    public static ItemStack finalizeBrew(BrewingRecipe recipe, Level level, long agingTime) {
         BrewType brewTypeResult = BrewType.getBrewTypeFromId(recipe.getBrewTypeId());
         int maxPurity = brewTypeResult.maxPurity();
         ItemStack resultItem = recipe.getResultItem(level.registryAccess());
@@ -361,6 +378,9 @@ public record BrewType(
         ListTag loreList = new ListTag();
         loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(purityRepresentation))));
         loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable(brewTypeResult.customLore()))));
+        if (brewTypeResult.isOverageable()) {
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable("brewery.brew.overaged_lore", agingTime / 24000))));
+        }
         CompoundTag displayTag = resultTag.getCompound("display");
         displayTag.put("Lore", loreList);
         resultTag.put("display", displayTag);

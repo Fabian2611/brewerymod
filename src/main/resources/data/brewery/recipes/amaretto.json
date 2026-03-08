@@ -1,0 +1,35 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "mangrove",
+            "acacia",
+            "birch",
+            "jungle",
+            "crimson"
+        ],
+        "brew_type": "amaretto",
+        "distillingItem": "redstone",
+        "inputs": [
+            {
+                "item": "minecraft:potato",
+                "maxCount": 8,
+                "minCount": 4
+            },
+            {
+                "item": "minecraft:wheat",
+                "maxCount": 5,
+                "minCount": 3
+            },
+            {
+                "item": "minecraft:sugar_cane",
+                "maxCount": 4,
+                "minCount": 2
+            }
+        ],
+        "maxAgingTimeError": 0.3,
+        "maxBrewingTimeError": 0.1,
+        "optimalAgingTime": 96000,
+        "optimalBrewingTime": 9600
+    }
+}

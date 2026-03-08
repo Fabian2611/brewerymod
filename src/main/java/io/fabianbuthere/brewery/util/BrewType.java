@@ -1,6 +1,7 @@
 package io.fabianbuthere.brewery.util;
 
 import io.fabianbuthere.brewery.recipe.BrewingRecipe;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -35,7 +36,7 @@ public record BrewType(
     }
 
     public static ItemStack GENERIC_FAILED_BREW() {
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew"));
+        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
         CompoundTag tag = brew.getOrCreateTag();
         CompoundTag displayTag = tag.getCompound("display");
         ListTag loreList = new ListTag();
@@ -48,7 +49,7 @@ public record BrewType(
     }
 
     public static ItemStack WRONG_INGREDIENTS_BREW() {
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew"));
+        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
         CompoundTag tag = brew.getOrCreateTag();
         CompoundTag displayTag = tag.getCompound("display");
         ListTag loreList = new ListTag();
@@ -61,7 +62,7 @@ public record BrewType(
     }
 
     public static ItemStack INCORRECT_INGREDIENT_AMOUNT_BREW(){
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew"));
+        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
         CompoundTag tag = brew.getOrCreateTag();
         CompoundTag displayTag = tag.getCompound("display");
         ListTag loreList = new ListTag();
@@ -74,7 +75,7 @@ public record BrewType(
     }
 
     public static ItemStack INCORRECT_DISTILLERY_BREW(){
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew"));
+        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
         CompoundTag tag = brew.getOrCreateTag();
         CompoundTag displayTag = tag.getCompound("display");
         ListTag loreList = new ListTag();
@@ -87,7 +88,7 @@ public record BrewType(
     }
 
     public static ItemStack INCORRECT_BREWING_TIME_BREW(){
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew"));
+        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
         CompoundTag tag = brew.getOrCreateTag();
         CompoundTag displayTag = tag.getCompound("display");
         ListTag loreList = new ListTag();
@@ -100,7 +101,7 @@ public record BrewType(
     }
 
     public static ItemStack INCORRECT_AGING_BREW() {
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew"));
+        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
         CompoundTag tag = brew.getOrCreateTag();
         CompoundTag displayTag = tag.getCompound("display");
         ListTag loreList = new ListTag();
@@ -130,7 +131,7 @@ public record BrewType(
 
     public static ItemStack itemFromBrewType(BrewType brewType) {
         ItemStack stack = new ItemStack(Items.POTION);
-        stack.setHoverName(Component.translatable(brewType.customName()));
+        stack.setHoverName(Component.translatable(brewType.customName()).withStyle(style -> style.withItalic(false).withColor(ChatFormatting.YELLOW)));
         stack.getOrCreateTag().putInt("maxAlcoholLevel", brewType.maxAlcoholLevel());
         stack.getOrCreateTag().putInt("maxPurity", brewType.maxPurity());
         stack.getOrCreateTag().putInt("tintColor", brewType.tintColor());
@@ -201,7 +202,7 @@ public record BrewType(
         }
 
         // Set custom display
-        stack.setHoverName(Component.translatable("brewery.brew.unfinished_brew"));
+        stack.setHoverName(Component.translatable("brewery.brew.unfinished_brew").withStyle(style -> style.withItalic(false)));
         ListTag loreList = new ListTag();
         loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.unfinished_brew_lore"))));
         stack.getOrCreateTag().getCompound("display").put("Lore", loreList);
@@ -236,8 +237,6 @@ public record BrewType(
 
         if (brewTypeResult.customTexture() != null && !brewTypeResult.customTexture().isEmpty()) {
             resultTag.putString("customTexture", brewTypeResult.customTexture());
-            // If custom texture is present, remove CustomPotionColor so it doesn't get tinted by default renderer logic if we fail
-            // Actually, we keep it but our renderer will ignore it.
         }
 
         // Effects scaled by purity
@@ -364,7 +363,6 @@ public record BrewType(
         loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable(brewTypeResult.customLore()))));
         CompoundTag displayTag = resultTag.getCompound("display");
         displayTag.put("Lore", loreList);
-        displayTag.putString("Name", Component.Serializer.toJson(Component.translatable(brewTypeResult.customName())));
         resultTag.put("display", displayTag);
         if (brewTypeResult.customTexture() != null && !brewTypeResult.customTexture().isEmpty()) {
             resultTag.putString("customTexture", brewTypeResult.customTexture());
@@ -381,6 +379,7 @@ public record BrewType(
             }
         }
         resultItem.getTag().put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
+        resultItem.setHoverName(Component.translatable(brewTypeResult.customName()).withStyle(style -> style.withItalic(false).withColor(ChatFormatting.YELLOW)));
         return resultItem;
     }
 }

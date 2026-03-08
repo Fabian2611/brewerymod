@@ -1,0 +1,19 @@
+{
+    "customLore": "brewery.brew.amaretto.lore",
+    "customName": "brewery.brew.amaretto.name",
+    "effects": [
+        {
+            "amplifier": 1,
+            "duration": 3600,
+            "effect": "effect.brewery.alcohol"
+        },
+        {
+            "amplifier": 0,
+            "duration": 1200,
+            "effect": "effect.minecraft.saturation"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 5,
+    "tintColor": 12873044
+}

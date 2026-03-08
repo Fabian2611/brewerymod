@@ -1,5 +1,6 @@
 package io.fabianbuthere.brewery.clientdata.model;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -10,7 +11,7 @@ import net.minecraft.world.item.Items;
 @SuppressWarnings("removal")
 public record GuideEntry(String id, String titleKey, String descriptionKey, int tint, String iconItem, int order) {
     public Component titleComponent() {
-        return Component.translatable(titleKey);
+        return Component.translatable(titleKey).withStyle(style -> style.withItalic(false).withColor(ChatFormatting.YELLOW));
     }
     public Component descriptionComponent() {
         return Component.translatable(descriptionKey);

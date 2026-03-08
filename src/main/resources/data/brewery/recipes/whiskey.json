@@ -1,0 +1,32 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "mangrove",
+            "cherry"
+        ],
+        "brew_type": "whiskey",
+        "distillingItem": "glowstone_dust",
+        "inputs": [
+            {
+                "item": "minecraft:kelp",
+                "maxCount": 5,
+                "minCount": 3
+            },
+            {
+                "item": "minecraft:sugar",
+                "maxCount": 6,
+                "minCount": 4
+            },
+            {
+                "item": "minecraft:wheat",
+                "maxCount": 3,
+                "minCount": 1
+            }
+        ],
+        "maxAgingTimeError": 0.1,
+        "maxBrewingTimeError": 0.1,
+        "optimalAgingTime": 168000,
+        "optimalBrewingTime": 3600
+    }
+}

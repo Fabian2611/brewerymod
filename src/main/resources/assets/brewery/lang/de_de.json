@@ -120,5 +120,14 @@
   "brewery.brew.vodka.hint": "Ein wirklich primitiver Vodka. Nichts Besonderes, außer dem hohen Alkoholgehalt.",
   "brewery.brew.wheat_beer.hint": "Ein wirklich billiges Bier.",
   "block.brewery.fermentation_barrel": "Fermentationsfass",
-  "item.brewery.guide_book": "Brauerei-Handbuch"
+  "item.brewery.guide_book": "Brauerei-Handbuch",
+  "brewery.brew.amaretto.name": "Amaretto",
+  "brewery.brew.tequila.name": "Tequila",
+  "brewery.brew.whiskey.name": "Whiskey",
+  "brewery.brew.amaretto.lore": "Ein süßer und nussiger Likör, hergestellt aus Mandeln, bekannt für seinen unverwechselbaren Geschmack und seine Vielseitigkeit in Cocktails.",
+  "brewery.brew.tequila.lore": "Ein starker und geschmackvoller Schnaps, hergestellt aus Agave, bekannt für seinen einzigartigen Geschmack und seine kulturelle Bedeutung, insbesondere in Mexiko.",
+  "brewery.brew.whiskey.lore": "Ein klassischer und komplexer Schnaps, hergestellt aus fermentierten Getreiden, bekannt für seinen reichen Geschmack und sein Alterungspotential.",
+  "brewery.brew.amaretto.hint": "Ein süßer und nussiger Likör, hergestellt aus Mandeln. Das Rezept ist ein gut gehütetes Geheimnis.",
+  "brewery.brew.tequila.hint": "Ein starker und geschmackvoller Schnaps, mit einem langen und komplexen Brauprozess.",
+  "brewery.brew.whiskey.hint": "Ein klassischer und komplexer Schnaps, der durch einen sorgfältigen Brauprozess hergestellt wird."
 }

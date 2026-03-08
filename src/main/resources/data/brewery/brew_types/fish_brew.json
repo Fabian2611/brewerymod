@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.fish_brew.lore",
     "customName": "brewery.brew.fish_brew.name",
+    "customTexture": "minecraft:item/suspicious_stew",
     "effects": [
         {
             "amplifier": 2,

@@ -1,0 +1,32 @@
+{
+    "type": "brewery:brewing",
+    "brewing_data": {
+        "allowedWoodTypes": [
+            "jungle",
+            "acacia"
+        ],
+        "brew_type": "tequila",
+        "distillingItem": "redstone",
+        "inputs": [
+            {
+                "item": "minecraft:grass",
+                "maxCount": 3,
+                "minCount": 1
+            },
+            {
+                "item": "minecraft:potato",
+                "maxCount": 3,
+                "minCount": 1
+            },
+            {
+                "item": "minecraft:wheat_seeds",
+                "maxCount": 12,
+                "minCount": 8
+            }
+        ],
+        "maxAgingTimeError": 0.3,
+        "maxBrewingTimeError": 0.15,
+        "optimalAgingTime": 120000,
+        "optimalBrewingTime": 9600
+    }
+}

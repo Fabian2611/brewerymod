@@ -1,4 +1,5 @@
 {
+  "builtin": true,
   "maxAlcoholLevel": 4,
   "maxPurity": 5,
   "tintColor": 8454016,

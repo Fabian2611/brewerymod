@@ -1,4 +1,5 @@
 {
+    "builtin": true,
     "customLore": "brewery.brew.tequila.lore",
     "customName": "brewery.brew.tequila.name",
     "overageable": true,

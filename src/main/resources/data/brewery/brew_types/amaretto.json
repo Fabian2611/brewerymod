@@ -1,4 +1,5 @@
 {
+    "builtin": true,
     "customLore": "brewery.brew.amaretto.lore",
     "customName": "brewery.brew.amaretto.name",
     "effects": [

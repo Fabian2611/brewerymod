@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.gammel_dansk.lore",
     "customName": "brewery.brew.gammel_dansk.name",
+    "overageable": true,
     "effects": [
         {
             "amplifier": 0,

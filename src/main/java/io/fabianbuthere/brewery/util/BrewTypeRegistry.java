@@ -1,5 +1,6 @@
 package io.fabianbuthere.brewery.util;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +24,6 @@ public class BrewTypeRegistry {
     }
 
     public static Map<String, BrewType> getAll() {
-        return REGISTRY;
+        return Collections.unmodifiableMap(REGISTRY);
     }
 }
-

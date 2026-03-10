@@ -10,6 +10,7 @@ import io.fabianbuthere.brewery.event.ServerEventHandling;
 import io.fabianbuthere.brewery.item.ModCreativeModeTabs;
 import io.fabianbuthere.brewery.item.ModItems;
 import io.fabianbuthere.brewery.recipe.ModRecipes;
+import io.fabianbuthere.brewery.screen.CocktailStationScreen;
 import io.fabianbuthere.brewery.screen.DistilleryStationScreen;
 import io.fabianbuthere.brewery.screen.FermentationBarrelScreen;
 import io.fabianbuthere.brewery.screen.ModMenus;
@@ -94,11 +95,13 @@ public class BreweryMod
         {
             MenuScreens.register(ModMenus.DISTILLERY_STATION_MENU.get(), DistilleryStationScreen::new);
             MenuScreens.register(ModMenus.FERMENTATION_BARREL_MENU.get(), FermentationBarrelScreen::new);
+            MenuScreens.register(ModMenus.COCKTAIL_STATION_MENU.get(), CocktailStationScreen::new);
             ModBlocks.FERMENTATION_BARRELS.values().forEach(barrel ->
                 ItemBlockRenderTypes.setRenderLayer(barrel.get(), RenderType.translucent())
             );
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.BREWING_CAULDRON.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.DISTILLERY_STATION.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.COCKTAIL_STATION.get(), RenderType.translucent());
         }
     }
 }

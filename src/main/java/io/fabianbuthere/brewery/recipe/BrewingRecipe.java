@@ -12,6 +12,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
+import java.util.Collections;
 import java.util.List;
 
 public class BrewingRecipe implements Recipe<Container> {
@@ -25,7 +26,9 @@ public class BrewingRecipe implements Recipe<Container> {
     private final List<String> allowedWoodTypes;
     private final String brewTypeId;
 
-    public BrewingRecipe(ResourceLocation id, List<ItemStackInput> inputs, long optimalBrewingTime, float maxBrewingTimeError, String distillingItem, long optimalAgingTime, float maxAgingTimeError, List<String> allowedWoodTypes, String brewTypeId) {
+    public BrewingRecipe(ResourceLocation id, List<ItemStackInput> inputs, long optimalBrewingTime,
+                         float maxBrewingTimeError, String distillingItem, long optimalAgingTime,
+                         float maxAgingTimeError, List<String> allowedWoodTypes, String brewTypeId) {
         this.id = id;
         this.inputs = inputs;
         this.optimalBrewingTime = optimalBrewingTime;
@@ -37,9 +40,18 @@ public class BrewingRecipe implements Recipe<Container> {
         this.brewTypeId = brewTypeId;
     }
 
+    public boolean requiresDistilling() {
+        return distillingItem != null && !distillingItem.isEmpty();
+    }
+
+    public boolean requiresAging() {
+        return optimalAgingTime > 0L && !allowedWoodTypes.isEmpty();
+    }
+
+    // ── Recipe interface ───────────────────────────
+
     @Override
     public boolean matches(Container container, Level level) {
-        // Sum the total count of each ingredient type across all slots
         for (ItemStackInput input : inputs) {
             int totalCount = 0;
             for (int j = 0; j < container.getContainerSize(); j++) {
@@ -51,7 +63,6 @@ public class BrewingRecipe implements Recipe<Container> {
                 return false;
             }
         }
-        // Also check that there are no extra items present
         for (int j = 0; j < container.getContainerSize(); j++) {
             ItemStack stack = container.getItem(j);
             if (!stack.isEmpty() && inputs.stream().noneMatch(i -> i.item() == stack.getItem())) {
@@ -63,7 +74,6 @@ public class BrewingRecipe implements Recipe<Container> {
 
     @Override
     public ItemStack assemble(Container container, RegistryAccess registryAccess) {
-        // Return a placeholder (should be replaced with actual brewed item logic)
         return new ItemStack(Items.GLASS_BOTTLE);
     }
 
@@ -95,12 +105,14 @@ public class BrewingRecipe implements Recipe<Container> {
         return ModRecipes.BREWING_RECIPE_TYPE;
     }
 
-    public List<ItemStackInput> getInputs() { return inputs; }
+    // ── Getters (immutable list returns) ───────────
+
+    public List<ItemStackInput> getInputs() { return Collections.unmodifiableList(inputs); }
     public long getOptimalBrewingTime() { return optimalBrewingTime; }
     public float getMaxBrewingTimeError() { return maxBrewingTimeError; }
     public long getOptimalAgingTime() { return optimalAgingTime; }
     public float getMaxAgingTimeError() { return maxAgingTimeError; }
-    public List<String> getAllowedWoodTypes() { return allowedWoodTypes; }
+    public List<String> getAllowedWoodTypes() { return Collections.unmodifiableList(allowedWoodTypes); }
     public String getBrewTypeId() { return brewTypeId; }
     public String getDistillingItem() { return distillingItem; }
 }

@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BooleanSupplier;
 
 @SuppressWarnings("removal")
 public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
@@ -33,7 +32,8 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager, net.minecraft.util.profiling.ProfilerFiller profiler) {
+    protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager,
+                         net.minecraft.util.profiling.ProfilerFiller profiler) {
         BrewTypeRegistry.clear();
         final boolean useBuiltinBrews = BreweryConfig.ENABLE_BUILTIN_BREWS.get();
 
@@ -66,7 +66,8 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
                     if (mobEffect == null) {
                         String[] split = effectId.split("\\.");
                         if (split.length > 1) {
-                            mobEffect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(split[split.length - 2], split[split.length - 1]));
+                            mobEffect = ForgeRegistries.MOB_EFFECTS.getValue(
+                                    new ResourceLocation(split[split.length - 2], split[split.length - 1]));
                         }
                     }
                     if (mobEffect == null) mobEffect = MobEffects.LUCK;
@@ -89,6 +90,7 @@ public class BrewTypeJsonLoader extends SimpleJsonResourceReloadListener {
                 LOGGER.error("Failed to load BrewType {}: {}", id, e);
             }
         });
-        LOGGER.info("Loaded {} BrewTypes from JSON. Registered BrewTypes: {}", BrewTypeRegistry.getAll().size(), BrewTypeRegistry.getAll().keySet());
+        LOGGER.info("Loaded {} BrewTypes from JSON. Registered BrewTypes: {}",
+                BrewTypeRegistry.getAll().size(), BrewTypeRegistry.getAll().keySet());
     }
 }

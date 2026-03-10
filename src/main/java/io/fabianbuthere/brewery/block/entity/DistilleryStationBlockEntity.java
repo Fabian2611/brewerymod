@@ -28,9 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class DistilleryStationBlockEntity extends BlockEntity implements MenuProvider {
-    private final ItemStackHandler itemHandler = new ItemStackHandler(3) {
-
-    };
+    private final ItemStackHandler itemHandler = new ItemStackHandler(3);
 
     private static final int INPUT_SLOT = 0;
     private static final int FILTER_SLOT = 1;
@@ -70,7 +68,7 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
     }
 
     public void drops() {
-        SimpleContainer inventory = new SimpleContainer((itemHandler.getSlots()));
+        SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
         for (int i = 0; i < itemHandler.getSlots(); i++) {
             inventory.setItem(i, itemHandler.getStackInSlot(i));
         }
@@ -109,7 +107,6 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
     protected void saveAdditional(CompoundTag pTag) {
         pTag.put("inventory", itemHandler.serializeNBT());
         pTag.putInt("distillery_station.progress", this.progress);
-
         super.saveAdditional(pTag);
     }
 
@@ -117,12 +114,10 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
     public void load(CompoundTag pTag) {
         itemHandler.deserializeNBT(pTag.getCompound("inventory"));
         this.progress = pTag.getInt("distillery_station.progress");
-
         super.load(pTag);
     }
 
     public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
-        // Explicitly cancel progress if filter is removed during processing
         if (itemHandler.getStackInSlot(FILTER_SLOT).isEmpty()) {
             if (progress > 0) {
                 progress = 0;
@@ -133,8 +128,7 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
         if (hasRecipe()) {
             progress += 1;
             setChanged(pLevel, pPos, pState);
-
-            if(progress >= maxProgress) {
+            if (progress >= maxProgress) {
                 craftItem();
                 progress = 0;
             }
@@ -153,7 +147,7 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
         ItemStack outputStack = itemHandler.getStackInSlot(OUTPUT_SLOT);
         if (!outputStack.isEmpty() && !outputStack.is(Items.AIR)) return false;
 
-        if (inputStack.getItem() == net.minecraft.world.item.Items.POTION) {
+        if (inputStack.getItem() == Items.POTION) {
             CompoundTag tag = inputStack.getTag();
             if (tag == null) return false;
             if (tag.contains("recipeId")) {
@@ -175,15 +169,9 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
                 var recipes = level.getRecipeManager().getAllRecipesFor(ModRecipes.BREWING_RECIPE_TYPE);
                 for (var recipe : recipes) {
                     if (recipe.getId().toString().equals(recipeId)) {
-                        ItemStack result = BrewType.finalizeBrew(
-                            recipe,
-                            inputStack,
-                            filterStack,
-                            0L, // No aging progress needed for distillery
-                            null, // No barrel wood type for distillery
-                            "distillery",
-                            level
-                        );
+                        // Use the new typed method directly
+                        ItemStack result = BrewType.finalizeDistilleryBrew(
+                                recipe, inputStack, filterStack, level);
                         itemHandler.setStackInSlot(OUTPUT_SLOT, result);
                         inputStack.shrink(1);
                         filterStack.shrink(1);
@@ -192,8 +180,7 @@ public class DistilleryStationBlockEntity extends BlockEntity implements MenuPro
                 }
             }
         } else {
-            ItemStack result = BrewType.GENERIC_FAILED_BREW();
-            itemHandler.setStackInSlot(OUTPUT_SLOT, result);
+            itemHandler.setStackInSlot(OUTPUT_SLOT, BrewType.GENERIC_FAILED_BREW());
         }
     }
 }

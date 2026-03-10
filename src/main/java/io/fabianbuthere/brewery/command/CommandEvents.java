@@ -33,86 +33,81 @@ public class CommandEvents {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
 
         dispatcher.register(
-            Commands.literal("brewery")
-                .requires(source -> source.isPlayer() && source.hasPermission(3))
-                .then(Commands.literal("give")
-                    .then(Commands.argument("brew_type", StringArgumentType.word())
-                        .suggests(CommandEvents::suggestBrewTypes)
-                        .executes(context -> {
-                            String brewType = StringArgumentType.getString(context, "brew_type");
-                            BrewingRecipe recipe = getRecipeByBrewTypeId(context.getSource().getServer(), brewType);
-                            if (recipe == null) {
-                                context.getSource().sendFailure(Component.literal("Unknown brew_type: " + brewType));
-                                return 0;
-                            }
-                            ItemStack result = BrewType.finalizeBrew(recipe, context.getSource().getLevel(), 24000);
-                            context.getSource().getPlayerOrException().getInventory().add(result);
-                            context.getSource().sendSuccess(() -> Component.literal("Given brew '" + brewType + "'!"), false);
-                            return 1;
-                        })
-                        .then(Commands.argument("age", LongArgumentType.longArg(0))
-                            .executes(context -> {
-                                String brewType = StringArgumentType.getString(context, "brew_type");
-                                long age = LongArgumentType.getLong(context, "age");
-                                BrewingRecipe recipe = getRecipeByBrewTypeId(context.getSource().getServer(), brewType);
-                                if (recipe == null) {
-                                    context.getSource().sendFailure(Component.literal("Unknown brew_type: " + brewType));
-                                    return 0;
-                                }
-                                ItemStack result = BrewType.finalizeBrew(recipe, context.getSource().getLevel(), age * 24000);
-                                context.getSource().getPlayerOrException().getInventory().add(result);
-                                context.getSource().sendSuccess(() -> Component.literal("Given brew '" + brewType + "' aged for " + age + " days!"), false);
-                                return 1;
-                            })
+                Commands.literal("brewery")
+                        .requires(source -> source.isPlayer() && source.hasPermission(3))
+                        .then(Commands.literal("give")
+                                .then(Commands.argument("brew_type", StringArgumentType.word())
+                                        .suggests(CommandEvents::suggestBrewTypes)
+                                        .executes(context -> {
+                                            String brewTypeId = StringArgumentType.getString(context, "brew_type");
+                                            BrewType brewType = BrewType.getBrewTypeFromId(brewTypeId);
+                                            if (brewType == null) {
+                                                context.getSource().sendFailure(Component.literal("Unknown brew_type: " + brewTypeId));
+                                                return 0;
+                                            }
+                                            ItemStack result = BrewType.buildPerfectBrewFromType(brewType, 24000);
+                                            context.getSource().getPlayerOrException().getInventory().add(result);
+                                            context.getSource().sendSuccess(() -> Component.literal("Given brew '" + brewTypeId + "'!"), false);
+                                            return 1;
+                                        })
+                                        .then(Commands.argument("age", LongArgumentType.longArg(0))
+                                                .executes(context -> {
+                                                    String brewTypeId = StringArgumentType.getString(context, "brew_type");
+                                                    long age = LongArgumentType.getLong(context, "age");
+                                                    BrewType brewType = BrewType.getBrewTypeFromId(brewTypeId);
+                                                    if (brewType == null) {
+                                                        context.getSource().sendFailure(Component.literal("Unknown brew_type: " + brewTypeId));
+                                                        return 0;
+                                                    }
+                                                    ItemStack result = BrewType.buildPerfectBrewFromType(brewType, age * 24000);
+                                                    context.getSource().getPlayerOrException().getInventory().add(result);
+                                                    context.getSource().sendSuccess(() -> Component.literal("Given brew '" + brewTypeId + "' aged for " + age + " days!"), false);
+                                                    return 1;
+                                                })
+                                        )
+                                )
                         )
-                    )
-                )
-                .then(Commands.literal("list_recipes")
-                    .executes(context -> {
-                        MinecraftServer server = context.getSource().getServer();
-                        Set<String> brewingRecipes = getAllBrewRecipeIds(server);
-                        if (brewingRecipes.isEmpty()) {
-                            context.getSource().sendFailure(Component.literal("No brewing recipes found."));
-                        } else {
-                            context.getSource().sendSuccess(() -> Component.literal("Available brewing recipes: " + String.join(", ", brewingRecipes.stream().sorted().toList())), false);
-                        }
-                        return 1;
-                    })
-                )
-                .then(Commands.literal("list_brews")
-                        .executes(context -> {
-                            MinecraftServer server = context.getSource().getServer();
-                            Set<String> brewTypes = getAllBrewTypeIds(server);
-                            if (brewTypes.isEmpty()) {
-                                context.getSource().sendFailure(Component.literal("No brew types found."));
-                            } else {
-                                context.getSource().sendSuccess(() -> Component.literal("Available brew types: " + String.join(", ", brewTypes.stream().sorted().toList())), false);
-                            }
-                            return 1;
-                        })
-                )
-                .then(Commands.literal("drink")
-                    .then(Commands.argument("brew_type", StringArgumentType.word())
-                        .suggests(CommandEvents::suggestBrewTypes)
-                        .executes(context -> {
-                            String brewTypeArg = StringArgumentType.getString(context, "brew_type");
-                            BrewingRecipe recipe = getRecipeByBrewTypeId(context.getSource().getServer(), brewTypeArg);
-                            if (recipe == null) {
-                                context.getSource().sendFailure(Component.literal("Unknown brew_type: " + brewTypeArg));
-                                return 0;
-                            }
-                            BrewType brewType = BrewType.getBrewTypeFromId(recipe.getBrewTypeId());
-                            if (brewType == null) {
-                                context.getSource().sendFailure(Component.literal("Brew type not found: " + brewTypeArg));
-                                return 0;
-                            }
-                            for (MobEffectInstance effect : brewType.effects()) {
-                                context.getSource().getPlayerOrException().addEffect(effect);
-                            }
-                            return 1;
-                        })
-                    )
-                )
+                        .then(Commands.literal("list_recipes")
+                                .executes(context -> {
+                                    MinecraftServer server = context.getSource().getServer();
+                                    Set<String> brewingRecipes = getAllBrewRecipeIds(server);
+                                    if (brewingRecipes.isEmpty()) {
+                                        context.getSource().sendFailure(Component.literal("No brewing recipes found."));
+                                    } else {
+                                        context.getSource().sendSuccess(() -> Component.literal("Available brewing recipes: " + String.join(", ", brewingRecipes.stream().sorted().toList())), false);
+                                    }
+                                    return 1;
+                                })
+                        )
+                        .then(Commands.literal("list_brews")
+                                .executes(context -> {
+                                    MinecraftServer server = context.getSource().getServer();
+                                    Set<String> brewTypes = getAllBrewTypeIds(server);
+                                    if (brewTypes.isEmpty()) {
+                                        context.getSource().sendFailure(Component.literal("No brew types found."));
+                                    } else {
+                                        context.getSource().sendSuccess(() -> Component.literal("Available brew types: " + String.join(", ", brewTypes.stream().sorted().toList())), false);
+                                    }
+                                    return 1;
+                                })
+                        )
+                        .then(Commands.literal("drink")
+                                .then(Commands.argument("brew_type", StringArgumentType.word())
+                                        .suggests(CommandEvents::suggestBrewTypes)
+                                        .executes(context -> {
+                                            String brewTypeId = StringArgumentType.getString(context, "brew_type");
+                                            BrewType brewType = BrewType.getBrewTypeFromId(brewTypeId);
+                                            if (brewType == null) {
+                                                context.getSource().sendFailure(Component.literal("Brew type not found: " + brewTypeId));
+                                                return 0;
+                                            }
+                                            for (MobEffectInstance effect : brewType.effects()) {
+                                                context.getSource().getPlayerOrException().addEffect(effect);
+                                            }
+                                            return 1;
+                                        })
+                                )
+                        )
         );
     }
 
@@ -135,28 +130,14 @@ public class CommandEvents {
 
     private static Set<String> getAllBrewRecipeIds(MinecraftServer server) {
         Set<String> brewRecipes = new HashSet<>();
-        ServerLevel level = server.overworld(); // Why tf is this not in the server instance?
+        ServerLevel level = server.overworld();
         for (BrewingRecipe recipe : level.getRecipeManager().getAllRecipesFor(ModRecipes.BREWING_RECIPE_TYPE)) {
             brewRecipes.add(recipe.getId().toString());
         }
         return brewRecipes;
     }
 
-    private static Set<String> getAllBrewTypeIds (MinecraftServer server) {
-        Set<String> brewTypes = new HashSet<>();
-        for (String brewType : BrewTypeRegistry.getAll().keySet()) {
-            brewTypes.add(brewType);
-        }
-        return brewTypes;
-    }
-
-    private static BrewingRecipe getRecipeByBrewTypeId(MinecraftServer server, String brewTypeId) {
-        ServerLevel level = server.overworld();
-        for (BrewingRecipe recipe : level.getRecipeManager().getAllRecipesFor(ModRecipes.BREWING_RECIPE_TYPE)) {
-            if (recipe.getBrewTypeId().equals(brewTypeId)) {
-                return recipe;
-            }
-        }
-        return null;
+    private static Set<String> getAllBrewTypeIds(MinecraftServer server) {
+        return new HashSet<>(BrewTypeRegistry.getAll().keySet());
     }
 }

@@ -4,6 +4,7 @@
   "brewery.brew.failed_brew_wrong_ingredients_lore": "Das hat fast geklappt... vielleicht solltest du die Mengen der Zutaten anpassen.",
   "brewery.brew.failed_brew_wrong_ingredients_amount_lore": "Das hat fast geklappt... aber die Zutatenliste scheint nicht ganz richtig zu sein.",
   "brewery.brew.failed_brew_wrong_brewing_time_lore": "Das hat fast geklappt... aber die Brauzeit scheint nicht zu stimmen.",
+  "brewery.brew.failed_brew_spoiled_lore": "Das hat fast geklappt... aber das Getränk ist verdorben.",
   "brewery.brew.unfinished_brew": "Unfertiges Getränk",
   "brewery.brew.unfinished_brew_lore": "Dieses Getränk ist bereit für den nächsten Schritt!",
   "brewery.brew.failed_brew_wrong_distilling_lore": "Das hat fast geklappt... aber der Destillierungsprozess war nicht ganz richtig.",
@@ -130,5 +131,6 @@
   "brewery.brew.whiskey.hint": "Ein klassischer und komplexer Schnaps, der durch einen sorgfältigen Brauprozess hergestellt wird.",
   "block.brewery.fermentation_barrel": "Fermentationsfass",
   "item.brewery.guide_book": "Brauerei-Handbuch",
-  "brewery.brew.overaged_lore": "Für %d Jahre gereift."
+  "brewery.brew.overaged_singular_lore": "Für %d Jahr gealtert.",
+  "brewery.brew.overaged_plural_lore": "Für %d Jahre gealtert."
 }

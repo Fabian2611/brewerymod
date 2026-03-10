@@ -1,7 +1,9 @@
 package io.fabianbuthere.brewery.datagen;
 
 import io.fabianbuthere.brewery.BreweryMod;
+import io.fabianbuthere.brewery.block.ModBlocks;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -16,7 +18,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        // blockWithItem(ModBlocks.DISTILLERY_STATION);
+        blockAndItemWithExistingModel(modLoc("cocktail_station"), ModBlocks.COCKTAIL_STATION);
+    }
+
+    private void blockAndItemWithExistingModel(ResourceLocation id, RegistryObject<Block> block) {
+        ModelFile model = models().getExistingFile(id);
+        simpleBlockWithItem(block.get(), model);
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {

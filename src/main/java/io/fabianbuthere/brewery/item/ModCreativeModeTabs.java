@@ -25,6 +25,7 @@ public class ModCreativeModeTabs {
                 }
                 pOutput.accept(ModBlocks.BREW_SHELF.get());
                 pOutput.accept(ModItems.GUIDE_BOOK.get());
+                pOutput.accept(ModBlocks.COCKTAIL_STATION.get());
             })
             .build());
 

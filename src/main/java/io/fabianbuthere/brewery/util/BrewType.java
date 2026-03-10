@@ -8,12 +8,14 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,88 +33,64 @@ public record BrewType(
         String customTexture,
         boolean isOverageable
 ) {
-    public static ItemStack DEFAULT_POTION() {
+
+    // ── NBT key for brew type identification ──
+    public static final String BREW_TYPE_ID_TAG = "brewTypeId";
+
+    public enum BrewFailure {
+        GENERIC("brewery.brew.failed_brew_generic_lore"),
+        WRONG_INGREDIENTS("brewery.brew.failed_brew_wrong_ingredients_lore"),
+        INCORRECT_INGREDIENT_AMOUNT("brewery.brew.failed_brew_wrong_ingredients_amount_lore"),
+        INCORRECT_DISTILLERY("brewery.brew.failed_brew_wrong_distilling_lore"),
+        INCORRECT_BREWING_TIME("brewery.brew.failed_brew_wrong_brewing_time_lore"),
+        INCORRECT_AGING("brewery.brew.failed_brew_wrong_aging_lore"),
+        SPOILED("brewery.brew.failed_brew_spoiled_lore");
+
+        private final String loreKey;
+
+        BrewFailure(String loreKey) {
+            this.loreKey = loreKey;
+        }
+
+        public String getLoreKey() {
+            return loreKey;
+        }
+    }
+
+    private static final int FAILED_BREW_COLOR = 0xFFCD94;
+
+    private static @NotNull ItemStack createFailedBrew(String loreTranslationKey) {
+        ItemStack brew = new ItemStack(Items.POTION);
+        brew.setHoverName(Component.translatable("brewery.brew.failed_brew")
+                .withStyle(style -> style.withItalic(false)));
+        CompoundTag tag = brew.getOrCreateTag();
+        CompoundTag displayTag = tag.getCompound("display");
+        ListTag loreList = new ListTag();
+        loreList.add(StringTag.valueOf(
+                Component.Serializer.toJson(Component.translatable(loreTranslationKey))));
+        displayTag.put("Lore", loreList);
+        tag.put("display", displayTag);
+        tag.putInt("CustomPotionColor", FAILED_BREW_COLOR);
+        brew.setTag(tag);
+        return brew;
+    }
+
+    public static @NotNull ItemStack failedBrew(@NotNull BrewFailure reason) {
+        return createFailedBrew(reason.getLoreKey());
+    }
+
+    public static @NotNull ItemStack GENERIC_FAILED_BREW() { return failedBrew(BrewFailure.GENERIC); }
+    public static @NotNull ItemStack WRONG_INGREDIENTS_BREW() { return failedBrew(BrewFailure.WRONG_INGREDIENTS); }
+    public static @NotNull ItemStack INCORRECT_INGREDIENT_AMOUNT_BREW() { return failedBrew(BrewFailure.INCORRECT_INGREDIENT_AMOUNT); }
+    public static @NotNull ItemStack INCORRECT_DISTILLERY_BREW() { return failedBrew(BrewFailure.INCORRECT_DISTILLERY); }
+    public static @NotNull ItemStack INCORRECT_BREWING_TIME_BREW() { return failedBrew(BrewFailure.INCORRECT_BREWING_TIME); }
+    public static @NotNull ItemStack INCORRECT_AGING_BREW() { return failedBrew(BrewFailure.INCORRECT_AGING); }
+    public static @NotNull ItemStack SPOILED_BREW() { return failedBrew(BrewFailure.SPOILED); }
+
+    public static @NotNull ItemStack DEFAULT_POTION() {
         ItemStack stack = new ItemStack(Items.POTION);
         stack.getOrCreateTag().putString("Potion", "minecraft:water");
         return stack;
-    }
-
-    public static ItemStack GENERIC_FAILED_BREW() {
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
-        CompoundTag tag = brew.getOrCreateTag();
-        CompoundTag displayTag = tag.getCompound("display");
-        ListTag loreList = new ListTag();
-        loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.failed_brew_generic_lore"))));
-        displayTag.put("Lore", loreList);
-        tag.put("display", displayTag);
-        tag.putInt("CustomPotionColor", 0xFFCD94);
-        brew.setTag(tag);
-        return brew;
-    }
-
-    public static ItemStack WRONG_INGREDIENTS_BREW() {
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
-        CompoundTag tag = brew.getOrCreateTag();
-        CompoundTag displayTag = tag.getCompound("display");
-        ListTag loreList = new ListTag();
-        loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.failed_brew_wrong_ingredients_lore"))));
-        displayTag.put("Lore", loreList);
-        tag.put("display", displayTag);
-        tag.putInt("CustomPotionColor", 0xFFCD94);
-        brew.setTag(tag);
-        return brew;
-    }
-
-    public static ItemStack INCORRECT_INGREDIENT_AMOUNT_BREW(){
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
-        CompoundTag tag = brew.getOrCreateTag();
-        CompoundTag displayTag = tag.getCompound("display");
-        ListTag loreList = new ListTag();
-        loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.failed_brew_wrong_ingredients_amount_lore"))));
-        displayTag.put("Lore", loreList);
-        tag.put("display", displayTag);
-        tag.putInt("CustomPotionColor", 0xFFCD94);
-        brew.setTag(tag);
-        return brew;
-    }
-
-    public static ItemStack INCORRECT_DISTILLERY_BREW(){
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
-        CompoundTag tag = brew.getOrCreateTag();
-        CompoundTag displayTag = tag.getCompound("display");
-        ListTag loreList = new ListTag();
-        loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.failed_brew_wrong_distilling_lore"))));
-        displayTag.put("Lore", loreList);
-        tag.put("display", displayTag);
-        tag.putInt("CustomPotionColor", 0xFFCD94);
-        brew.setTag(tag);
-        return brew;
-    }
-
-    public static ItemStack INCORRECT_BREWING_TIME_BREW(){
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
-        CompoundTag tag = brew.getOrCreateTag();
-        CompoundTag displayTag = tag.getCompound("display");
-        ListTag loreList = new ListTag();
-        loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.failed_brew_wrong_brewing_time_lore"))));
-        displayTag.put("Lore", loreList);
-        tag.put("display", displayTag);
-        tag.putInt("CustomPotionColor", 0xFFCD94);
-        brew.setTag(tag);
-        return brew;
-    }
-
-    public static ItemStack INCORRECT_AGING_BREW() {
-        ItemStack brew = new ItemStack(Items.POTION).setHoverName(Component.translatable("brewery.brew.failed_brew").withStyle(style -> style.withItalic(false)));
-        CompoundTag tag = brew.getOrCreateTag();
-        CompoundTag displayTag = tag.getCompound("display");
-        ListTag loreList = new ListTag();
-        loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.failed_brew_wrong_aging_lore"))));
-        displayTag.put("Lore", loreList);
-        tag.put("display", displayTag);
-        tag.putInt("CustomPotionColor", 0xFFCD94);
-        brew.setTag(tag);
-        return brew;
     }
 
     public static boolean isValid(String id) {
@@ -124,47 +102,92 @@ public record BrewType(
     }
 
     public static ItemStack getResultItem(String id) {
-        if (getBrewTypeFromId(id) != null) {
-            return itemFromBrewType(getBrewTypeFromId(id));
-        } else {
-            return DEFAULT_POTION();
-        }
+        BrewType brewType = getBrewTypeFromId(id);
+        return brewType != null ? itemFromBrewType(brewType) : DEFAULT_POTION();
     }
 
-    public static ItemStack itemFromBrewType(BrewType brewType) {
+    private static boolean hasCustomTexture(@NotNull BrewType brewType) {
+        return brewType.customTexture() != null && !brewType.customTexture().isEmpty();
+    }
+
+    public static @NotNull ItemStack itemFromBrewType(@NotNull BrewType brewType) {
         ItemStack stack = new ItemStack(Items.POTION);
-        stack.setHoverName(Component.translatable(brewType.customName()).withStyle(style -> style.withItalic(false).withColor(ChatFormatting.YELLOW)));
-        stack.getOrCreateTag().putInt("maxAlcoholLevel", brewType.maxAlcoholLevel());
-        stack.getOrCreateTag().putInt("maxPurity", brewType.maxPurity());
-        stack.getOrCreateTag().putInt("tintColor", brewType.tintColor());
-        stack.getOrCreateTag().putInt("CustomPotionColor", brewType.tintColor());
-        if (brewType.customTexture() != null && !brewType.customTexture().isEmpty()) {
-            stack.getOrCreateTag().putString("customTexture", brewType.customTexture());
+        stack.setHoverName(Component.translatable(brewType.customName())
+                .withStyle(style -> style.withItalic(false).withColor(ChatFormatting.YELLOW)));
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putInt("maxAlcoholLevel", brewType.maxAlcoholLevel());
+        tag.putInt("maxPurity", brewType.maxPurity());
+        tag.putInt("tintColor", brewType.tintColor());
+        tag.putInt("CustomPotionColor", brewType.tintColor());
+        if (hasCustomTexture(brewType)) {
+            tag.putString("customTexture", brewType.customTexture());
         }
         ListTag loreList = new ListTag();
-        loreList.add(StringTag.valueOf(Component.translatable(brewType.customLore()).getString()));
-        stack.getOrCreateTag().getCompound("display").put("Lore", loreList);
+        loreList.add(StringTag.valueOf(
+                Component.Serializer.toJson(Component.translatable(brewType.customLore()))));
+        tag.getCompound("display").put("Lore", loreList);
         return stack;
     }
 
-    public static Tag serializeEffects(List<MobEffectInstance> effects) {
-        net.minecraft.nbt.ListTag listTag = new net.minecraft.nbt.ListTag();
+    public static @NotNull Tag serializeEffects(@NotNull List<MobEffectInstance> effects) {
+        ListTag listTag = new ListTag();
         for (MobEffectInstance effect : effects) {
-            CompoundTag effectTag = effect.save(new net.minecraft.nbt.CompoundTag());
+            CompoundTag effectTag = effect.save(new CompoundTag());
             effectTag.putBoolean("ShowParticles", false);
             listTag.add(effectTag);
         }
         return listTag;
     }
 
-    public Tag serializeEffects() {
+    public @NotNull Tag serializeEffects() {
         return serializeEffects(this.effects());
     }
 
+    private static @NotNull List<MobEffectInstance> buildScaledEffects(@NotNull BrewType brewType, int clampedPurity, float purityFactor) {
+        List<MobEffectInstance> resultEffects = new ArrayList<>();
+        for (MobEffectInstance effect : brewType.effects()) {
+            MobEffect mobEffect = effect.getEffect();
+            int duration = Math.round(effect.getDuration() * purityFactor);
+            int amplifier = Math.max(0, Math.round(effect.getAmplifier() * purityFactor));
+            if (duration > 0) {
+                resultEffects.add(new MobEffectInstance(mobEffect, duration, amplifier));
+            }
+        }
+        int maxPurity = brewType.maxPurity();
+        if (clampedPurity < (double) maxPurity / 2) {
+            int hangoverDuration = 600 * Math.max(1, maxPurity / 2 - clampedPurity + 1);
+            resultEffects.add(new MobEffectInstance(
+                    io.fabianbuthere.brewery.effect.ModEffects.HANGOVER.get(),
+                    hangoverDuration, 0, false, false, true));
+        }
+        return resultEffects;
+    }
+
+    private static void applyFinalDisplay(@NotNull CompoundTag resultTag, @NotNull BrewType brewType, @NotNull BrewingRecipe recipe,
+                                          String purityRepresentation) {
+        resultTag.putString("recipeId", recipe.getId().toString());
+        resultTag.putString(BREW_TYPE_ID_TAG, brewType.id()); // ← store brew type ID directly
+        ListTag loreList = new ListTag();
+        loreList.add(StringTag.valueOf(
+                Component.Serializer.toJson(Component.literal(purityRepresentation))));
+        loreList.add(StringTag.valueOf(
+                Component.Serializer.toJson(Component.translatable(brewType.customLore()))));
+        CompoundTag displayTag = resultTag.getCompound("display");
+        displayTag.put("Lore", loreList);
+        displayTag.putString("Name",
+                Component.Serializer.toJson(Component.translatable(brewType.customName())
+                        .withStyle(style -> style.withItalic(false).withColor(ChatFormatting.YELLOW))));
+        resultTag.put("display", displayTag);
+        if (hasCustomTexture(brewType)) {
+            resultTag.putString("customTexture", brewType.customTexture());
+        }
+    }
+
+    /// Produces an "unfinished brew" or a failed brew from the cauldron state.
     public ItemStack toItem(BrewingRecipe recipe, long brewingTime, ItemStackHandler inventory) {
         ItemStack stack = itemFromBrewType(this);
 
-        List<ItemStack> inventoryList = new ArrayList<>(3);
+        List<ItemStack> inventoryList = new ArrayList<>(inventory.getSlots());
         for (int j = 0; j < inventory.getSlots(); j++) {
             ItemStack inputStack = inventory.getStackInSlot(j);
             if (!inputStack.isEmpty()) {
@@ -172,7 +195,7 @@ public record BrewType(
             }
         }
 
-        // Fail if the set of input item ids does not match the set of expected item ids
+        // Fail if the set of input item types does not match expected
         Set<Item> expectedItems = new HashSet<>(recipe.getInputs().stream().map(ItemStackInput::item).toList());
         Set<Item> actualItems = new HashSet<>(inventoryList.stream().map(ItemStack::getItem).toList());
         if (!expectedItems.equals(actualItems)) {
@@ -180,82 +203,60 @@ public record BrewType(
         }
 
         // Fail if any item count is off
-        for (ItemStackInput i : recipe.getInputs()) {
+        for (ItemStackInput input : recipe.getInputs()) {
             int totalCount = 0;
-            for (ItemStack inputStack : inventoryList) {
-                if (inputStack.getItem() == i.item()) {
-                    totalCount += inputStack.getCount();
+            for (ItemStack is : inventoryList) {
+                if (is.getItem() == input.item()) {
+                    totalCount += is.getCount();
                 }
             }
-            if (totalCount < i.minCount() || totalCount > i.maxCount()) {
+            if (totalCount < input.minCount() || totalCount > input.maxCount()) {
                 return INCORRECT_INGREDIENT_AMOUNT_BREW();
             }
         }
 
         // Fail if brewing time is not within the allowed range
-        double brewingTimeError = Math.abs((double)brewingTime - recipe.getOptimalBrewingTime()) / recipe.getOptimalBrewingTime();
+        double brewingTimeError = Math.abs((double) brewingTime - recipe.getOptimalBrewingTime())
+                / recipe.getOptimalBrewingTime();
         if (brewingTimeError > recipe.getMaxBrewingTimeError()) {
             return INCORRECT_BREWING_TIME_BREW();
-        } else {
-            // Calculate purity
-            double normalizedBrewingTimeError = brewingTimeError / recipe.getMaxBrewingTimeError();
-            int purity = (int)Math.round(maxPurity * (1 - normalizedBrewingTimeError));
-            stack.getOrCreateTag().putInt("purity", purity);
         }
 
-        // Set custom display
-        stack.setHoverName(Component.translatable("brewery.brew.unfinished_brew").withStyle(style -> style.withItalic(false)));
+        // Calculate purity
+        double normalizedBrewingTimeError = brewingTimeError / recipe.getMaxBrewingTimeError();
+        int purity = (int) Math.round(maxPurity * (1 - normalizedBrewingTimeError));
+        stack.getOrCreateTag().putInt("purity", purity);
+
+        stack.setHoverName(Component.translatable("brewery.brew.unfinished_brew")
+                .withStyle(style -> style.withItalic(false)));
         ListTag loreList = new ListTag();
-        loreList.add(StringTag.valueOf(net.minecraft.network.chat.Component.Serializer.toJson(Component.translatable("brewery.brew.unfinished_brew_lore"))));
+        loreList.add(StringTag.valueOf(
+                Component.Serializer.toJson(Component.translatable("brewery.brew.unfinished_brew_lore"))));
         stack.getOrCreateTag().getCompound("display").put("Lore", loreList);
-        // Make potion remember recipe
         stack.getOrCreateTag().putString("recipeId", recipe.getId().toString());
+        stack.getOrCreateTag().putString(BREW_TYPE_ID_TAG, this.id()); // ← store on unfinished too
         return stack;
     }
 
-    /**
-     * Build a finalized brew ItemStack with display and effects, reused by all workstations.
-     */
+    /// Build a finalized brew ItemStack with display and effects, reused by all workstations.
     public static ItemStack buildFinalBrew(BrewingRecipe recipe, int effectivePurity, Level level) {
-        BrewType brewTypeResult = BrewType.getBrewTypeFromId(recipe.getBrewTypeId());
-        if (brewTypeResult == null) return BrewType.GENERIC_FAILED_BREW();
+        BrewType brewType = getBrewTypeFromId(recipe.getBrewTypeId());
+        if (brewType == null) return GENERIC_FAILED_BREW();
 
-        int maxPurity = brewTypeResult.maxPurity();
+        int maxPurity = brewType.maxPurity();
         int clampedPurity = Math.max(0, Math.min(effectivePurity, maxPurity));
         float purityFactor = maxPurity <= 0 ? 0f : ((float) clampedPurity / (float) maxPurity);
 
         ItemStack resultItem = recipe.getResultItem(level.registryAccess());
         CompoundTag resultTag = resultItem.getOrCreateTag();
 
-        String purityRepresentation = "★".repeat(Math.max(0, clampedPurity)) + "☆".repeat(Math.max(0, maxPurity - clampedPurity));
-        resultTag.putString("recipeId", recipe.getId().toString());
-        ListTag loreList = new ListTag();
-        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(purityRepresentation))));
-        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable(brewTypeResult.customLore()))));
-        CompoundTag displayTag = resultTag.getCompound("display");
-        displayTag.put("Lore", loreList);
-        displayTag.putString("Name", Component.Serializer.toJson(Component.translatable(brewTypeResult.customName())));
-        resultTag.put("display", displayTag);
+        String purityRepresentation = "★".repeat(Math.max(0, clampedPurity))
+                + "☆".repeat(Math.max(0, maxPurity - clampedPurity));
 
-        if (brewTypeResult.customTexture() != null && !brewTypeResult.customTexture().isEmpty()) {
-            resultTag.putString("customTexture", brewTypeResult.customTexture());
-        }
+        applyFinalDisplay(resultTag, brewType, recipe, purityRepresentation);
 
-        // Effects scaled by purity
-        java.util.List<MobEffectInstance> resultEffects = new java.util.ArrayList<>();
-        for (MobEffectInstance effect : brewTypeResult.effects()) {
-            net.minecraft.world.effect.MobEffect mobEffect = effect.getEffect();
-            int duration = Math.round(effect.getDuration() * purityFactor);
-            int amplifier = Math.max(0, Math.round(effect.getAmplifier() * purityFactor));
-            if (duration > 0) {
-                resultEffects.add(new MobEffectInstance(mobEffect, duration, amplifier));
-            }
-        }
-        // Hangover effect for bad purity
-        if (clampedPurity < (double)maxPurity / 2) {
-            resultEffects.add(new MobEffectInstance(io.fabianbuthere.brewery.effect.ModEffects.HANGOVER.get(), 600 * (Math.max(1, maxPurity / 2 - clampedPurity + 1)), 0, false, false, true));
-        }
-        resultTag.put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
+        List<MobEffectInstance> resultEffects = buildScaledEffects(brewType, clampedPurity, purityFactor);
+        resultTag.put("CustomPotionEffects", serializeEffects(resultEffects));
 
         resultItem.setTag(resultTag);
         return resultItem;
@@ -266,140 +267,199 @@ public record BrewType(
         ItemStack brew = buildFinalBrew(recipe, effectivePurity, level);
         CompoundTag tag = brew.getOrCreateTag();
         tag.putLong("agingTime", agingTime);
-        // Divide progress by 20 * 60 * 20 to convert ticks to ingame days, and display in the lore
-        tag.getCompound("display").getList("Lore", Tag.TAG_STRING).add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable("brewery.brew.overaged_lore", agingTime / 24000))));
+        tag.getCompound("display").getList("Lore", Tag.TAG_STRING).add(
+                StringTag.valueOf(Component.Serializer.toJson(
+                        Component.translatable(agingTime / 24000 == 1
+                                ? "brewery.brew.overaged_singular_lore"
+                                : "brewery.brew.overaged_plural_lore", agingTime / 24000))));
         brew.setTag(tag);
         return brew;
     }
 
-    /**
-     * Finalizes a brew, returning a finished or failed brew ItemStack.
-     * Used by both Fermentation Barrel and Distillery Station.
-     * @param recipe The BrewingRecipe
-     * @param inputStack The input ItemStack
-     * @param filterStack The filter ItemStack (can be null for barrel)
-     * @param progress The aging/distilling progress (can be 0 for distillery)
-     * @param barrelWoodType The wood type for barrel aging (can be null for distillery)
-     * @param context Context string: "barrel" or "distillery"
-     * @param level The Level
-     * @return The finalized ItemStack
-     */
-    public static ItemStack finalizeBrew(
-            BrewingRecipe recipe,
-            ItemStack inputStack,
-            ItemStack filterStack,
-            long progress,
-            String barrelWoodType,
-            String context,
-            Level level
-    ) {
-        // Get BrewType result
-        BrewType brewTypeResult = BrewType.getBrewTypeFromId(recipe.getBrewTypeId());
-        if (brewTypeResult == null) {
-            return BrewType.GENERIC_FAILED_BREW();
-        }
-        int maxPurity = brewTypeResult.maxPurity();
+    /// Finalizes a brew during barrel aging.
+    public static ItemStack finalizeBarrelBrew(BrewingRecipe recipe, ItemStack inputStack,
+                                               long progress, String barrelWoodType, Level level) {
+        BrewType brewType = getBrewTypeFromId(recipe.getBrewTypeId());
+        if (brewType == null) return GENERIC_FAILED_BREW();
+
         CompoundTag inputTag = inputStack.getOrCreateTag();
         int actualPurity = inputTag.getInt("purity");
-        CompoundTag resultTag;
-        ItemStack resultItem;
-        // Barrel context: aging logic
-        if ("barrel".equals(context)) {
-            // Fail if distillery is needed but missing
-            if (!(recipe.getDistillingItem() == null) && !recipe.getDistillingItem().isEmpty()) {
-                if (!inputTag.getString("distillingItem").equals(recipe.getDistillingItem())) {
-                    return BrewType.GENERIC_FAILED_BREW();
-                }
-            }
-            // Fail if brew does not need aging
-            if (recipe.getOptimalAgingTime() == 0L || recipe.getAllowedWoodTypes().isEmpty()) return BrewType.INCORRECT_AGING_BREW();
-            // Fail if wood type does not match
-            if (barrelWoodType == null || !recipe.getAllowedWoodTypes().contains(barrelWoodType)) return BrewType.INCORRECT_AGING_BREW();
-            // Fail if time was off
-            float maxError = recipe.getMaxAgingTimeError();
-            long maxTime = Math.round(recipe.getOptimalAgingTime() * (1 + maxError));
-            long minTime = Math.round(recipe.getOptimalAgingTime() * (1 - maxError));
-            if (progress < minTime || (progress > maxTime && !brewTypeResult.isOverageable())) {return BrewType.INCORRECT_AGING_BREW();}
-            // Purity from aging error curve
-            float error = brewTypeResult.isOverageable() && progress > recipe.getOptimalAgingTime() ? 0.0f : (float) Math.abs(progress - recipe.getOptimalAgingTime()) / recipe.getOptimalAgingTime();
-            float errorContribution = (float) Math.pow(1.0f - error, 2);
-            int effectivePurity = Math.round(actualPurity * errorContribution);
-            if (brewTypeResult.isOverageable()) {
-                return buildFinalBrew(recipe, effectivePurity, level, progress);
-            } else {
-                return buildFinalBrew(recipe, effectivePurity, level);
-            }
-        } else if ("distillery".equals(context)) {
-            // Fail if recipe does not require distilling, or already distilled
-            if (recipe.getDistillingItem() == null || recipe.getDistillingItem().isEmpty() || !inputTag.getString("distillingItem").isEmpty()) {
-                return BrewType.INCORRECT_DISTILLERY_BREW();
-            }
-            // Fail if filter does not match
-            String filterItemId = filterStack.getItem().toString();
-            if (!recipe.getDistillingItem().equals(filterItemId)) {
-                return BrewType.INCORRECT_DISTILLERY_BREW();
-            }
-            // Set distilling item on a working copy
-            resultItem = inputStack.copyWithCount(1);
-            resultTag = resultItem.getOrCreateTag();
-            resultTag.putString("distillingItem", filterItemId);
 
-            // If the recipe does not need aging (no time or no allowed wood types), finalize the brew here
-            if (recipe.getOptimalAgingTime() == 0L || recipe.getAllowedWoodTypes().isEmpty()) {
-                ItemStack finalized = buildFinalBrew(recipe, actualPurity, level);
-                // Preserve the distillingItem info on the finalized result for traceability
-                finalized.getOrCreateTag().putString("distillingItem", filterItemId);
-                return finalized;
+        if (recipe.requiresDistilling()) {
+            if (!inputTag.getString("distillingItem").equals(recipe.getDistillingItem())) {
+                return GENERIC_FAILED_BREW();
             }
-
-            // Otherwise, return the partially processed item (with distilling tag) to be aged
-            resultItem.setTag(resultTag);
-            return resultItem;
         }
-        return BrewType.GENERIC_FAILED_BREW();
+        if (!recipe.requiresAging()) return INCORRECT_AGING_BREW();
+        if (barrelWoodType == null || !recipe.getAllowedWoodTypes().contains(barrelWoodType)) {
+            return INCORRECT_AGING_BREW();
+        }
+        if (inputTag.contains("CustomPotionEffects") && !inputTag.getList("CustomPotionEffects", Tag.TAG_COMPOUND).isEmpty()) {
+            return SPOILED_BREW();
+        }
+        float maxError = recipe.getMaxAgingTimeError();
+        long maxTime = Math.round(recipe.getOptimalAgingTime() * (1 + maxError));
+        long minTime = Math.round(recipe.getOptimalAgingTime() * (1 - maxError));
+        if (progress < minTime) {
+            return INCORRECT_AGING_BREW();
+        } else if (progress > maxTime && !brewType.isOverageable()) {
+            return SPOILED_BREW();
+        }
+        float error = (brewType.isOverageable() && progress >= recipe.getOptimalAgingTime())
+                ? 0.0f
+                : (float) Math.abs(progress - recipe.getOptimalAgingTime()) / recipe.getOptimalAgingTime();
+        float errorContribution = (float) Math.pow(1.0f - error, 2);
+        int effectivePurity = Math.round(actualPurity * errorContribution);
+
+        if (brewType.isOverageable()) {
+            return buildFinalBrew(recipe, effectivePurity, level, progress);
+        } else {
+            return buildFinalBrew(recipe, effectivePurity, level);
+        }
+    }
+
+    /// Finalizes a brew during distillery processing.
+    public static ItemStack finalizeDistilleryBrew(BrewingRecipe recipe, ItemStack inputStack,
+                                                   ItemStack filterStack, Level level) {
+        BrewType brewType = getBrewTypeFromId(recipe.getBrewTypeId());
+        if (brewType == null) return GENERIC_FAILED_BREW();
+
+        CompoundTag inputTag = inputStack.getOrCreateTag();
+        int actualPurity = inputTag.getInt("purity");
+
+        if (!recipe.requiresDistilling() || !inputTag.getString("distillingItem").isEmpty()) {
+            return INCORRECT_DISTILLERY_BREW();
+        }
+        String filterItemId = filterStack.getItem().toString();
+        if (!recipe.getDistillingItem().equals(filterItemId)) {
+            return INCORRECT_DISTILLERY_BREW();
+        }
+
+        ItemStack resultItem = inputStack.copyWithCount(1);
+        CompoundTag resultTag = resultItem.getOrCreateTag();
+        resultTag.putString("distillingItem", filterItemId);
+
+        if (!recipe.requiresAging()) {
+            ItemStack finalized = buildFinalBrew(recipe, actualPurity, level);
+            finalized.getOrCreateTag().putString("distillingItem", filterItemId);
+            return finalized;
+        }
+
+        resultItem.setTag(resultTag);
+        return resultItem;
+    }
+
+    /// Returns the perfect brew for a recipe, with best stats possible.
+    public static ItemStack finalizePerfectBrew(BrewingRecipe recipe, Level level, long agingTime) {
+        BrewType brewType = getBrewTypeFromId(recipe.getBrewTypeId());
+        if (brewType == null) return GENERIC_FAILED_BREW();
+
+        int maxPurity = brewType.maxPurity();
+
+        ItemStack resultItem = buildFinalBrew(recipe, maxPurity, level);
+        CompoundTag resultTag = resultItem.getOrCreateTag();
+
+        if (brewType.isOverageable()) {
+            resultTag.getCompound("display").getList("Lore", Tag.TAG_STRING).add(
+                    StringTag.valueOf(Component.Serializer.toJson(
+                            Component.translatable(agingTime / 24000 == 1
+                                    ? "brewery.brew.overaged_singular_lore"
+                                    : "brewery.brew.overaged_plural_lore", agingTime / 24000))));
+        }
+
+        resultItem.setTag(resultTag);
+        resultItem.setHoverName(Component.translatable(brewType.customName())
+                .withStyle(style -> style.withItalic(false).withColor(ChatFormatting.YELLOW)));
+        return resultItem;
+    }
+
+    // ── Brew identification ──
+
+    /**
+     * Checks if a finished brew ItemStack matches the given BrewType ID.
+     * Uses the dedicated "brewTypeId" NBT tag for reliable identification,
+     * with a fallback to recipeId-based lookup for brews created before this tag existed.
+     */
+    public static boolean isBrewType(ItemStack stack, String brewTypeId) {
+        if (stack.getItem() != Items.POTION) return false;
+        CompoundTag tag = stack.getTag();
+        if (tag == null || !tag.contains("CustomPotionEffects")) {
+            return false;
+        }
+
+        // Primary: check the dedicated brewTypeId tag
+        if (tag.contains(BREW_TYPE_ID_TAG)) {
+            String storedId = tag.getString(BREW_TYPE_ID_TAG);
+            return storedId.equals(brewTypeId);
+        }
+
+        // Fallback: try to resolve via recipeId (for legacy brews without the tag)
+        if (tag.contains("recipeId")) {
+            String recipeId = tag.getString("recipeId");
+            String path = recipeId.contains(":") ? recipeId.substring(recipeId.indexOf(':') + 1) : recipeId;
+            BrewType brewType = getBrewTypeFromId(path);
+            BreweryMod.LOGGER.debug("isBrewType fallback — recipeId: {}, path: {}, resolved: {}, target: {}",
+                    recipeId, path, brewType, brewTypeId);
+            return brewType != null && brewType.id().equals(brewTypeId);
+        }
+
+        return false;
     }
 
     /**
-     * Returns the perfect brew for a recipe, with best stats possible.
-     * @param recipe The BrewingRecipe
-     * @param level The Level
-     * @return The perfect finalized ItemStack
+     * Builds a perfect brew ItemStack directly from a BrewType, without requiring a recipe.
+     * Used by commands and anywhere a BrewType exists without a corresponding BrewingRecipe.
+     *
+     * @param brewType  The BrewType to build from
+     * @param agingTime The aging time in ticks (used for overaged lore display)
+     * @return A finished brew with max purity and full effects
      */
-    public static ItemStack finalizeBrew(BrewingRecipe recipe, Level level, long agingTime) {
-        BrewType brewTypeResult = BrewType.getBrewTypeFromId(recipe.getBrewTypeId());
-        int maxPurity = brewTypeResult.maxPurity();
-        ItemStack resultItem = recipe.getResultItem(level.registryAccess());
-        CompoundTag resultTag = resultItem.getOrCreateTag();
-        // Set perfect purity
-        int effectivePurity = maxPurity;
+    public static @NotNull ItemStack buildPerfectBrewFromType(@NotNull BrewType brewType, long agingTime) {
+        int maxPurity = brewType.maxPurity();
         float purityFactor = 1.0f;
+
+        ItemStack resultItem = new ItemStack(Items.POTION);
+        CompoundTag resultTag = resultItem.getOrCreateTag();
+
+        // Purity stars (all filled)
         String purityRepresentation = "★".repeat(maxPurity);
-        resultTag.putString("recipeId", recipe.getId().toString());
+        resultTag.putString(BREW_TYPE_ID_TAG, brewType.id());
+        resultTag.putInt("CustomPotionColor", brewType.tintColor());
+
         ListTag loreList = new ListTag();
-        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.literal(purityRepresentation))));
-        loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable(brewTypeResult.customLore()))));
-        if (brewTypeResult.isOverageable()) {
-            loreList.add(StringTag.valueOf(Component.Serializer.toJson(Component.translatable("brewery.brew.overaged_lore", agingTime / 24000))));
+        loreList.add(StringTag.valueOf(
+                Component.Serializer.toJson(Component.literal(purityRepresentation))));
+        loreList.add(StringTag.valueOf(
+                Component.Serializer.toJson(Component.translatable(brewType.customLore()))));
+        if (brewType.isOverageable()) {
+            loreList.add(StringTag.valueOf(Component.Serializer.toJson(
+                    Component.translatable(agingTime / 24000 == 1
+                            ? "brewery.brew.overaged_singular_lore"
+                            : "brewery.brew.overaged_plural_lore", agingTime / 24000))));
         }
+
         CompoundTag displayTag = resultTag.getCompound("display");
         displayTag.put("Lore", loreList);
+        displayTag.putString("Name",
+                Component.Serializer.toJson(Component.translatable(brewType.customName())
+                        .withStyle(style -> style.withItalic(false).withColor(ChatFormatting.YELLOW))));
         resultTag.put("display", displayTag);
-        if (brewTypeResult.customTexture() != null && !brewTypeResult.customTexture().isEmpty()) {
-            resultTag.putString("customTexture", brewTypeResult.customTexture());
+
+        if (hasCustomTexture(brewType)) {
+            resultTag.putString("customTexture", brewType.customTexture());
         }
-        resultItem.setTag(resultTag);
-        // Effects
-        java.util.List<MobEffectInstance> resultEffects = new java.util.ArrayList<>();
-        for (MobEffectInstance effect : brewTypeResult.effects()) {
-            net.minecraft.world.effect.MobEffect mobEffect = effect.getEffect();
-            int duration = effect.getDuration();
-            int amplifier = effect.getAmplifier();
-            if (duration > 0) {
-                resultEffects.add(new MobEffectInstance(mobEffect, duration, amplifier));
+
+        // Full effects (purityFactor = 1.0, no hangover)
+        List<MobEffectInstance> resultEffects = new ArrayList<>();
+        for (MobEffectInstance effect : brewType.effects()) {
+            if (effect.getDuration() > 0) {
+                resultEffects.add(new MobEffectInstance(
+                        effect.getEffect(), effect.getDuration(), effect.getAmplifier()));
             }
         }
-        resultItem.getTag().put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
-        resultItem.setHoverName(Component.translatable(brewTypeResult.customName()).withStyle(style -> style.withItalic(false).withColor(ChatFormatting.YELLOW)));
+        resultTag.put("CustomPotionEffects", serializeEffects(resultEffects));
+
+        resultItem.setTag(resultTag);
         return resultItem;
     }
 }

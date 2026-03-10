@@ -1,5 +1,6 @@
-// 1.20.1	2025-08-16T21:06:37.6283946	Item Models: brewery
+// 1.20.1	2026-03-10T15:52:23.632619153	Item Models: brewery
 85b167006b39d7fcbc888ede1238b726fec1919a assets/brewery/models/item/brewing_cauldron.json
+e7cedef197b78b31262c9b2a19c51093eb5902c9 assets/brewery/models/item/cocktail_station.json
 76cb2bc1eb997b98fbd632a8ee99be78426c6697 assets/brewery/models/item/distillery_station.json
 cde5b20921b15657cef71ac3f5e25813a10e3563 assets/brewery/models/item/fermentation_barrel_acacia.json
 6f085dc1d36a50bb4759b7cfea24303cc0801769 assets/brewery/models/item/fermentation_barrel_bamboo.json

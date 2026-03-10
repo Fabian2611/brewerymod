@@ -24,6 +24,10 @@ public class ModBlockEntities {
             () -> BlockEntityType.Builder.of(DistilleryStationBlockEntity::new, ModBlocks.DISTILLERY_STATION.get()).build(null)
     );
 
+    public static final RegistryObject<BlockEntityType<CocktailStationBlockEntity>> COCKTAIL_STATION = BLOCK_ENTITIES.register(
+            "cocktail_station",
+            () -> BlockEntityType.Builder.of(CocktailStationBlockEntity::new, ModBlocks.COCKTAIL_STATION.get()).build(null));
+
     public static final EnumMap<WoodType, RegistryObject<BlockEntityType<FermentationBarrelBlockEntity>>> FERMENTATION_BARRELS = new EnumMap<>(WoodType.class);
     static {
         for (WoodType type : WoodType.values()) {

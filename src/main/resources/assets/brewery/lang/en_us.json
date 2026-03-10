@@ -4,6 +4,7 @@
   "brewery.brew.failed_brew_wrong_ingredients_lore": "This brew almost worked... but the list of ingredients is not quite right.",
   "brewery.brew.failed_brew_wrong_ingredients_amount_lore": "This brew almost worked... you could try tweaking the ingredient's amounts.",
   "brewery.brew.failed_brew_wrong_brewing_time_lore": "This brew almost worked... but the brewing time seems off.",
+  "brewery.brew.failed_brew_spoiled_lore": "This brew almost worked... but it spoiled.",
   "brewery.brew.unfinished_brew": "Unfinished Brew",
   "brewery.brew.unfinished_brew_lore": "This brew is ready for the next step!",
 
@@ -134,5 +135,7 @@
 
   "block.brewery.fermentation_barrel": "Fermentation Barrel",
   "item.brewery.guide_book": "Brewing Guide Book",
-  "brewery.brew.overaged_lore": "Aged for %d years."
+  "brewery.brew.overaged_singular_lore": "Aged for %d year.",
+  "brewery.brew.overaged_plural_lore": "Aged for %d years.",
+  "block.brewery.cocktail_station": "Cocktail Station"
 }

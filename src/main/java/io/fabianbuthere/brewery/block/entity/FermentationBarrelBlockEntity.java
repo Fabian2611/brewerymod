@@ -28,7 +28,6 @@ import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("removal")
 public class FermentationBarrelBlockEntity extends BlockEntity implements MenuProvider {
-    // Keep handler side-effect free (no transformation in extractItem)
     private final ItemStackHandler itemHandler = new ItemStackHandler(9) {
         @Override
         protected void onContentsChanged(int slot) {
@@ -50,13 +49,12 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
             if (level.isClientSide) {
                 return stack;
             }
-            return BrewType.finalizeBrew(
+            // Use the new typed method directly
+            return BrewType.finalizeBarrelBrew(
                     brewingRecipe,
                     stack,
-                    null,
                     progress,
                     woodType,
-                    "barrel",
                     level
             );
         }
@@ -74,17 +72,15 @@ public class FermentationBarrelBlockEntity extends BlockEntity implements MenuPr
     protected final ContainerData data;
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
-    // Define constants for data indices
     private static final int DATA_SIZE = 9;
 
     public FermentationBarrelBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.FERMENTATION_BARRELS.get(
-                pBlockState.getValue(io.fabianbuthere.brewery.block.custom.FermentationBarrelBlock.WOOD_TYPE)).get(), pPos, pBlockState);
+                pBlockState.getValue(FermentationBarrelBlock.WOOD_TYPE)).get(), pPos, pBlockState);
         this.data = new ContainerData() {
             @Override
             public int get(int pIndex) {
                 if (pIndex >= 0 && pIndex < progresses.length) {
-                    // Clamp to int range for syncing
                     return (int) Math.min(progresses[pIndex], Integer.MAX_VALUE);
                 }
                 return 0;

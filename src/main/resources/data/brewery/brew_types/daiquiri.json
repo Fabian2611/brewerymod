@@ -1,0 +1,21 @@
+{
+  "maxAlcoholLevel": 4,
+  "maxPurity": 5,
+  "tintColor": 8454016,
+  "customLore": "brewery.brew.daiquiri.lore",
+  "customName": "brewery.brew.daiquiri.name",
+  "customTexture": "",
+  "overageable": false,
+  "effects": [
+    {
+      "effect": "effect.minecraft.speed",
+      "duration": 1200,
+      "amplifier": 1
+    },
+    {
+      "effect": "effect.brewery.alcohol",
+      "duration": 7200,
+      "amplifier": 4
+    }
+  ]
+}

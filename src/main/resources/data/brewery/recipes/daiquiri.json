@@ -1,0 +1,13 @@
+{
+  "type": "brewery:cocktail",
+  "cocktail_data": {
+    "brew_inputs": [
+      { "brewTypeId": "rum", "count": 1 },
+      { "brewTypeId": "sweet_tea", "count": 1 }
+    ],
+    "extras": [
+      { "item": "minecraft:sugar", "minCount": 1, "maxCount": 3 }
+    ],
+    "result_brew_type": "daiquiri"
+  }
+}

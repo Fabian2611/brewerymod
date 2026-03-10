@@ -26,6 +26,9 @@ public class ModBlocks {
 
     public static final EnumMap<WoodType, RegistryObject<Block>> FERMENTATION_BARRELS = new EnumMap<>(WoodType.class);
 
+    public static final RegistryObject<Block> COCKTAIL_STATION = registerBlock("cocktail_station", () ->
+            new CocktailStationBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+
     public static final RegistryObject<Block> BREW_SHELF = registerBlock("brew_shelf", () ->
             new BrewShelfBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).noOcclusion()));
 

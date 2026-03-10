@@ -1,0 +1,21 @@
+{
+  "builtin": true,
+  "customLore": "brewery.brew.gin.lore",
+  "customName": "brewery.brew.gin.name",
+  "overageable": false,
+  "effects": [
+    {
+      "amplifier": 2,
+      "duration": 5400,
+      "effect": "effect.brewery.alcohol"
+    },
+    {
+      "amplifier": 0,
+      "duration": 4800,
+      "effect": "effect.minecraft.speed"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 8,
+  "tintColor": 10283263
+}

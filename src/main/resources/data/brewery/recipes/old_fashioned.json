@@ -1,0 +1,14 @@
+{
+  "type": "brewery:cocktail",
+  "cocktail_data": {
+    "brew_inputs": [
+      { "brewTypeId": "whiskey", "count": 1 },
+      { "brewTypeId": "absinthe", "count": 1 }
+    ],
+    "extras": [
+      { "item": "minecraft:ice", "minCount": 1, "maxCount": 1 },
+      { "item": "minecraft:sugar", "minCount": 1, "maxCount": 1 }
+    ],
+    "result_brew_type": "old_fashioned"
+  }
+}

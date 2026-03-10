@@ -1,21 +1,21 @@
 {
     "builtin": true,
-    "customLore": "brewery.brew.whiskey.lore",
-    "customName": "brewery.brew.whiskey.name",
+    "customLore": "brewery.brew.highball.lore",
+    "customName": "brewery.brew.highball.name",
     "overageable": true,
     "effects": [
         {
-            "amplifier": 2,
-            "duration": 4800,
+            "amplifier": 3,
+            "duration": 6600,
             "effect": "effect.brewery.alcohol"
         },
         {
-            "amplifier": 0,
-            "duration": 1200,
+            "amplifier": 1,
+            "duration": 600,
             "effect": "effect.minecraft.haste"
         }
     ],
     "maxAlcoholLevel": 1,
     "maxPurity": 8,
-    "tintColor": 10242816
+    "tintColor":  16772984
 }

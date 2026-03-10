@@ -1,0 +1,13 @@
+{
+  "type": "brewery:cocktail",
+  "cocktail_data": {
+    "brew_inputs": [
+      { "brewTypeId": "whiskey", "count": 1 },
+      { "brewTypeId": "beer", "count": 2 }
+    ],
+    "extras": [
+      { "item": "minecraft:glow_berries", "minCount": 4, "maxCount": 8 }
+    ],
+    "result_brew_type": "highball"
+  }
+}

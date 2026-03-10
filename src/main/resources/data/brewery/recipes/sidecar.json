@@ -1,0 +1,13 @@
+{
+  "type": "brewery:cocktail",
+  "cocktail_data": {
+    "brew_inputs": [
+      { "brewTypeId": "cognac", "count": 2 },
+      { "brewTypeId": "sweet_tea", "count": 1 }
+    ],
+    "extras": [
+      { "item": "minecraft:sweet_berries", "minCount": 1, "maxCount": 3 }
+    ],
+    "result_brew_type": "sidecar"
+  }
+}

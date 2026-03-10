@@ -1,0 +1,20 @@
+{
+  "builtin": true,
+  "customLore": "brewery.brew.sidecar.lore",
+  "customName": "brewery.brew.sidecar.name",
+  "effects": [
+    {
+      "amplifier": 3,
+      "duration": 5400,
+      "effect": "effect.brewery.alcohol"
+    },
+    {
+      "amplifier": 0,
+      "duration": 2800,
+      "effect": "effect.minecraft.luck"
+    }
+  ],
+  "maxAlcoholLevel": 1,
+  "maxPurity": 6,
+  "tintColor": 16768353
+}

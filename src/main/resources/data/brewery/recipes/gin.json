@@ -1,0 +1,31 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+
+    ],
+    "brew_type": "gin",
+    "distillingItem": "glowstone_dust",
+    "inputs": [
+      {
+        "item": "minecraft:potato",
+        "minCount": 6,
+        "maxCount": 18
+      },
+      {
+        "item": "minecraft:sweet_berries",
+        "minCount": 2,
+        "maxCount": 8
+      },
+      {
+        "item": "minecraft:wheat_seeds",
+        "minCount": 4,
+        "maxCount": 8
+      }
+    ],
+    "maxAgingTimeError": 0.1,
+    "maxBrewingTimeError": 0.25,
+    "optimalAgingTime": 0,
+    "optimalBrewingTime": 12000
+  }
+}

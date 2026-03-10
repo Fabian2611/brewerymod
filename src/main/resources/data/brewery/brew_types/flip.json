@@ -1,0 +1,21 @@
+{
+    "builtin": true,
+    "customLore": "brewery.brew.flip.lore",
+    "customName": "brewery.brew.flip.name",
+    "overageable": true,
+    "effects": [
+        {
+            "amplifier": 3,
+            "duration": 6000,
+            "effect": "effect.brewery.alcohol"
+        },
+        {
+            "amplifier": 0,
+            "duration": 3000,
+            "effect": "effect.minecraft.night_vision"
+        }
+    ],
+    "maxAlcoholLevel": 1,
+    "maxPurity": 8,
+    "tintColor": 14069357
+}

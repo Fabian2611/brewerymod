@@ -1,0 +1,21 @@
+{
+  "builtin": true,
+  "customLore": "brewery.brew.martini.lore",
+  "customName": "brewery.brew.martini.name",
+  "overageable": false,
+  "effects": [
+    {
+      "amplifier": 3,
+      "duration": 6000,
+      "effect": "effect.brewery.alcohol"
+    },
+    {
+      "amplifier": 0,
+      "duration": 1200,
+      "effect": "effect.minecraft.weakness"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 8,
+  "tintColor": 14888259
+}

@@ -1,7 +1,7 @@
 {
     "builtin": true,
-    "customLore": "brewery.brew.whiskey.lore",
-    "customName": "brewery.brew.whiskey.name",
+    "customLore": "brewery.brew.cognac.lore",
+    "customName": "brewery.brew.cognac.name",
     "overageable": true,
     "effects": [
         {
@@ -11,11 +11,11 @@
         },
         {
             "amplifier": 0,
-            "duration": 1200,
+            "duration": 1500,
             "effect": "effect.minecraft.haste"
         }
     ],
     "maxAlcoholLevel": 1,
     "maxPurity": 8,
-    "tintColor": 10242816
+    "tintColor": 12739369
 }

@@ -1,0 +1,13 @@
+{
+  "type": "brewery:cocktail",
+  "cocktail_data": {
+    "brew_inputs": [
+      { "brewTypeId": "dandelion_wine", "count": 1 },
+      { "brewTypeId": "gin", "count": 2 }
+    ],
+    "extras": [
+      { "item": "minecraft:glow_berries", "minCount": 1, "maxCount": 1 }
+    ],
+    "result_brew_type": "martini"
+  }
+}

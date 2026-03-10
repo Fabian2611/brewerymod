@@ -1,0 +1,13 @@
+{
+  "type": "brewery:cocktail",
+  "cocktail_data": {
+    "brew_inputs": [
+      { "brewTypeId": "dandelion_wine", "count": 2 }
+    ],
+    "extras": [
+      { "item": "minecraft:egg", "minCount": 1, "maxCount": 3 },
+      { "item": "minecraft:pumpkin_seeds", "minCount": 1, "maxCount": 3 }
+    ],
+    "result_brew_type": "flip"
+  }
+}

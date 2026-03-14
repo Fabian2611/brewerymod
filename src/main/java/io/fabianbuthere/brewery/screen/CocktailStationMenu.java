@@ -6,7 +6,9 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -27,6 +29,8 @@ public class CocktailStationMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_SLOT_COUNT = CocktailStationBlockEntity.TOTAL_SLOTS;
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
+    private static final Item[] ALLOWED_BREW_ITEMS = new Item[] { Items.POTION };
+
     public CocktailStationMenu(int pContainerId, Inventory playerInv, BlockEntity blockEntity, ContainerData data) {
         super(ModMenus.COCKTAIL_STATION_MENU.get(), pContainerId);
         this.blockEntity = (CocktailStationBlockEntity) blockEntity;
@@ -36,13 +40,19 @@ public class CocktailStationMenu extends AbstractContainerMenu {
         addPlayerInventory(playerInv);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            // 4 brew input slots in a 2×2 grid
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 44, 17));  // top-left
-            this.addSlot(new SlotItemHandler(iItemHandler, 1, 62, 17));  // top-right
-            this.addSlot(new SlotItemHandler(iItemHandler, 2, 44, 35));  // bottom-left
-            this.addSlot(new SlotItemHandler(iItemHandler, 3, 62, 35));  // bottom-right
-            // Output slot
-            this.addSlot(new SlotItemHandler(iItemHandler, CocktailStationBlockEntity.OUTPUT_SLOT, 116, 26));
+            // Brew slots (0-3) - only potions
+            this.addSlot(new FilterSlot(iItemHandler, CocktailStationBlockEntity.BREW_SLOTS_START + 0, 8, 21, ALLOWED_BREW_ITEMS));
+            this.addSlot(new FilterSlot(iItemHandler, CocktailStationBlockEntity.BREW_SLOTS_START + 1, 26, 21, ALLOWED_BREW_ITEMS));
+            this.addSlot(new FilterSlot(iItemHandler, CocktailStationBlockEntity.BREW_SLOTS_START + 2, 44, 21, ALLOWED_BREW_ITEMS));
+            this.addSlot(new FilterSlot(iItemHandler, CocktailStationBlockEntity.BREW_SLOTS_START + 3, 62, 21, ALLOWED_BREW_ITEMS));
+
+            // Extra/other slots (4-6) - any items
+            this.addSlot(new SlotItemHandler(iItemHandler, CocktailStationBlockEntity.EXTRA_SLOTS_START + 0, 17, 53));
+            this.addSlot(new SlotItemHandler(iItemHandler, CocktailStationBlockEntity.EXTRA_SLOTS_START + 1, 35, 53));
+            this.addSlot(new SlotItemHandler(iItemHandler, CocktailStationBlockEntity.EXTRA_SLOTS_START + 2, 53, 53));
+
+            // Output slot (7) - output-only
+            this.addSlot(new OutputSlot(iItemHandler, CocktailStationBlockEntity.OUTPUT_SLOT, 116, 26));
         });
 
         addDataSlots(data);
@@ -66,25 +76,43 @@ public class CocktailStationMenu extends AbstractContainerMenu {
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player pPlayer, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);
-        if (!sourceSlot.hasItem()) {
-            return ItemStack.EMPTY;
-        }
+        if (!sourceSlot.hasItem()) return ItemStack.EMPTY;
+
         ItemStack sourceStack = sourceSlot.getItem();
         ItemStack copyStack = sourceStack.copy();
 
-        if (pIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
-            if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX,
-                    TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;
+        final int teStart = TE_INVENTORY_FIRST_SLOT_INDEX;
+        final int teEnd = TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT;
+
+        // Sub-ranges as MENU indices
+        final int brewStart = teStart + CocktailStationBlockEntity.BREW_SLOTS_START; // teStart + 0
+        final int brewEnd = brewStart + CocktailStationBlockEntity.BREW_SLOT_COUNT;  // teStart + 4
+
+        final int extraStart = teStart + CocktailStationBlockEntity.EXTRA_SLOTS_START; // teStart + 4
+        final int extraEnd = extraStart + CocktailStationBlockEntity.EXTRA_SLOT_COUNT; // teStart + 7
+
+        final int playerStart = VANILLA_FIRST_SLOT_INDEX;
+        final int playerEnd = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
+
+        if (pIndex >= playerStart && pIndex < playerEnd) {
+            // Player -> TE
+            boolean moved;
+            if (sourceStack.getItem() == Items.POTION) {
+                moved = moveItemStackTo(sourceStack, brewStart, brewEnd, false)
+                        || moveItemStackTo(sourceStack, extraStart, extraEnd, false);
+            } else {
+                moved = moveItemStackTo(sourceStack, extraStart, extraEnd, false);
             }
-        } else if (pIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
-            if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX,
-                    VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
+            if (!moved) return ItemStack.EMPTY;
+        } else if (pIndex >= teStart && pIndex < teEnd) {
+            // TE -> Player
+            if (!moveItemStackTo(sourceStack, playerStart, playerEnd, false)) {
                 return ItemStack.EMPTY;
             }
         } else {
             return ItemStack.EMPTY;
         }
+
         if (sourceStack.isEmpty()) {
             sourceSlot.set(ItemStack.EMPTY);
         } else {

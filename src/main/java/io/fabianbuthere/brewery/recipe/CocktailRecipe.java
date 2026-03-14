@@ -1,5 +1,6 @@
 package io.fabianbuthere.brewery.recipe;
 
+import io.fabianbuthere.brewery.block.entity.CocktailStationBlockEntity;
 import io.fabianbuthere.brewery.util.BrewType;
 import io.fabianbuthere.brewery.util.ItemStackInput;
 import net.minecraft.core.RegistryAccess;
@@ -35,10 +36,32 @@ public class CocktailRecipe implements Recipe<Container> {
 
     @Override
     public boolean matches(Container container, Level level) {
-        // Check each brew input requirement
+        // Layout is defined by CocktailStationBlockEntity constants:
+        // 0-3: brews only (potions)
+        // 4-6: extras only (non-potion items)
+        final int brewStart = CocktailStationBlockEntity.BREW_SLOTS_START;
+        final int brewEnd = brewStart + CocktailStationBlockEntity.BREW_SLOT_COUNT; // exclusive
+        final int extraStart = CocktailStationBlockEntity.EXTRA_SLOTS_START;
+        final int extraEnd = extraStart + CocktailStationBlockEntity.EXTRA_SLOT_COUNT; // exclusive
+
+        // 1) Brew slots must contain only potions (or be empty)
+        for (int i = brewStart; i < Math.min(container.getContainerSize(), brewEnd); i++) {
+            ItemStack stack = container.getItem(i);
+            if (stack.isEmpty()) continue;
+            if (stack.getItem() != Items.POTION) return false;
+        }
+
+        // 2) Extra slots must NOT contain potions (or any brew)
+        for (int i = extraStart; i < Math.min(container.getContainerSize(), extraEnd); i++) {
+            ItemStack stack = container.getItem(i);
+            if (stack.isEmpty()) continue;
+            if (stack.getItem() == Items.POTION) return false;
+        }
+
+        // 3) Brew requirements from brew slots only
         for (BrewInput req : brewInputs) {
             int found = 0;
-            for (int i = 0; i < container.getContainerSize(); i++) {
+            for (int i = brewStart; i < Math.min(container.getContainerSize(), brewEnd); i++) {
                 ItemStack stack = container.getItem(i);
                 if (BrewType.isBrewType(stack, req.brewTypeId())) {
                     found += stack.getCount();
@@ -47,10 +70,10 @@ public class CocktailRecipe implements Recipe<Container> {
             if (found < req.count()) return false;
         }
 
-        // Check each extra (raw item) requirement
+        // 4) Extra requirements from extra slots only
         for (ItemStackInput extra : extras) {
             int totalCount = 0;
-            for (int i = 0; i < container.getContainerSize(); i++) {
+            for (int i = extraStart; i < Math.min(container.getContainerSize(), extraEnd); i++) {
                 ItemStack stack = container.getItem(i);
                 if (stack.getItem() == extra.item()) {
                     totalCount += stack.getCount();
@@ -59,12 +82,12 @@ public class CocktailRecipe implements Recipe<Container> {
             if (totalCount < extra.minCount() || totalCount > extra.maxCount()) return false;
         }
 
-        // Verify no unexpected items are present
-        for (int i = 0; i < container.getContainerSize(); i++) {
+        // 5) Reject unexpected items.
+        // Brew region: must be one of the brew inputs.
+        for (int i = brewStart; i < Math.min(container.getContainerSize(), brewEnd); i++) {
             ItemStack stack = container.getItem(i);
             if (stack.isEmpty()) continue;
 
-            // Is it a known brew input?
             boolean isBrewInput = false;
             if (stack.getItem() == Items.POTION) {
                 CompoundTag tag = stack.getTag();
@@ -77,7 +100,13 @@ public class CocktailRecipe implements Recipe<Container> {
                     }
                 }
             }
-            if (isBrewInput) continue;
+            if (!isBrewInput) return false;
+        }
+
+        // Extra region: must be one of the extras.
+        for (int i = extraStart; i < Math.min(container.getContainerSize(), extraEnd); i++) {
+            ItemStack stack = container.getItem(i);
+            if (stack.isEmpty()) continue;
 
             boolean isExtra = extras.stream().anyMatch(e -> e.item() == stack.getItem());
             if (!isExtra) return false;

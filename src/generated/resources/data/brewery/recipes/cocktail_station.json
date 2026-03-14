@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "L": {
+      "tag": "forge:glass"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "PLP",
+    "PPP"
+  ],
+  "result": {
+    "item": "brewery:cocktail_station"
+  },
+  "show_notification": true
+}

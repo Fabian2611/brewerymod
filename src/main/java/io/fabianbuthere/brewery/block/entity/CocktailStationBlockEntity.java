@@ -4,6 +4,7 @@ import io.fabianbuthere.brewery.recipe.CocktailRecipe;
 import io.fabianbuthere.brewery.recipe.ModRecipes;
 import io.fabianbuthere.brewery.screen.CocktailStationMenu;
 import io.fabianbuthere.brewery.util.BrewType;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -33,17 +34,58 @@ import java.util.Optional;
 
 public class CocktailStationBlockEntity extends BlockEntity implements MenuProvider {
 
+    // Slot layout:
+    // 0-3: brew slots (potions only)
+    // 4-6: extras/other slots (any items)
+    // 7: output
+    public static final int BREW_SLOTS_START = 0;
     public static final int BREW_SLOT_COUNT = 4;
-    public static final int OUTPUT_SLOT = 4;
-    public static final int TOTAL_SLOTS = 5;
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(TOTAL_SLOTS);
+    public static final int EXTRA_SLOTS_START = 4;
+    public static final int EXTRA_SLOT_COUNT = 3;
+
+    public static final int OUTPUT_SLOT = 7;
+    public static final int TOTAL_SLOTS = 8;
+
+    private final ItemStackHandler itemHandler = new ItemStackHandler(TOTAL_SLOTS) {
+        @Override
+        public void deserializeNBT(CompoundTag nbt) {
+            super.deserializeNBT(nbt);
+
+            // Migration from old worlds where TOTAL_SLOTS was 5:
+            // 0-3 inputs, 4 output.
+            if (this.getSlots() < TOTAL_SLOTS) {
+                ItemStackHandler old = new ItemStackHandler(this.getSlots());
+                old.deserializeNBT(nbt);
+
+                // Force resize to new TOTAL_SLOTS
+                CompoundTag resized = nbt.copy();
+                resized.putInt("Size", TOTAL_SLOTS);
+                super.deserializeNBT(resized);
+
+                // old 0-3 -> new 0-3
+                for (int i = 0; i < Math.min(4, old.getSlots()); i++) {
+                    this.setStackInSlot(i, old.getStackInSlot(i));
+                }
+                // old output slot 4 -> new output slot 7 (if it existed)
+                if (old.getSlots() > 4) {
+                    this.setStackInSlot(OUTPUT_SLOT, old.getStackInSlot(4));
+                }
+            } else {
+                // Safety: if an older "expanded" version stored output in slot 4, move it to new output slot 7.
+                if (OUTPUT_SLOT != 4 && this.getStackInSlot(OUTPUT_SLOT).isEmpty() && !this.getStackInSlot(4).isEmpty()) {
+                    this.setStackInSlot(OUTPUT_SLOT, this.getStackInSlot(4));
+                    this.setStackInSlot(4, ItemStack.EMPTY);
+                }
+            }
+        }
+    };
 
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
     protected final ContainerData data;
     private int progress = 0;
-    private int maxProgress = 60; // 3 seconds at 20 tps
+    private int maxProgress = 200;
 
     public CocktailStationBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.COCKTAIL_STATION.get(), pPos, pBlockState);
@@ -117,7 +159,10 @@ public class CocktailStationBlockEntity extends BlockEntity implements MenuProvi
 
     @Override
     public void load(@NotNull CompoundTag pTag) {
-        itemHandler.deserializeNBT(pTag.getCompound("inventory"));
+        // Let the handler's deserializeNBT handle migration/resize.
+        if (pTag.contains("inventory", Tag.TAG_COMPOUND)) {
+            itemHandler.deserializeNBT(pTag.getCompound("inventory"));
+        }
         this.progress = pTag.getInt("cocktail_station.progress");
         super.load(pTag);
     }
@@ -143,7 +188,7 @@ public class CocktailStationBlockEntity extends BlockEntity implements MenuProvi
         if (!outputStack.isEmpty() && !outputStack.is(Items.AIR)) return false;
 
         boolean hasAnyBrew = false;
-        for (int i = 0; i < BREW_SLOT_COUNT; i++) {
+        for (int i = BREW_SLOTS_START; i < BREW_SLOTS_START + BREW_SLOT_COUNT; i++) {
             if (!itemHandler.getStackInSlot(i).isEmpty()) {
                 hasAnyBrew = true;
                 break;
@@ -151,16 +196,18 @@ public class CocktailStationBlockEntity extends BlockEntity implements MenuProvi
         }
         if (!hasAnyBrew) return false;
 
-        // Check if it matches any cocktail recipe
         return findMatchingRecipe().isPresent();
     }
 
     private Optional<CocktailRecipe> findMatchingRecipe() {
         if (level == null) return Optional.empty();
-        SimpleContainer container = new SimpleContainer(TOTAL_SLOTS - 1);
-        for (int i = 0; i < TOTAL_SLOTS - 1; i++) {
+
+        // Inputs only: 0-6 (brew + extras), exclude output (7)
+        SimpleContainer container = new SimpleContainer(OUTPUT_SLOT);
+        for (int i = 0; i < OUTPUT_SLOT; i++) {
             container.setItem(i, itemHandler.getStackInSlot(i));
         }
+
         return level.getRecipeManager()
                 .getAllRecipesFor(ModRecipes.COCKTAIL_RECIPE_TYPE).stream()
                 .filter(r -> r.matches(container, level))
@@ -181,11 +228,11 @@ public class CocktailStationBlockEntity extends BlockEntity implements MenuProvi
             return;
         }
 
-        // Calculate average purity from input brews
+        // Average purity from brew slots only (0-3)
         int totalPurity = 0;
         int totalMissed = 0;
         int brewCount = 0;
-        for (int i = 0; i < BREW_SLOT_COUNT; i++) {
+        for (int i = BREW_SLOTS_START; i < BREW_SLOTS_START + BREW_SLOT_COUNT; i++) {
             ItemStack stack = itemHandler.getStackInSlot(i);
             if (!stack.isEmpty() && stack.getItem() == Items.POTION) {
                 CompoundTag tag = stack.getTag();
@@ -203,12 +250,12 @@ public class CocktailStationBlockEntity extends BlockEntity implements MenuProvi
         int avgMissed = brewCount > 0 ? Math.round((float) totalMissed / brewCount) : 0;
 
         ItemStack result = buildCocktailResult(recipe, resultType, avgPurity, avgMissed);
-
         itemHandler.setStackInSlot(OUTPUT_SLOT, result);
 
+        // Consume brews from brew slots only (0-3)
         for (CocktailRecipe.BrewInput req : recipe.getBrewInputs()) {
             int remaining = req.count();
-            for (int i = 0; i < BREW_SLOT_COUNT && remaining > 0; i++) {
+            for (int i = BREW_SLOTS_START; i < BREW_SLOTS_START + BREW_SLOT_COUNT && remaining > 0; i++) {
                 ItemStack stack = itemHandler.getStackInSlot(i);
                 if (BrewType.isBrewType(stack, req.brewTypeId())) {
                     int toRemove = Math.min(remaining, stack.getCount());
@@ -217,9 +264,11 @@ public class CocktailStationBlockEntity extends BlockEntity implements MenuProvi
                 }
             }
         }
+
+        // Consume extras from extra slots only (4-6)
         for (var extra : recipe.getExtras()) {
             int remaining = extra.maxCount();
-            for (int i = 0; i < TOTAL_SLOTS - 1 && remaining > 0; i++) {
+            for (int i = EXTRA_SLOTS_START; i < EXTRA_SLOTS_START + EXTRA_SLOT_COUNT && remaining > 0; i++) {
                 ItemStack stack = itemHandler.getStackInSlot(i);
                 if (stack.getItem() == extra.item()) {
                     int toRemove = Math.min(remaining, stack.getCount());
@@ -260,14 +309,13 @@ public class CocktailStationBlockEntity extends BlockEntity implements MenuProvi
         if (level == null) return BrewType.GENERIC_FAILED_BREW();
 
         int maxPurity = brewType.maxPurity();
-        float achievedPurity = (effectiveMissed + effectivePurity) != 0 ? (float)effectivePurity / (float)(effectiveMissed + effectivePurity) : 0.0f;
-        int clampedPurity = (int)Math.floor(Math.max(0.0f, Math.min((float)maxPurity * achievedPurity, (float)maxPurity)));
+        float achievedPurity = (effectiveMissed + effectivePurity) != 0 ? (float) effectivePurity / (float) (effectiveMissed + effectivePurity) : 0.0f;
+        int clampedPurity = (int) Math.floor(Math.max(0.0f, Math.min((float) maxPurity * achievedPurity, (float) maxPurity)));
         float purityFactor = maxPurity <= 0 ? 0f : ((float) clampedPurity / (float) maxPurity);
 
         ItemStack resultItem = new ItemStack(Items.POTION);
         CompoundTag resultTag = resultItem.getOrCreateTag();
 
-        // Purity stars
         String purityRepresentation = "★".repeat(Math.max(0, clampedPurity))
                 + "☆".repeat(Math.max(0, maxPurity - clampedPurity));
 
@@ -283,9 +331,6 @@ public class CocktailStationBlockEntity extends BlockEntity implements MenuProvi
 
         CompoundTag displayTag = resultTag.getCompound("display");
         displayTag.put("Lore", loreList);
-        displayTag.putString("Name",
-                net.minecraft.network.chat.Component.Serializer.toJson(
-                        net.minecraft.network.chat.Component.translatable(brewType.customName())));
         resultTag.put("display", displayTag);
         resultTag.putInt("CustomPotionColor", brewType.tintColor());
 
@@ -302,7 +347,7 @@ public class CocktailStationBlockEntity extends BlockEntity implements MenuProvi
                 resultEffects.add(new net.minecraft.world.effect.MobEffectInstance(mobEffect, duration, amplifier));
             }
         }
-        // Hangover for bad purity
+
         if (clampedPurity < (double) maxPurity / 2) {
             int hangoverDuration = 600 * Math.max(1, maxPurity / 2 - clampedPurity + 1);
             resultEffects.add(new net.minecraft.world.effect.MobEffectInstance(
@@ -312,6 +357,8 @@ public class CocktailStationBlockEntity extends BlockEntity implements MenuProvi
         resultTag.put("CustomPotionEffects", BrewType.serializeEffects(resultEffects));
 
         resultItem.setTag(resultTag);
+        resultItem.setHoverName(Component.translatable(brewType.customName())
+                .withStyle(style -> style.withItalic(false).withColor(ChatFormatting.YELLOW)));
         return resultItem;
     }
 }

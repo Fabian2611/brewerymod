@@ -12,11 +12,13 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
 import java.util.List;
@@ -97,6 +99,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("SSS")
                 .unlockedBy("has_smooth_stone", has(Blocks.SMOOTH_STONE))
                 .save(pWriter, new ResourceLocation("brewery", "distillery_station"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.COCKTAIL_STATION.get())
+                .define('G', Items.GOLD_INGOT)
+                .define('L', Tags.Items.GLASS)
+                .define('P', ItemTags.PLANKS)
+                .pattern("GGG")
+                .pattern("PLP")
+                .pattern("PPP")
+                .unlockedBy("has_gold_ingot", has(Items.GOLD_INGOT))
+                .save(pWriter, new ResourceLocation("brewery", "cocktail_station"));
     }
 
     /**

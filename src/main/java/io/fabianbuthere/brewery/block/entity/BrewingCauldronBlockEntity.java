@@ -35,23 +35,29 @@ import java.util.Set;
 public class BrewingCauldronBlockEntity extends BlockEntity {
     public static final int DEFAULT_COLOR = 0x3F76E4;
     public static final int DEFAULT_FAILED_COLOR = 0x6580b5;
+
     private int currentColor = DEFAULT_COLOR;
+
+    // Client-synced display state
     private int syncedBrewingTicks = 0;
     private int syncedCurrentColor = DEFAULT_COLOR;
     private int syncedBrewColor = DEFAULT_COLOR;
 
     public static final int INVENTORY_SIZE = 5;
     private boolean inventoryChanged = false;
+
     private final ItemStackHandler itemHandler = new ItemStackHandler(INVENTORY_SIZE) {
         @Override
         protected void onContentsChanged(int slot) {
             inventoryChanged = true;
             setChanged();
         }
+
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return canInsert(stack);
         }
+
         @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
             return ItemStack.EMPTY;
@@ -71,8 +77,25 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
     };
 
     private BrewingRecipe lockedRecipe = null;
-    private int brewingTicks = 0;
+
+    /**
+     * REALTIME source of truth: store only start time.
+     * 0 => not brewing / timer not running.
+     */
+    private long brewingStartMs = 0L;
+
+    /**
+     * Used to avoid repeatedly restarting the timer from incidental inventory events.
+     */
+    private long lastInventorySignature = 0L;
+
+    /**
+     * This flag is set by block interactions (brew level changes etc).
+     * It MUST be cleared after being handled, otherwise brewing can be constantly “reset”.
+     */
     private boolean reValidateRecipe = false;
+
+    private static final double TICKS_PER_SECOND = 20.0;
 
     public BrewingCauldronBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.BREWING_CAULDRON.get(), pos, state);
@@ -130,22 +153,48 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         }
     }
 
+    private boolean isInventoryEmpty() {
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            if (!itemHandler.getStackInSlot(i).isEmpty()) return false;
+        }
+        return true;
+    }
+
+    /** Single source of truth for “brewing time” in ticks (what recipes expect). */
+    private long getElapsedBrewingTicksNow() {
+        if (brewingStartMs <= 0L) return 0L;
+        long now = System.currentTimeMillis();
+        long elapsedMs = Math.max(0L, now - brewingStartMs);
+        return (long) Math.floor((elapsedMs * TICKS_PER_SECOND) / 1000.0);
+    }
+
+    private long computeInventorySignature() {
+        long sig = 1469598103934665603L; // FNV-1a offset basis
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            ItemStack s = itemHandler.getStackInSlot(i);
+            int itemHash = (s.isEmpty() ? 0 : Item.getId(s.getItem()));
+            int count = s.getCount();
+            long v = (((long) itemHash) << 32) ^ (count & 0xffffffffL);
+
+            sig ^= v;
+            sig *= 1099511628211L; // FNV prime
+        }
+        return sig;
+    }
+
     public void serverTick(Level level) {
         if (level.isClientSide) return;
 
-        boolean inventoryEmpty = true;
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
-            if (!itemHandler.getStackInSlot(i).isEmpty()) {
-                inventoryEmpty = false;
-                break;
-            }
-        }
-        if (inventoryEmpty) {
+        updateHeatingState();
+
+        if (isInventoryEmpty()) {
             resetBrewing();
             return;
         }
 
+        // IMPORTANT: handle and then clear this flag
         if (reValidateRecipe) {
+            reValidateRecipe = false;
             if (getBlockState().getValue(BrewingCauldronBlock.BREW_LEVEL) == 0) {
                 resetBrewing();
                 return;
@@ -153,74 +202,94 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         }
 
         if (!isHeated()) {
-            if (lockedRecipe != null || brewingTicks != 0) {
-                resetBrewing();
+            if (lockedRecipe != null || brewingStartMs != 0L) {
+                lockedRecipe = null;
+                brewingStartMs = 0L;
+                syncedBrewingTicks = 0;
+                lastInventorySignature = 0L;
+                setCurrentColor(DEFAULT_COLOR);
+                if (syncedBrewColor != DEFAULT_COLOR) syncedBrewColor = DEFAULT_COLOR;
+                setChanged();
             }
             return;
         }
 
+        // Sync derived ticks for client particle effects + clock parity
+        int derivedTicks = (int) Math.min(Integer.MAX_VALUE, getElapsedBrewingTicksNow());
+        if (syncedBrewingTicks != derivedTicks) {
+            syncedBrewingTicks = derivedTicks;
+            setChanged();
+        }
+
         if (inventoryChanged) {
             inventoryChanged = false;
-            SimpleContainer container = new SimpleContainer(itemHandler.getSlots());
-            for (int i = 0; i < itemHandler.getSlots(); i++) {
-                container.setItem(i, itemHandler.getStackInSlot(i));
-            }
-            Optional<BrewingRecipe> match = level.getRecipeManager()
-                    .getAllRecipesFor(ModRecipes.BREWING_RECIPE_TYPE).stream()
-                    .filter(r -> r.matches(container, level)).findFirst();
-            if (match.isPresent()) {
-                lockedRecipe = match.get();
-                brewingTicks = 0;
-                BrewType bt = BrewType.getBrewTypeFromId(lockedRecipe.getBrewTypeId());
-                int target = (bt != null) ? bt.tintColor() : DEFAULT_COLOR;
-                if (syncedBrewColor != target) {
-                    syncedBrewColor = target;
-                    setChanged();
+
+            long sig = computeInventorySignature();
+            if (sig != lastInventorySignature) {
+                lastInventorySignature = sig;
+
+                SimpleContainer container = new SimpleContainer(itemHandler.getSlots());
+                for (int i = 0; i < itemHandler.getSlots(); i++) {
+                    container.setItem(i, itemHandler.getStackInSlot(i));
                 }
-                setChanged();
-            } else {
-                if (getBlockState().getValue(BrewingCauldronBlock.BREW_LEVEL) == 0) {
-                    resetBrewing();
+
+                Optional<BrewingRecipe> match = level.getRecipeManager()
+                        .getAllRecipesFor(ModRecipes.BREWING_RECIPE_TYPE).stream()
+                        .filter(r -> r.matches(container, level))
+                        .findFirst();
+
+                if (match.isPresent()) {
+                    BrewingRecipe newRecipe = match.get();
+                    boolean recipeChanged = (lockedRecipe == null) || !lockedRecipe.getId().equals(newRecipe.getId());
+
+                    lockedRecipe = newRecipe;
+                    if (recipeChanged || brewingStartMs == 0L) {
+                        brewingStartMs = System.currentTimeMillis();
+                        syncedBrewingTicks = 0;
+                    }
+
+                    BrewType bt = BrewType.getBrewTypeFromId(lockedRecipe.getBrewTypeId());
+                    int target = (bt != null) ? bt.tintColor() : DEFAULT_COLOR;
+                    if (syncedBrewColor != target) syncedBrewColor = target;
+
+                    setChanged();
                 } else {
                     lockedRecipe = null;
-                    brewingTicks = 0;
+                    brewingStartMs = 0L;
+                    syncedBrewingTicks = 0;
                     setCurrentColor(DEFAULT_COLOR);
-                    if (syncedBrewColor != DEFAULT_COLOR) {
-                        syncedBrewColor = DEFAULT_COLOR;
-                        setChanged();
-                    }
+                    if (syncedBrewColor != DEFAULT_COLOR) syncedBrewColor = DEFAULT_COLOR;
                     setChanged();
+                    return;
                 }
-                return;
             }
         }
 
-        if (lockedRecipe != null) {
+        if (lockedRecipe != null && brewingStartMs > 0L) {
             BrewType brewType = BrewType.getBrewTypeFromId(lockedRecipe.getBrewTypeId());
-            int targetBrewColor = (brewType != null) ? brewType.tintColor() : DEFAULT_COLOR;
-            if (syncedBrewColor != targetBrewColor) {
-                syncedBrewColor = targetBrewColor;
-                setChanged();
-            }
 
-            brewingTicks++;
+            long elapsedTicks = getElapsedBrewingTicksNow();
+            long optimalTicks = Math.max(0L, lockedRecipe.getOptimalBrewingTime());
+            double maxTicks = optimalTicks * (1.0 + lockedRecipe.getMaxBrewingTimeError());
+
             int prevColor = currentColor;
-            if (brewingTicks <= lockedRecipe.getOptimalBrewingTime()) {
-                double progress = (double) brewingTicks / lockedRecipe.getOptimalBrewingTime();
-                progress = Math.max(0.0, Math.min(1.0, progress));
+
+            if (optimalTicks <= 0L) {
+                setCurrentColor((brewType != null) ? brewType.tintColor() : DEFAULT_COLOR);
+            } else if (elapsedTicks <= optimalTicks) {
+                float progress = (float) ((double) elapsedTicks / (double) optimalTicks);
+                progress = Math.max(0f, Math.min(1f, progress));
                 if (brewType != null) {
-                    setCurrentColor(UtilMath.expInterpolateColor(DEFAULT_COLOR, brewType.tintColor(), (float) progress));
+                    setCurrentColor(UtilMath.expInterpolateColor(DEFAULT_COLOR, brewType.tintColor(), progress));
                 } else {
                     setCurrentColor(DEFAULT_COLOR);
                 }
             } else {
-                double maxTicks = lockedRecipe.getOptimalBrewingTime() * (1 + lockedRecipe.getMaxBrewingTimeError());
-                if (brewingTicks <= maxTicks) {
-                    double revertProgress = (brewingTicks - lockedRecipe.getOptimalBrewingTime())
-                            / (maxTicks - lockedRecipe.getOptimalBrewingTime());
-                    revertProgress = Math.max(0.0, Math.min(1.0, revertProgress));
+                if (elapsedTicks <= maxTicks && maxTicks > optimalTicks) {
+                    float revertProgress = (float) ((elapsedTicks - optimalTicks) / (maxTicks - optimalTicks));
+                    revertProgress = Math.max(0f, Math.min(1f, revertProgress));
                     if (brewType != null) {
-                        setCurrentColor(UtilMath.expInterpolateColor(brewType.tintColor(), DEFAULT_FAILED_COLOR, (float) revertProgress));
+                        setCurrentColor(UtilMath.expInterpolateColor(brewType.tintColor(), DEFAULT_FAILED_COLOR, revertProgress));
                     } else {
                         setCurrentColor(DEFAULT_COLOR);
                     }
@@ -228,7 +297,12 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
                     setCurrentColor(DEFAULT_FAILED_COLOR);
                 }
             }
-            if (currentColor != prevColor) {
+
+            if (currentColor != prevColor) setChanged();
+
+            int targetBrewColor = (brewType != null) ? brewType.tintColor() : DEFAULT_COLOR;
+            if (syncedBrewColor != targetBrewColor) {
+                syncedBrewColor = targetBrewColor;
                 setChanged();
             }
         } else {
@@ -263,7 +337,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
     }
 
     public int getBrewingTicks() {
-        return brewingTicks;
+        return (int) Math.min(Integer.MAX_VALUE, getElapsedBrewingTicksNow());
     }
 
     public void resetBrewing() {
@@ -273,10 +347,10 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         }
         setReValidateRecipe();
         lockedRecipe = null;
-        brewingTicks = 0;
-        if (syncedBrewColor != DEFAULT_COLOR) {
-            syncedBrewColor = DEFAULT_COLOR;
-        }
+        brewingStartMs = 0L;
+        syncedBrewingTicks = 0;
+        lastInventorySignature = 0L;
+        if (syncedBrewColor != DEFAULT_COLOR) syncedBrewColor = DEFAULT_COLOR;
         setChanged();
     }
 
@@ -285,9 +359,11 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         BrewType baseResult = BrewType.getBrewTypeFromId(lockedRecipe.getBrewTypeId());
         if (baseResult == null) return BrewType.DEFAULT_POTION();
 
-        ItemStack preliminary = baseResult.toItem(lockedRecipe, brewingTicks, itemHandler);
+        long elapsedTicks = getElapsedBrewingTicksNow();
 
-        // Use the new convenience methods instead of inline checks
+        // This must be ticks; BrewType.toItem compares to recipe optimal time in ticks.
+        ItemStack preliminary = baseResult.toItem(lockedRecipe, elapsedTicks, itemHandler);
+
         if (!lockedRecipe.requiresDistilling() && !lockedRecipe.requiresAging()) {
             CompoundTag tag = preliminary.getTag();
             if (tag == null || !tag.contains("purity")) {
@@ -308,6 +384,8 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         if (tag.contains("BrewingTicks")) this.syncedBrewingTicks = tag.getInt("BrewingTicks");
         if (tag.contains("CurrentWaterColor")) this.syncedCurrentColor = tag.getInt("CurrentWaterColor");
         if (tag.contains("BrewTypeColor")) this.syncedBrewColor = tag.getInt("BrewTypeColor");
+        if (tag.contains("BrewingStartMs")) this.brewingStartMs = tag.getLong("BrewingStartMs");
+        if (tag.contains("LastInventorySignature")) this.lastInventorySignature = tag.getLong("LastInventorySignature");
     }
 
     @Override
@@ -315,18 +393,21 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         super.saveAdditional(tag);
         tag.put("Inventory", itemHandler.serializeNBT());
         tag.putInt("CurrentColor", currentColor);
-        tag.putInt("BrewingTicks", brewingTicks);
+        tag.putInt("BrewingTicks", getBrewingTicks());
         tag.putInt("CurrentWaterColor", currentColor);
         tag.putInt("BrewTypeColor", syncedBrewColor);
+        tag.putLong("BrewingStartMs", brewingStartMs);
+        tag.putLong("LastInventorySignature", lastInventorySignature);
     }
 
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag tag = super.getUpdateTag();
         tag.putInt("CurrentColor", currentColor);
-        tag.putInt("BrewingTicks", brewingTicks);
+        tag.putInt("BrewingTicks", getBrewingTicks());
         tag.putInt("CurrentWaterColor", currentColor);
         tag.putInt("BrewTypeColor", syncedBrewColor);
+        tag.putLong("BrewingStartMs", brewingStartMs);
         return tag;
     }
 
@@ -337,6 +418,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity {
         if (tag.contains("BrewingTicks")) this.syncedBrewingTicks = tag.getInt("BrewingTicks");
         if (tag.contains("CurrentWaterColor")) this.syncedCurrentColor = tag.getInt("CurrentWaterColor");
         if (tag.contains("BrewTypeColor")) this.syncedBrewColor = tag.getInt("BrewTypeColor");
+        if (tag.contains("BrewingStartMs")) this.brewingStartMs = tag.getLong("BrewingStartMs");
     }
 
     @Override

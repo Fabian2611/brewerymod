@@ -3,11 +3,13 @@ package io.fabianbuthere.brewery.block.custom;
 import io.fabianbuthere.brewery.block.entity.FermentationBarrelBlockEntity;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -79,6 +81,23 @@ public class FermentationBarrelBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        ItemStack held = player.getItemInHand(hand);
+
+        // Clock -> show realtime fermentation durations in action bar
+        if (held.is(Items.CLOCK)) {
+            if (!level.isClientSide()) {
+                BlockEntity be = level.getBlockEntity(pos);
+                if (be instanceof FermentationBarrelBlockEntity barrel) {
+                    Component msg = barrel.buildClockStatusMessage();
+                    player.displayClientMessage(msg, true); // action bar
+                } else {
+                    player.displayClientMessage(Component.literal("empty"), true);
+                }
+            }
+            return InteractionResult.SUCCESS;
+        }
+
+        // Normal open GUI behavior
         if (!level.isClientSide()) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof FermentationBarrelBlockEntity) {

@@ -49,6 +49,19 @@ public class CocktailStationBlockEntity extends BlockEntity implements MenuProvi
 
     private final ItemStackHandler itemHandler = new ItemStackHandler(TOTAL_SLOTS) {
         @Override
+        protected void onContentsChanged(int slot) {
+            // CRITICAL: ensures slot changes (including taking output) persist to disk.
+            CocktailStationBlockEntity.this.setChanged();
+
+            // Optional but helpful: immediately sync to client.
+            if (CocktailStationBlockEntity.this.level != null && !CocktailStationBlockEntity.this.level.isClientSide) {
+                BlockPos p = CocktailStationBlockEntity.this.worldPosition;
+                BlockState s = CocktailStationBlockEntity.this.getBlockState();
+                CocktailStationBlockEntity.this.level.sendBlockUpdated(p, s, s, 3);
+            }
+        }
+
+        @Override
         public void deserializeNBT(CompoundTag nbt) {
             super.deserializeNBT(nbt);
 

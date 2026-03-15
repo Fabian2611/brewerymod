@@ -1,5 +1,5 @@
-## Brewery Forgified
-Brewery Forgified is a simple Minecraft Mod using the Forge modloader that adds a brewing system to the game.
+## Brewery Reimagined
+Brewery Reimagined is a simple Minecraft Mod using the Forge modloader that adds a brewing system to the game.
 It is heavily inspired by the Spigot Plugin [Brewery](https://www.spigotmc.org/resources/brewery.3082/) and its still actively maintained fork [BreweryX](https://www.spigotmc.org/resources/breweryx.114777/).
 
 ## Issues

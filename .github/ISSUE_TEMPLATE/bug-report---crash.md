@@ -39,4 +39,4 @@ List all your mods and their versions you have installed. Please do not provide 
 
 **I have made sure that...**
 - [ ] both the client and the server use the same version of the mod
-- [ ] my forge modloader version is 47.4.0
+- [ ] my forge modloader version is 47.4.0 / I use neoforge

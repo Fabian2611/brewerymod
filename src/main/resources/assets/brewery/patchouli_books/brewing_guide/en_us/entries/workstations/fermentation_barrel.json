@@ -1,0 +1,20 @@
+{
+  "name": "Fermentation Barrel",
+  "icon": "brewery:fermentation_barrel_oak",
+  "category": "brewery:workstations",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The last step in the breiwng process is aging, which is done in the fermentation barrel. Not all brews require aging. You input $(thing)$(l:brewery:concepts/unfinished_brew)Unfinished Brews$(), which will age as long as they remain inside of the barrel. After a certain amount of time, the brew will be finished, and you can take it out. You will only know whether your aging time is correct once you take the brew out."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "brewery:fermentation_barrel_oak",
+      "text": "The fermentation barrel is crafted like a normal barrel, with an extra $(item)iron ingot$(). You can use any kind of wood, and different brews require aging in different types of wood. Using the wrong kind will result in a $(thing)$(l:brewery:concepts/failed_brew)Failed Brew$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "If you take a brew out too early, you will recieve a $(thing)$(l:breewery:concepts/failed_brew)Failed Brew$(). Some brews can spoil if they're aged for too long, while others can safely $(thing)overage$(). Such brews will receive an additional lore line stating for how long they have been aged once taken out of the barrel; this is considered a sign of good quality. You can use a $(item)clock$() on the fermentation barrel to see how long the brews have been aging for."
+    }
+  ]
+}

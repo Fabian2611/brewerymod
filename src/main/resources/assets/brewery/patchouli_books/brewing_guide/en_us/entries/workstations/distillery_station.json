@@ -1,0 +1,16 @@
+{
+  "name": "Distillery Station",
+  "icon": "brewery:distillery_station",
+  "category": "brewery:workstations",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The second step in the brewing process, distillation, is done in this station. Not all brews require distillation. You input an $(thing)$(l:brewery:concepts/unfinished_brew)Unfinished Brew$() and some powder, that is $(item)Glowstone Dust$(), $(item)Redstone Dust$(), or $(item)Gunpowder$(), depending on the brew. You will either recieve another $(thing)$(l:brewery:concepts/unfinished_brew)unfinished brew$() ready for $(thing)$(l:brewery:workstations/fermentation_barrel)Aging$(), or a $(thing)$(l:brewery:concepts/failed_brew)failed brew$() if something went wrong."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "brewery:distillery_station",
+      "text": "The distillery station is crafted with glass, iron blocks, smooth stone, and lava and water buckets."
+    }
+  ]
+}

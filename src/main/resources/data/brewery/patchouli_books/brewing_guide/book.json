@@ -1,0 +1,11 @@
+{
+  "name": "brewery.patchouli_books.brewing_guide.name",
+  "landing_text": "brewery.patchouli_books.brewing_guide.description",
+  "version": 1,
+  "creative_tab": "minecraft:tools_and_utilities",
+  "use_resource_pack": true,
+  "book_texture": "patchouli:textures/gui/book_red.png",
+  "model": "brewery:guide_book",
+  "filler_texture": "brewery:textures/gui/page_filler.png",
+  "show_progress": false
+}

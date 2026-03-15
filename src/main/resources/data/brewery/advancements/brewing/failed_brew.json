@@ -1,0 +1,20 @@
+{
+  "parent": "brewery:brewing/obtain_brewing_cauldron",
+  "display": {
+    "icon": {
+      "item": "minecraft:coal"
+    },
+    "title": { "translate": "advancements.brewery.failed_brew.title" },
+    "description": { "translate": "advancements.brewery.failed_brew.description" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "criteria": {
+    "manual_trigger": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [ ["manual_trigger"] ]
+}

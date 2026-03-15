@@ -1,0 +1,36 @@
+{
+  "name": "Compendium",
+  "icon": "minecraft:writable_book",
+  "category": "brewery:concepts",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "This section of the book contains a collection of beginner brews. These are simple brews that can be made with just a few ingredients, and are a great way to get started with brewing. They can also be used as a base for more complex brews. It's missing some information about the recipes, so you will need to experiment a bit."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Absinthe",
+      "text": "What happens when you throw some toxic plants into a kettle and pray for the best? You get absinthe, a strong brew with a very distinct flavor. $(thing)Brew$() $(item)16 grass$() for a short time, and $(thing)distill$() it. It doesn't kill you, but it isn't healthy either."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Beer",
+      "text": "One of the simplest brews to make, probably invented around 5000 BCE by the Sumerians. $(thing)Brew$() $(item)6 wheat$() for 8 minutes, and $(thing)age$() it for at least $(n)$(t:One in-game day is equal to 20 real minutes.)3 days$(). Aging it for longer can improve the taste, and its value."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Dandelion Wine",
+      "text": "A nice, light wine, made from $(item)12 dandelions$() $(thing)brewed$() for a few minutes, $(thing)distilled$() with $(item)redstone$() and $(thing)aged$() for no more than $(n)$(t:One in-game day is equal to 20 real minutes.)10 days$(). Easy to get working, difficult to perfect."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Rum",
+      "text": "Made in the Caribbean, a classic drink known for its luxury. $(thing)Brew$() $(item)14 sugarcane$() for a couple of minutes, $(thing)distill$() with $(item)glowstone dust$() and $(thing)age$() it in $(item)oak$() wood for $(n)$(t:One in-game day is equal to 20 real minutes.)more than 12 days$(). The longer you age it, the better it gets."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Whiskey",
+      "text": "Originally a medicinal tonic crafted by British monks, it quickly evolved into a popular drink. $(thing)Brew$() $(item)some kelp$(), $(item)5 sugar$() and $(item)a little wheat$() for a short time, $(thing)distill$() and $(thing)age$() it in $(item)mangrove$() or $(item)cherry$() wood for at least $(n)$(t:One in-game day is equal to 20 real minutes.)7 days$(). The longer you age it, the stronger its flavor gets."
+    }
+  ]
+}

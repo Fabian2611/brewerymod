@@ -1,0 +1,16 @@
+{
+  "name": "Cocktail Station",
+  "icon": "brewery:cocktail_station",
+  "category": "brewery:advanced",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The cocktail station is used in $(thing)advanced brewing$() to create cocktails out of other brews. You input various $(item)finished brews$() and extra items, and will receive a cocktail if everything went right. Cocktails usually have stronger effects than regular brews."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "brewery:cocktail_station",
+      "text": "The cocktail station is crafted using three gold ingots, a glass block and three planks."
+    }
+  ]
+}

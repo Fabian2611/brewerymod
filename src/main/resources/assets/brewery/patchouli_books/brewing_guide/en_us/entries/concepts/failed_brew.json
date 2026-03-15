@@ -1,0 +1,11 @@
+{
+  "name": "Failed Brew",
+  "icon": "minecraft:coal",
+  "category": "brewery:concepts",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "When a brewing step fails, you will end up with a failed brew. There are several kinds of failed brews, distinguished by their lore, each hinting at the reason for the failure:$(li)Missing Ingredients$(li)Incorrect Amounts$(li)Incorrect $(thing)$(l:brewery:workstations/distillery_station)Distillation$()$(li)Incorrect $(thing)$(l:brewery:workstations/brewing_cauldron)Brewing Time$()$(li)Incorrect $(thing)$(l:brewery:workstations/fermentation_barrel)Aging$()$(li)$(thing)$(l:brewery:workstations/fermentation_barrel)Spoiled Brew$()"
+    }
+  ]
+}

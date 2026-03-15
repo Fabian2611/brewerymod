@@ -164,5 +164,15 @@
   "item.brewery.guide_book": "Brewing Guide Book",
   "brewery.brew.overaged_singular_lore": "Aged for %d year.",
   "brewery.brew.overaged_plural_lore": "Aged for %d years.",
-  "block.brewery.cocktail_station": "Cocktail Station"
+  "block.brewery.cocktail_station": "Cocktail Station",
+
+  "advancements.brewery.obtain_brewing_cauldron.title": "Brewery",
+  "advancements.brewery.obtain_brewing_cauldron.description": "The beginning of your brewing journey.",
+  "advancements.brewery.first_brew.title": "Now we're cooking!",
+  "advancements.brewery.first_brew.description": "Create your first unfinished brew.",
+  "advancements.brewery.failed_brew.title": "Better luck next time",
+  "advancements.brewery.failed_brew.description": "Brew a failed brew.",
+
+  "brewery.patchouli_books.brewing_guide.name": "Brewing Guide",
+  "brewery.patchouli_books.brewing_guide.description": "Welcome to Brewery! This book contains everything you need to know to get started on your first brews. Start off by reading the entry on $(l:brewery:concepts/brewing)brewing$(), then check out the different $(l:brewery:workstations)workstations$(), and finally, when you're ready, try out some of the recipes in the $(l:brewery:concepts/compendium)compendium$(). Good luck, and have fun brewing!"
 }

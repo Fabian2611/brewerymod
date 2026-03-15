@@ -1,0 +1,11 @@
+{
+  "name": "Unfinished Brew",
+  "icon": "minecraft:potion{CustomPotionColor: 4654633}",
+  "category": "brewery:concepts",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "After successfully completing a step of the brewing process, you will have an unfinished brew. This is a potion that has not yet been fully brewed. It will have the color of the resulting brew, but will not yet have any effects, until the brewing process is complete."
+    }
+  ]
+}

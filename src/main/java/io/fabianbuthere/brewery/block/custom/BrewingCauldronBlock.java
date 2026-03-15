@@ -1,9 +1,12 @@
 package io.fabianbuthere.brewery.block.custom;
 
+import io.fabianbuthere.brewery.BreweryMod;
 import io.fabianbuthere.brewery.block.entity.BrewingCauldronBlockEntity;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
+import io.fabianbuthere.brewery.util.AdvancementUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -96,6 +99,15 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
                 if (be != null) {
                     pLevel.setBlock(pPos, pState.setValue(BREW_LEVEL, currentLevel - 1), 3);
                     ItemStack result = be.getCurrentStateRecipeResult();
+
+                    if (!pLevel.isClientSide()) {
+                        if (result.getDisplayName().toString().contains("brewery.brew.failed_brew")) {
+                            AdvancementUtil.grantAdvancement((ServerPlayer) pPlayer, "brewing/failed_brew");
+                        } else {
+                            AdvancementUtil.grantAdvancement((ServerPlayer) pPlayer, "brewing/first_brew");
+                        }
+                    }
+
                     if (!pPlayer.getInventory().add(result)) {
                         pPlayer.drop(result, false);
                     }

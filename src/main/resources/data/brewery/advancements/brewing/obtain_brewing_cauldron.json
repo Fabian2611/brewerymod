@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "brewery:brewing_cauldron"
+    },
+    "title": { "translate": "advancements.brewery.obtain_brewing_cauldron.title" },
+    "description": { "translate": "advancements.brewery.obtain_brewing_cauldron.description" },
+    "background": "minecraft:textures/block/copper_block.png",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "on_pickup": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["brewery:brewing_cauldron"]
+          }
+        ]
+      }
+    }
+  }
+}

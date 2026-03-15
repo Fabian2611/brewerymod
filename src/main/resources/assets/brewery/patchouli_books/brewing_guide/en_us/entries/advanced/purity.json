@@ -1,0 +1,15 @@
+{
+  "name": "Purity",
+  "icon": "minecraft:emerald",
+  "category": "brewery:advanced",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Brewing is an exact science. While you can safely be a bit mistaken in ingredients, brewing time, distillation time, and aging time, sloppy brewing can result in a brew of lower $(thing)purity$(), which is shown using a star rating on the resulting brew. Too much of a mistake in any of the steps can result in a $(thing)$(l:brewery:concepts/failed_brew)Failed Brew$(). You will need some trial-and-error to find the right balance for each brew."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "A bad purity brew will have weaker and shorter duration effects, while a good purity brew will have stronger and longer duration effects. The purity of a brew is determined by the least pure step in the brewing process, so if you have a brew with good brewing time and distillation time, but bad aging time, the brew will have a bad purity. $(thing)$(l:brewery:advanced/cocktail_station)Cocktails$() take into account the purity of each of their ingredients."
+    }
+  ]
+}

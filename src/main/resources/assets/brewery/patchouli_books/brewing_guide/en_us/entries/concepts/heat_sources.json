@@ -1,0 +1,11 @@
+{
+  "name": "Heat Sources",
+  "icon": "minecraft:campfire",
+  "category": "brewery:concepts",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(thing)$(l:brewery:workstations/brewing_cauldron)Brewing Cauldrons$() need heat sources below them to work. Valid heat sources are:$(li)(Soul) Fire$(li)Magma Block$(li)Lava$(li)(Soul) Campfire"
+    }
+  ]
+}

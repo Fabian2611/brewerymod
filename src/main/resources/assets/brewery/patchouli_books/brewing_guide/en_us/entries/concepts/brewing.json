@@ -1,0 +1,11 @@
+{
+  "name": "Brewing",
+  "icon": "minecraft:potion",
+  "category": "brewery:concepts",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Custom Brews are created through a multi-step brewing process. Ingredients are first put into the $(thing)$(l:brewery:workstations/brewing_cauldron)Brewing Cauldron$() for a certain amount of time. Then, the brew is transferred to a $(thing)$(l:brewery:workstations/distillery_station)Distillery Station$(), and finally into a $(thing)$(l:brewery:workstations/fermentation_barrel)Fermentation Barrel$() for aging. $(thing)Aging$() and $(thing)distillation$() are only required for some brews, with most of them needing only one of the two."
+    }
+  ]
+}

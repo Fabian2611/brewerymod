@@ -1,0 +1,20 @@
+{
+  "name": "Brewing Cauldron",
+  "icon": "brewery:brewing_cauldron",
+  "category": "brewery:workstations",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Used to start off any brew. First fill it up with water, then place a $(thing)$(l:brewery:concepts/heat_sources)heat source$() below. You can now put ingredients into it by right-clicking with the ingredient in your main hand. Once you have inserted a valid recipe, you will start to see bubbles forming above the cauldron. Your brew is ready once the water color matches the color of the bubbles exactly."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "brewery:brewing_cauldron",
+      "text": "A brewing cauldron can be crafted using 7 $(item)copper ingots$().$(br2)Your brew can then be obtained by right-clicking the cauldron with a $(item)glass bottle$(). You can check the time a cauldron has been brewing by right-clicking it with a $(item)clock$()."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "It will show '0min 0s' if no valid recipe is inserted. If everything went right, you will receive an $(thing)$(l:brewery:concepts/unfinished_brew)Unfinished Brew$(). Otherwise, you will obtain a $(thing)$(l:brewery:concepts/failed_brew)Failed Brew$(). You can then proceed to the next step."
+    }
+  ]
+}

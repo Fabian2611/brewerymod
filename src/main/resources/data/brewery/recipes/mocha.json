@@ -1,0 +1,13 @@
+{
+  "type": "brewery:coffee",
+  "coffee_data": {
+    "brew_inputs": [
+      { "brewTypeId": "coffee_extract", "count": 3 }
+    ],
+    "extras": [
+      { "item": "minecraft:sugar", "minCount": 1, "maxCount": 1 },
+      { "item": "minecraft:cocoa_beans", "minCount": 3, "maxCount": 5 }
+    ],
+    "result_brew_type": "mocha"
+  }
+}

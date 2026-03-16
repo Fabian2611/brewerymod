@@ -16,6 +16,7 @@ public class ModMenus {
     public static final RegistryObject<MenuType<DistilleryStationMenu>> DISTILLERY_STATION_MENU = registerMenuType("distillery_station_menu", DistilleryStationMenu::new);
     public static final RegistryObject<MenuType<FermentationBarrelMenu>> FERMENTATION_BARREL_MENU = registerMenuType("fermentation_barrel_menu", FermentationBarrelMenu::new);
     public static final RegistryObject<MenuType<CocktailStationMenu>> COCKTAIL_STATION_MENU = registerMenuType("cocktail_station_menu", CocktailStationMenu::new);
+    public static final RegistryObject<MenuType<CoffeeMakerMenu>> COFFEE_MAKER_MENU = registerMenuType("coffee_maker_menu", CoffeeMakerMenu::new);
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));

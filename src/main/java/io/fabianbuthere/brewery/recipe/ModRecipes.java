@@ -19,6 +19,10 @@ public class ModRecipes {
 
     public static final RecipeType<CocktailRecipe> COCKTAIL_RECIPE_TYPE = new RecipeType<>() { public String toString() { return BreweryMod.MOD_ID + ":cocktail"; } };
 
+    public static final RegistryObject<RecipeSerializer<CoffeeRecipe>> COFFEE_SERIALIZER = SERIALIZERS.register("coffee", CoffeeRecipeSerializer::new);
+
+    public static final RecipeType<CoffeeRecipe> COFFEE_RECIPE_TYPE = new RecipeType<>() { public String toString() { return BreweryMod.MOD_ID + ":coffee"; } };
+
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);
     }

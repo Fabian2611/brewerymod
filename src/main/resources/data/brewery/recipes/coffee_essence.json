@@ -1,0 +1,21 @@
+{
+  "type": "brewery:brewing",
+  "brewing_data": {
+    "allowedWoodTypes": [
+
+    ],
+    "brew_type": "coffee_essence",
+    "distillingItem": "",
+    "inputs": [
+      {
+        "item": "brewery:ground_coffee",
+        "minCount": 4,
+        "maxCount": 8
+      }
+    ],
+    "maxAgingTimeError": 0.1,
+    "maxBrewingTimeError": 0.6,
+    "optimalAgingTime": 0,
+    "optimalBrewingTime": 2400
+  }
+}

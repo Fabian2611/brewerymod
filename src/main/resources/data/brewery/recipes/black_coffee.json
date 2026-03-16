@@ -1,0 +1,12 @@
+{
+  "type": "brewery:coffee",
+  "coffee_data": {
+    "brew_inputs": [
+      { "brewTypeId": "coffee_essence", "count": 1 }
+    ],
+    "extras": [
+
+    ],
+    "result_brew_type": "black_coffee"
+  }
+}

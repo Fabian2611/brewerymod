@@ -26,6 +26,11 @@ public class ModCreativeModeTabs {
                 pOutput.accept(ModBlocks.BREW_SHELF.get());
                 pOutput.accept(ModItems.GUIDE_BOOK.get());
                 pOutput.accept(ModBlocks.COCKTAIL_STATION.get());
+                pOutput.accept(ModBlocks.COFFEE_MAKER.get());
+
+                pOutput.accept(ModItems.COFFEE_BEAN.get());
+                pOutput.accept(ModItems.ROASTED_COFFEE_BEAN.get());
+                pOutput.accept(ModItems.GROUND_COFFEE.get());
             })
             .build());
 

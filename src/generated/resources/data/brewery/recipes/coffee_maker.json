@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "brewery:roasted_coffee_bean"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "I": {
+      "item": "minecraft:iron_block"
+    },
+    "L": {
+      "tag": "forge:glass"
+    }
+  },
+  "pattern": [
+    "GLG",
+    "GBG",
+    "III"
+  ],
+  "result": {
+    "item": "brewery:coffee_maker"
+  },
+  "show_notification": true
+}

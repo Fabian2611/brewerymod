@@ -1,0 +1,15 @@
+{
+  "builtin": true,
+  "customLore": "brewery.brew.double_shot.lore",
+  "customName": "brewery.brew.double_shot.name",
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 2400,
+      "effect": "effect.minecraft.haste"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 5,
+  "tintColor": 2100482
+}

@@ -1,0 +1,13 @@
+{
+  "type": "brewery:coffee",
+  "coffee_data": {
+    "brew_inputs": [
+      { "brewTypeId": "coffee_extract", "count": 2 }
+    ],
+    "extras": [
+      { "item": "minecraft:honey_bottle", "minCount": 1, "maxCount": 1 },
+      { "item": "minecraft:milk_bucket", "minCount": 1, "maxCount": 1 }
+    ],
+    "result_brew_type": "bulletproof"
+  }
+}

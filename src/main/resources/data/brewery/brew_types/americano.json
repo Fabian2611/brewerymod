@@ -1,0 +1,15 @@
+{
+  "builtin": true,
+  "customLore": "brewery.brew.americano.lore",
+  "customName": "brewery.brew.americano.name",
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 600,
+      "effect": "effect.minecraft.speed"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 3,
+  "tintColor": 6505772
+}

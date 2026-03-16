@@ -1,0 +1,15 @@
+{
+  "builtin": true,
+  "customLore": "brewery.brew.flat_white.lore",
+  "customName": "brewery.brew.flat_white.name",
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 1200,
+      "effect": "effect.minecraft.regeneration"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 5,
+  "tintColor": 2100482
+}

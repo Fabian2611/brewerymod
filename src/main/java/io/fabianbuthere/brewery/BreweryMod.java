@@ -10,10 +10,7 @@ import io.fabianbuthere.brewery.event.ServerEventHandling;
 import io.fabianbuthere.brewery.item.ModCreativeModeTabs;
 import io.fabianbuthere.brewery.item.ModItems;
 import io.fabianbuthere.brewery.recipe.ModRecipes;
-import io.fabianbuthere.brewery.screen.CocktailStationScreen;
-import io.fabianbuthere.brewery.screen.DistilleryStationScreen;
-import io.fabianbuthere.brewery.screen.FermentationBarrelScreen;
-import io.fabianbuthere.brewery.screen.ModMenus;
+import io.fabianbuthere.brewery.screen.*;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -96,6 +93,7 @@ public class BreweryMod
             MenuScreens.register(ModMenus.DISTILLERY_STATION_MENU.get(), DistilleryStationScreen::new);
             MenuScreens.register(ModMenus.FERMENTATION_BARREL_MENU.get(), FermentationBarrelScreen::new);
             MenuScreens.register(ModMenus.COCKTAIL_STATION_MENU.get(), CocktailStationScreen::new);
+            MenuScreens.register(ModMenus.COFFEE_MAKER_MENU.get(), CoffeeMakerScreen::new);
             ModBlocks.FERMENTATION_BARRELS.values().forEach(barrel ->
                 ItemBlockRenderTypes.setRenderLayer(barrel.get(), RenderType.translucent())
             );

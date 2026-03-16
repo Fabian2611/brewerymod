@@ -1,0 +1,20 @@
+{
+  "builtin": true,
+  "customLore": "brewery.brew.mocha.lore",
+  "customName": "brewery.brew.mocha.name",
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 2400,
+      "effect": "effect.minecraft.speed"
+    },
+    {
+      "amplifier": 1,
+      "duration": 2400,
+      "effect": "effect.minecraft.haste"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 6,
+  "tintColor": 4394755
+}

@@ -114,7 +114,34 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .scale(0.7F)
                 .end()
                 .end();
+        withExistingParent("coffee_maker", modLoc("block/coffee_maker"))
+                .transforms()
+                .transform(ItemDisplayContext.GUI)
+                .rotation(30, 225, 0)
+                .scale(0.65F)
+                .translation(0, 0, 0)
+                .end()
+                .transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND)
+                .scale(0.5F)
+                .end()
+                .transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND)
+                .scale(0.5F)
+                .end()
+                .transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)
+                .scale(0.5F)
+                .end()
+                .transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND)
+                .scale(0.5F)
+                .end()
+                .transform(ItemDisplayContext.GROUND)
+                .scale(0.7F)
+                .end()
+                .end();
+
         simpleItem(ModItems.GUIDE_BOOK);
+        simpleItem(ModItems.COFFEE_BEAN);
+        simpleItem(ModItems.ROASTED_COFFEE_BEAN);
+        simpleItem(ModItems.GROUND_COFFEE);
     }
 
     @SuppressWarnings("removal")

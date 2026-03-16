@@ -1,0 +1,16 @@
+{
+  "name": "Coffee Maker",
+  "icon": "brewery:coffee_maker",
+  "category": "brewery:advanced",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The coffee maker is used in $(thing)advanced brewing$() to create various kinds of coffee. Using up to three $(item)Coffee Essence$() or $(item)Coffee Extract$() and some extra items, you can create coffee. It can also grind $(item)roasted coffee beans$(). More on this in the chapter about $(l:brewery:advanced/coffee)coffee$(). It works similarly to the $(l:brewery:advanced/cocktail_station)cocktail station$(). You will know when something is happening because of the small red lamp glowing up."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "brewery:coffee_maker",
+      "text": "The coffee maker is crafted using three iron blocks, four gold, a glass block and a roasted coffee bean."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "brewery:coffee",
+  "coffee_data": {
+    "brew_inputs": [
+      { "brewTypeId": "coffee_essence", "count": 1 }
+    ],
+    "extras": [
+      { "item": "minecraft:sugar", "minCount": 1, "maxCount": 3 },
+      { "item": "minecraft:water_bucket", "minCount": 1, "maxCount": 1 }
+    ],
+    "result_brew_type": "americano"
+  }
+}

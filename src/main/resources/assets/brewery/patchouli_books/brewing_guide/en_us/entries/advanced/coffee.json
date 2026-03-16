@@ -1,0 +1,39 @@
+{
+  "name": "Coffee",
+  "icon": "brewery:roasted_coffee_bean",
+  "category": "brewery:advanced",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The creation of coffee is an $(thing)advanced brewing technique$(). This chapter covers $(item)coffee beans$(), the $(item)coffee plant$() and $(item)how to process coffee beans$().$(br2)Once you have found a coffee plant, it can be harvested to obtain $(item)coffee beans$(), which also act as the seeds of the plant. They can then be $(thing)roasted in a smoker$()."
+    },
+    {
+      "type": "patchouli:multiblock",
+      "multiblock": {
+        "pattern" : [
+          ["   ", " 0 ", "   "],
+          ["FFF", "FFF", "FFF"]
+        ],
+        "mapping": {
+          "0": "brewery:coffee_crop[age=7]",
+          "F": "minecraft:farmland[moisture=7]"
+        }
+      },
+      "enable_visualize": false,
+      "text": "A fully grown coffee plant. Can be commonly found in savanna biomes."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "brewery:coffee_bean,brewery:roasted_coffee_bean",
+      "title": "Coffee Beans",
+      "link_recipe": true,
+      "text": "Once you have roasted your coffee beans, you can put them into the $(l:brewery:advanced/coffee_maker)Coffee Maker's$() right column to grind them. This will give you $(item)ground coffee$(). The ground coffee can then be used to create $(item)coffee essence$() and $(item)coffee extract$()."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": "brewery:ground_coffee",
+      "link_recipe": true,
+      "text": "$(item)Coffee essence$() can be made in the $(l:brewery:workstations/brewing_cauldron)Brewing Cauldron$() by brewing some $(item)ground coffee$() for a short time.$(br2)Some special coffees use the stronger $(item)coffee extract$() instead, which uses more $(item)ground coffee$() and takes a longer time to brew."
+    }
+  ]
+}

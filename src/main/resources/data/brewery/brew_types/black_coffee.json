@@ -1,0 +1,15 @@
+{
+  "builtin": true,
+  "customLore": "brewery.brew.black_coffee.lore",
+  "customName": "brewery.brew.black_coffee.name",
+  "effects": [
+    {
+      "amplifier": 0,
+      "duration": 1200,
+      "effect": "effect.minecraft.haste"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 3,
+  "tintColor": 3414787
+}

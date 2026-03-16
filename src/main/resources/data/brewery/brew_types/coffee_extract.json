@@ -1,0 +1,15 @@
+{
+  "builtin": true,
+  "customLore": "brewery.brew.coffee_extract.lore",
+  "customName": "brewery.brew.coffee_extract.name",
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 400,
+      "effect": "effect.minecraft.nausea"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 5,
+  "tintColor": 3543041
+}

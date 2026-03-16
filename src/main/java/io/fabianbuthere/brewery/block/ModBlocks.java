@@ -7,6 +7,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -31,6 +32,12 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> BREW_SHELF = registerBlock("brew_shelf", () ->
             new BrewShelfBlock(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).noOcclusion()));
+
+    public static final RegistryObject<Block> COFFEE_CROP = registerBlock("coffee_crop", () ->
+            new CoffeeCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT).sound(SoundType.SWEET_BERRY_BUSH).noOcclusion().noCollission()));
+
+    public static final RegistryObject<Block> COFFEE_MAKER = registerBlock("coffee_maker", () ->
+            new CoffeeMakerBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
 
     static {
         for (WoodType type : WoodType.values()) {

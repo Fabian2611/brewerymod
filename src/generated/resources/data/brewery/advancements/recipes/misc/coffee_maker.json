@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_roasted_coffee_bean": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "brewery:roasted_coffee_bean"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brewery:coffee_maker"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_roasted_coffee_bean",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brewery:coffee_maker"
+    ]
+  },
+  "sends_telemetry_event": false
+}

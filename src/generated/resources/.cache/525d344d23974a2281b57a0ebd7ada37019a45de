@@ -1,3 +1,12 @@
-// 1.20.1	2026-03-10T15:52:23.635456629	Block States: brewery
+// 1.20.1	2026-03-16T16:06:43.886310757	Block States: brewery
 8a369706917da464331f264aa77da3215b2f72b0 assets/brewery/blockstates/cocktail_station.json
+82ff0e7913c17e7b359eb69a299bfb1041324ce7 assets/brewery/blockstates/coffee_crop.json
+c732a6f4142af9063bbdf91cc2f5427ccf66245c assets/brewery/models/block/coffee_stage0.json
+e3e54ff30e4d04a66028842f99499d850c2c2a08 assets/brewery/models/block/coffee_stage1.json
+136a8125d105a91a044487f48c180774cb2b31b3 assets/brewery/models/block/coffee_stage2.json
+ed294b2a7cfdb4b94649123bcf43d01ce9940a49 assets/brewery/models/block/coffee_stage3.json
+b95126ef69b5b98c0cc59561cbd2e80fe2915c67 assets/brewery/models/block/coffee_stage4.json
+846839e05db4a53cc153272e5ab10af4db886843 assets/brewery/models/block/coffee_stage5.json
+0a4e34b2f1182177990840ea60032f3ce89bd000 assets/brewery/models/block/coffee_stage6.json
+4a4b63b9715c48de0482502951f376e6c6f3cdbd assets/brewery/models/block/coffee_stage7.json
 0305d3bf938ef2c69fc18267f776ab6403f5f340 assets/brewery/models/item/cocktail_station.json

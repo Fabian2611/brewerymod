@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "brewery:block/coffee_maker" },
+    "facing=south": { "model": "brewery:block/coffee_maker", "y": 180 },
+    "facing=east": { "model": "brewery:block/coffee_maker", "y": 90 },
+    "facing=west": { "model": "brewery:block/coffee_maker", "y": 270 }
+  }
+}

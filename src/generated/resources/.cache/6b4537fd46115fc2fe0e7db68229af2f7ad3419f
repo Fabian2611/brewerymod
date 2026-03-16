@@ -1,6 +1,8 @@
-// 1.20.1	2026-03-10T15:52:23.632619153	Item Models: brewery
+// 1.20.1	2026-03-15T20:59:11.626927461	Item Models: brewery
 85b167006b39d7fcbc888ede1238b726fec1919a assets/brewery/models/item/brewing_cauldron.json
 e7cedef197b78b31262c9b2a19c51093eb5902c9 assets/brewery/models/item/cocktail_station.json
+cb80d6aca2db18d76b309d67a8921400a677042f assets/brewery/models/item/coffee_bean.json
+0657af68d3cb3d12a561d168d7b2f1b35bb1d8ec assets/brewery/models/item/coffee_maker.json
 76cb2bc1eb997b98fbd632a8ee99be78426c6697 assets/brewery/models/item/distillery_station.json
 cde5b20921b15657cef71ac3f5e25813a10e3563 assets/brewery/models/item/fermentation_barrel_acacia.json
 6f085dc1d36a50bb4759b7cfea24303cc0801769 assets/brewery/models/item/fermentation_barrel_bamboo.json
@@ -13,4 +15,6 @@ b4a867f77dcda4e21cf5c303097fa5b9dd0f85bb assets/brewery/models/item/fermentation
 64935fe3ebecfd607796dd1e81b08dc3354f8832 assets/brewery/models/item/fermentation_barrel_oak.json
 4af77f30635469f1475c97142b0dcb845b21f3d0 assets/brewery/models/item/fermentation_barrel_spruce.json
 242d7405f2385bdf381fff184cb23cb4a6bce95f assets/brewery/models/item/fermentation_barrel_warped.json
+14ed187fbad12bcef3149643a6aef81b15e6ca5a assets/brewery/models/item/ground_coffee.json
 e7bbce8972c4489388d52de0b5fb31c5d0f8468e assets/brewery/models/item/guide_book.json
+6b302c1636dc26b10343c94ef9c78256386a7c18 assets/brewery/models/item/roasted_coffee_bean.json

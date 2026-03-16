@@ -4,19 +4,20 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.fabianbuthere.brewery.block.ModBlocks;
 import io.fabianbuthere.brewery.block.custom.WoodType;
+import io.fabianbuthere.brewery.item.ModItems;
 import io.fabianbuthere.brewery.util.BrewType;
 import io.fabianbuthere.brewery.util.ItemStackInput;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CookingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SmokingRecipe;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
@@ -62,14 +63,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 default -> Items.OAK_SLAB;
             };
             ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.FERMENTATION_BARRELS.get(type).get())
-                .define('P', plank)
-                .define('S', slab)
-                .define('I', Items.IRON_INGOT)
-                .pattern("PSP")
-                .pattern("PIP")
-                .pattern("PSP")
-                .unlockedBy("has_" + wood + "_planks", has(plank))
-                .save(pWriter, new ResourceLocation("brewery", "fermentation_barrel_" + wood));
+                    .define('P', plank)
+                    .define('S', slab)
+                    .define('I', Items.IRON_INGOT)
+                    .pattern("PSP")
+                    .pattern("PIP")
+                    .pattern("PSP")
+                    .unlockedBy("has_" + wood + "_planks", has(plank))
+                    .save(pWriter, new ResourceLocation("brewery", "fermentation_barrel_" + wood));
         }
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BREW_SHELF.get())
@@ -81,12 +82,12 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(pWriter, new ResourceLocation("brewery", "brew_shelf"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BREWING_CAULDRON.get())
-            .define('I', Items.COPPER_INGOT)
-            .pattern("I I")
-            .pattern("I I")
-            .pattern("III")
-            .unlockedBy("has_copper_ingot", has(Items.COPPER_INGOT))
-            .save(pWriter, new ResourceLocation("brewery", "brewing_cauldron"));
+                .define('I', Items.COPPER_INGOT)
+                .pattern("I I")
+                .pattern("I I")
+                .pattern("III")
+                .unlockedBy("has_copper_ingot", has(Items.COPPER_INGOT))
+                .save(pWriter, new ResourceLocation("brewery", "brewing_cauldron"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DISTILLERY_STATION.get())
                 .define('S', Blocks.SMOOTH_STONE)
@@ -109,19 +110,41 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("PPP")
                 .unlockedBy("has_gold_ingot", has(Items.GOLD_INGOT))
                 .save(pWriter, new ResourceLocation("brewery", "cocktail_station"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.COFFEE_MAKER.get())
+                .define('G', Items.GOLD_INGOT)
+                .define('L', Tags.Items.GLASS)
+                .define('I', Items.IRON_BLOCK)
+                .define('B', ModItems.ROASTED_COFFEE_BEAN.get())
+                .pattern("GLG")
+                .pattern("GBG")
+                .pattern("III")
+                .unlockedBy("has_roasted_coffee_bean", has(ModItems.ROASTED_COFFEE_BEAN.get()))
+                .save(pWriter, new ResourceLocation("brewery", "coffee_maker"));
+
+        SimpleCookingRecipeBuilder.smoking(
+            Ingredient.of(ModItems.COFFEE_BEAN.get()),
+            RecipeCategory.FOOD,
+            ModItems.ROASTED_COFFEE_BEAN.get(),
+            0.5F,
+            400
+        )
+        .unlockedBy("has_coffee_bean", has(ModItems.COFFEE_BEAN.get()))
+        .save(pWriter, ResourceLocation.fromNamespaceAndPath("brewery", "roasted_coffee_bean"));
     }
 
     /**
      * Registers a custom brewing recipe.
-     * @param pWriter Consumer for FinishedRecipe
-     * @param inputs List of ItemStackInput (item, minCount, maxCount)
-     * @param optimalBrewingTime Brewing time in ticks
+     *
+     * @param pWriter             Consumer for FinishedRecipe
+     * @param inputs              List of ItemStackInput (item, minCount, maxCount)
+     * @param optimalBrewingTime  Brewing time in ticks
      * @param maxBrewingTimeError Allowed error in brewing time
-     * @param distillingItem Item required for distilling (as a string)
-     * @param optimalAgingTime Aging time in ticks
-     * @param maxAgingTimeError Allowed error in aging time
-     * @param allowedWoodTypes List of allowed wood types (as strings)
-     * @param result BrewType result
+     * @param distillingItem      Item required for distilling (as a string)
+     * @param optimalAgingTime    Aging time in ticks
+     * @param maxAgingTimeError   Allowed error in aging time
+     * @param allowedWoodTypes    List of allowed wood types (as strings)
+     * @param result              BrewType result
      */
     private void customBrewing(
             Consumer<FinishedRecipe> pWriter,
@@ -156,18 +179,26 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             public void serializeRecipeData(JsonObject jsonOut) {
                 jsonOut.add("brewing_data", json);
             }
+
             @Override
             public ResourceLocation getId() {
                 return new ResourceLocation("brewery", result.id().toLowerCase().replace(" ", "_"));
             }
+
             @Override
             public RecipeSerializer<?> getType() {
                 return io.fabianbuthere.brewery.recipe.ModRecipes.BREWING_SERIALIZER.get();
             }
+
             @Override
-            public JsonObject serializeAdvancement() { return null; }
+            public JsonObject serializeAdvancement() {
+                return null;
+            }
+
             @Override
-            public ResourceLocation getAdvancementId() { return null; }
+            public ResourceLocation getAdvancementId() {
+                return null;
+            }
         });
     }
 }

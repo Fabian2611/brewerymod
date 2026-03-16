@@ -1,0 +1,20 @@
+{
+  "builtin": true,
+  "customLore": "brewery.brew.bulletproof.lore",
+  "customName": "brewery.brew.bulletproof.name",
+  "effects": [
+    {
+      "amplifier": 1,
+      "duration": 1200,
+      "effect": "effect.minecraft.saturation"
+    },
+    {
+      "amplifier": 0,
+      "duration": 300,
+      "effect": "effect.minecraft.resistance"
+    }
+  ],
+  "maxAlcoholLevel": 2,
+  "maxPurity": 5,
+  "tintColor": 9061660
+}

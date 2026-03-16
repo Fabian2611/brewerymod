@@ -4,18 +4,18 @@
     "allowedWoodTypes": [
 
     ],
-    "brew_type": "coffee",
+    "brew_type": "coffee_extract",
     "distillingItem": "",
     "inputs": [
       {
-        "item": "minecraft:cocoa_beans",
+        "item": "brewery:ground_coffee",
         "minCount": 9,
         "maxCount": 15
       }
     ],
     "maxAgingTimeError": 0.1,
-    "maxBrewingTimeError": 0.25,
+    "maxBrewingTimeError": 0.4,
     "optimalAgingTime": 0,
-    "optimalBrewingTime": 2400
+    "optimalBrewingTime": 4800
   }
 }

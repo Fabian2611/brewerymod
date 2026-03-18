@@ -1,6 +1,8 @@
 {
   "values": [
     "brewery:brewing_cauldron",
-    "brewery:distillery_station"
+    "brewery:distillery_station",
+    "brewery:cocktail_station",
+    "brewery:coffee_maker"
   ]
 }

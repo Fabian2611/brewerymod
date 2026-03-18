@@ -21,10 +21,14 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.BREWING_CAULDRON.get())
-                .add(ModBlocks.DISTILLERY_STATION.get());
+                .add(ModBlocks.DISTILLERY_STATION.get())
+                .add(ModBlocks.COCKTAIL_STATION.get())
+                .add(ModBlocks.COFFEE_MAKER.get());
         tag(BlockTags.NEEDS_IRON_TOOL)
                 .add(ModBlocks.BREWING_CAULDRON.get())
-                .add(ModBlocks.DISTILLERY_STATION.get());
+                .add(ModBlocks.DISTILLERY_STATION.get())
+                .add(ModBlocks.COCKTAIL_STATION.get())
+                .add(ModBlocks.COFFEE_MAKER.get());
 
         IntrinsicTagAppender<Block> itp = tag(BlockTags.MINEABLE_WITH_AXE);
         ModBlocks.FERMENTATION_BARRELS.forEach((t, b) -> {

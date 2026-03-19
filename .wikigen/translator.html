@@ -1,0 +1,824 @@
+<!--
+Warning: This file is AI generated.
+As it's unethical to license this file, this will be distributed under the *MIT LICENSE*:
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy,
+modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patchouli Translation Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-bottom: 4px solid #764ba2;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        select, input[type="file"], input[type="text"] {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.danger {
+            background: #e74c3c;
+        }
+
+        button.danger:hover {
+            background: #c0392b;
+        }
+
+        button.secondary {
+            background: #95a5a6;
+        }
+
+        button.secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 300px;
+            border-right: 1px solid #e9ecef;
+            overflow-y: auto;
+            background: #f8f9fa;
+            padding: 15px;
+        }
+
+        .file-tree {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .file-item {
+            padding: 10px;
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            word-break: break-word;
+            transition: all 0.2s;
+            color: #333;
+        }
+
+        .file-item:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+
+        .file-item.active {
+            background: #667eea;
+            color: white;
+            border-color: #764ba2;
+            font-weight: 600;
+        }
+
+        .category-header {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            padding: 0 10px;
+        }
+
+        .editor {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .editor-header {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .editor-header h2 {
+            font-size: 18px;
+            color: #333;
+            margin: 0;
+        }
+
+        .editor-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .editor-body.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 16px;
+        }
+
+        .translation-section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .translation-section h3 {
+            font-size: 14px;
+            color: #667eea;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .text-pair {
+            margin-bottom: 15px;
+        }
+
+        .text-pair:last-child {
+            margin-bottom: 0;
+        }
+
+        .label-source {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .source-text {
+            background: white;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #333;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .label-translation {
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .translation-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 60px;
+            transition: all 0.2s;
+        }
+
+        .translation-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .translation-input:placeholder-shown {
+            min-height: 40px;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .stats {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .export-section {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: #27ae60;
+            color: white;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease-out;
+            z-index: 1000;
+        }
+
+        .notification.error {
+            background: #e74c3c;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .no-files-message {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+        }
+
+        .no-files-message p {
+            margin-bottom: 15px;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e9ecef;
+                max-height: 200px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .control-group {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            select, input[type="file"], input[type="text"], button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🍺 Patchouli Translation Tool</h1>
+        <p>Create and manage translations for your Patchouli books locally</p>
+    </header>
+
+    <div class="controls">
+        <div class="control-group">
+            <label for="jsonUpload">Load en_us Folder (as ZIP):</label>
+            <input type="file" id="jsonUpload" accept=".zip" />
+        </div>
+
+        <div class="control-group">
+            <label for="targetLang">Target Language:</label>
+            <input type="text" id="targetLang" placeholder="de_de" value="de_de" />
+        </div>
+
+        <button id="createTranslation">Create Translation</button>
+        <button id="clearData" class="secondary">Clear</button>
+    </div>
+
+    <div class="content">
+        <div class="sidebar">
+            <div class="file-tree" id="fileTree"></div>
+        </div>
+
+        <div class="editor">
+            <div class="editor-header">
+                <h2 id="currentFile">Select a file to translate</h2>
+                <div style="display: flex; gap: 10px;">
+                    <span id="fileStats" style="font-size: 12px; color: #999;"></span>
+                </div>
+            </div>
+
+            <div class="editor-body" id="editorBody">
+                <div class="no-files-message">
+                    <p>📁 No files loaded</p>
+                    <p style="font-size: 13px;">Upload a ZIP file containing your en_us folder to get started</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="export-section">
+        <button id="exportTranslation" class="secondary" disabled>📥 Export Translation</button>
+        <button id="downloadAsZip" class="secondary" disabled>📦 Download as ZIP</button>
+        <span id="exportInfo" style="font-size: 12px; color: #666;"></span>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+    class PatchouliTranslator {
+        constructor() {
+            this.files = {};
+            this.translations = {};
+            this.targetLang = 'de_de';
+            this.currentFile = null;
+            this.init();
+        }
+
+        init() {
+            document.getElementById('jsonUpload').addEventListener('change', (e) => this.handleFileUpload(e));
+            document.getElementById('createTranslation').addEventListener('click', () => this.createTranslation());
+            document.getElementById('exportTranslation').addEventListener('click', () => this.exportTranslation());
+            document.getElementById('downloadAsZip').addEventListener('click', () => this.downloadAsZip());
+            document.getElementById('clearData').addEventListener('click', () => this.clearData());
+
+            const langInput = document.getElementById('targetLang');
+            langInput.addEventListener('change', (e) => {
+                this.targetLang = e.target.value || 'de_de';
+            });
+        }
+
+        async handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            try {
+                const zip = new JSZip();
+                const content = await zip.loadAsync(file);
+
+                this.files = {};
+                this.translations = {};
+
+                // Extract all JSON files from the en_us folder
+                for (const [path, fileObj] of Object.entries(content.files)) {
+                    if (path.includes('en_us') && path.endsWith('.json') && !fileObj.dir) {
+                        const jsonContent = await fileObj.async('string');
+                        const relativePath = path.replace(/.*en_us\//, '');
+                        this.files[relativePath] = JSON.parse(jsonContent);
+                    }
+                }
+
+                if (Object.keys(this.files).length === 0) {
+                    this.showNotification('No JSON files found in en_us folder', true);
+                    return;
+                }
+
+                this.renderFileTree();
+                this.showNotification(`Loaded ${Object.keys(this.files).length} files successfully!`);
+                document.getElementById('createTranslation').disabled = false;
+            } catch (error) {
+                this.showNotification('Error loading file: ' + error.message, true);
+            }
+        }
+
+        renderFileTree() {
+            const tree = document.getElementById('fileTree');
+            tree.innerHTML = '';
+
+            // Group files by category
+            const categories = {};
+            Object.keys(this.files).forEach(path => {
+                const parts = path.split('/');
+                const category = parts[0] || 'root';
+                if (!categories[category]) categories[category] = [];
+                categories[category].push(path);
+            });
+
+            // Render categorized files
+            Object.keys(categories).sort().forEach(category => {
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.textContent = category;
+                tree.appendChild(header);
+
+                categories[category].sort().forEach(path => {
+                    const item = document.createElement('div');
+                    item.className = 'file-item';
+                    item.textContent = path.split('/').pop();
+                    item.addEventListener('click', () => this.selectFile(path));
+                    if (path === this.currentFile) item.classList.add('active');
+                    tree.appendChild(item);
+                });
+            });
+        }
+
+        selectFile(path) {
+            this.currentFile = path;
+            this.renderFileTree();
+            this.renderEditor();
+        }
+
+        renderEditor() {
+            const body = document.getElementById('editorBody');
+            const header = document.getElementById('currentFile');
+
+            if (!this.currentFile) {
+                body.innerHTML = '<div class="no-files-message"><p>Select a file to translate</p></div>';
+                return;
+            }
+
+            const fileData = this.files[this.currentFile];
+            header.textContent = this.currentFile;
+
+            let html = '';
+
+            if (Array.isArray(fileData)) {
+                // File is an array (categories or entries)
+                fileData.forEach((item, index) => {
+                    html += this.renderItem(item, index);
+                });
+            } else if (typeof fileData === 'object') {
+                // File is a single object
+                html += this.renderItem(fileData, 0);
+            }
+
+            body.innerHTML = html;
+            this.attachInputListeners();
+            this.updateStats();
+        }
+
+        renderItem(item, index) {
+            let html = '';
+
+            if (item.name) {
+                html += this.createTranslationSection('Name', item.name, `${this.currentFile}_${index}_name`);
+            }
+
+            if (item.description) {
+                html += this.createTranslationSection('Description', item.description, `${this.currentFile}_${index}_description`);
+            }
+
+            if (item.title) {
+                html += this.createTranslationSection('Title', item.title, `${this.currentFile}_${index}_title`);
+            }
+
+            if (item.text) {
+                html += this.createTranslationSection('Text', item.text, `${this.currentFile}_${index}_text`);
+            }
+
+            if (item.pages && Array.isArray(item.pages)) {
+                item.pages.forEach((page, pageIdx) => {
+                    if (page.text) {
+                        html += this.createTranslationSection(
+                            `Page ${pageIdx + 1} Text`,
+                            page.text,
+                            `${this.currentFile}_${index}_page_${pageIdx}_text`
+                        );
+                    }
+                    if (page.title) {
+                        html += this.createTranslationSection(
+                            `Page ${pageIdx + 1} Title`,
+                            page.title,
+                            `${this.currentFile}_${index}_page_${pageIdx}_title`
+                        );
+                    }
+                });
+            }
+
+            return html;
+        }
+
+        createTranslationSection(label, sourceText, key) {
+            const translation = this.translations[key] || '';
+            return `
+                    <div class="translation-section">
+                        <h3>${label}</h3>
+                        <div class="text-pair">
+                            <div class="label-source">Source (English)</div>
+                            <div class="source-text">${this.escapeHtml(sourceText)}</div>
+                            <div class="label-translation">Translation (${this.targetLang})</div>
+                            <textarea class="translation-input" data-key="${key}" placeholder="Enter translation...">${this.escapeHtml(translation)}</textarea>
+                        </div>
+                    </div>
+                `;
+        }
+
+        attachInputListeners() {
+            document.querySelectorAll('.translation-input').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const key = e.target.dataset.key;
+                    this.translations[key] = e.target.value;
+                    this.updateStats();
+                });
+            });
+        }
+
+        updateStats() {
+            const total = document.querySelectorAll('.translation-input').length;
+            const translated = Array.from(document.querySelectorAll('.translation-input')).filter(
+                el => el.value.trim() !== ''
+            ).length;
+
+            const percentage = total > 0 ? Math.round((translated / total) * 100) : 0;
+            const stats = document.getElementById('fileStats');
+            stats.textContent = `${translated}/${total} translated (${percentage}%)`;
+
+            const progressFill = document.querySelector('.progress-fill');
+            if (progressFill) {
+                progressFill.style.width = percentage + '%';
+            }
+        }
+
+        createTranslation() {
+            if (Object.keys(this.files).length === 0) {
+                this.showNotification('Please load a file first', true);
+                return;
+            }
+
+            this.translations = {};
+            this.renderEditor();
+            this.showNotification('Translation file created. Start translating!');
+
+            document.getElementById('exportTranslation').disabled = false;
+            document.getElementById('downloadAsZip').disabled = false;
+        }
+
+        exportTranslation() {
+            if (Object.keys(this.translations).length === 0) {
+                this.showNotification('No translations to export', true);
+                return;
+            }
+
+            this.showNotification('Building translation files...');
+            this.downloadAsZip();
+        }
+
+        async downloadAsZip() {
+            const zip = new JSZip();
+            const langFolder = zip.folder(this.targetLang);
+
+            // Recreate the folder structure with translated files
+            const filesByPath = {};
+
+            for (const [path, originalData] of Object.entries(this.files)) {
+                const translatedData = this.applyTranslations(path, originalData);
+                filesByPath[path] = translatedData;
+            }
+
+            // Group by directory
+            const dirs = {};
+            for (const [path, data] of Object.entries(filesByPath)) {
+                const dir = path.substring(0, path.lastIndexOf('/')) || '.';
+                if (!dirs[dir]) dirs[dir] = {};
+                dirs[dir][path.substring(path.lastIndexOf('/') + 1)] = data;
+            }
+
+            // Create folder structure
+            for (const [dir, files] of Object.entries(dirs)) {
+                let folder = langFolder;
+                if (dir !== '.') {
+                    folder = langFolder;
+                    dir.split('/').forEach(part => {
+                        folder = folder.folder(part);
+                    });
+                }
+
+                for (const [filename, data] of Object.entries(files)) {
+                    folder.file(filename, JSON.stringify(data, null, 2));
+                }
+            }
+
+            const blob = await zip.generateAsync({ type: 'blob' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${this.targetLang}_translation.zip`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            this.showNotification('Translation downloaded successfully!');
+        }
+
+        applyTranslations(path, originalData) {
+            const applyToObject = (obj, index) => {
+                const translated = { ...obj };
+
+                if (obj.name) {
+                    const key = `${path}_${index}_name`;
+                    if (this.translations[key]) translated.name = this.translations[key];
+                }
+
+                if (obj.description) {
+                    const key = `${path}_${index}_description`;
+                    if (this.translations[key]) translated.description = this.translations[key];
+                }
+
+                if (obj.title) {
+                    const key = `${path}_${index}_title`;
+                    if (this.translations[key]) translated.title = this.translations[key];
+                }
+
+                if (obj.text) {
+                    const key = `${path}_${index}_text`;
+                    if (this.translations[key]) translated.text = this.translations[key];
+                }
+
+                if (obj.pages && Array.isArray(obj.pages)) {
+                    translated.pages = obj.pages.map((page, pageIdx) => {
+                        const translatedPage = { ...page };
+
+                        if (page.text) {
+                            const key = `${path}_${index}_page_${pageIdx}_text`;
+                            if (this.translations[key]) translatedPage.text = this.translations[key];
+                        }
+
+                        if (page.title) {
+                            const key = `${path}_${index}_page_${pageIdx}_title`;
+                            if (this.translations[key]) translatedPage.title = this.translations[key];
+                        }
+
+                        return translatedPage;
+                    });
+                }
+
+                return translated;
+            };
+
+            if (Array.isArray(originalData)) {
+                return originalData.map((item, idx) => applyToObject(item, idx));
+            } else {
+                return applyToObject(originalData, 0);
+            }
+        }
+
+        clearData() {
+            this.files = {};
+            this.translations = {};
+            this.currentFile = null;
+            document.getElementById('jsonUpload').value = '';
+            document.getElementById('createTranslation').disabled = true;
+            document.getElementById('exportTranslation').disabled = true;
+            document.getElementById('downloadAsZip').disabled = true;
+            document.getElementById('fileTree').innerHTML = '';
+            document.getElementById('editorBody').innerHTML = '<div class="no-files-message"><p>📁 No files loaded</p></div>';
+            document.getElementById('currentFile').textContent = 'Select a file to translate';
+        }
+
+        escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        showNotification(message, isError = false) {
+            const notification = document.createElement('div');
+            notification.className = 'notification' + (isError ? ' error' : '');
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    }
+
+    // Initialize the translator when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        new PatchouliTranslator();
+    });
+</script>
+</body>
+</html>

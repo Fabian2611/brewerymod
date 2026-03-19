@@ -2,9 +2,13 @@ package io.fabianbuthere.brewery.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
+import java.util.List;
+
 public class BreweryConfig {
     public static final ForgeConfigSpec COMMON_CONFIG;
     public static final ForgeConfigSpec SERVER_CONFIG;
+    public static final ForgeConfigSpec CLIENT_CONFIG;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> TINTABLE_TEXTURES;
     public static final ForgeConfigSpec.BooleanValue ENABLE_BUILTIN_BREWS;
     public static final ForgeConfigSpec.IntValue MAX_ALCOHOL_STACKED_DURATION_SECONDS;
     public static final ForgeConfigSpec.IntValue MAX_ALCOHOL_STACKED_AMPLIFIER;
@@ -12,6 +16,28 @@ public class BreweryConfig {
     public static final ForgeConfigSpec.IntValue MIN_ALCOHOL_LEVEL_FOR_ALCOHOL_POISONING;
 
     static {
+        // --- CLIENT --- //
+
+        ForgeConfigSpec.Builder clientBuilder = new ForgeConfigSpec.Builder();
+        clientBuilder.push("client");
+
+        TINTABLE_TEXTURES = clientBuilder
+                .comment("A list of texture resource locations that are tintable brew textures")
+                .defineList("tintableTextures",
+                        List.of(
+                            "minecraft:item/potion",
+                            "brewery:item/tea_glass",
+                            "brewery:item/tea_glass_steaming",
+                            "brewery:item/tea_jug",
+                            "brewery:item/tea_jug_steaming",
+                            "brewery:item/coffee_mug"
+                        ),
+                        obj -> obj instanceof String
+            );
+
+        clientBuilder.pop();
+        CLIENT_CONFIG = clientBuilder.build();
+
         // --- COMMON --- //
 
         ForgeConfigSpec.Builder commonBuilder = new ForgeConfigSpec.Builder();

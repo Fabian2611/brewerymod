@@ -3,6 +3,7 @@ package io.fabianbuthere.brewery;
 import com.mojang.logging.LogUtils;
 import io.fabianbuthere.brewery.block.ModBlocks;
 import io.fabianbuthere.brewery.block.entity.ModBlockEntities;
+import io.fabianbuthere.brewery.client.BreweryClientEvents;
 import io.fabianbuthere.brewery.config.BreweryConfig;
 import io.fabianbuthere.brewery.data.BrewTypeJsonLoader;
 import io.fabianbuthere.brewery.effect.ModEffects;
@@ -47,6 +48,9 @@ public class BreweryMod
         );
         ModLoadingContext.get().registerConfig(
                 ModConfig.Type.SERVER, BreweryConfig.SERVER_CONFIG
+        );
+        ModLoadingContext.get().registerConfig(
+                ModConfig.Type.CLIENT, BreweryConfig.CLIENT_CONFIG
         );
 
         ModCreativeModeTabs.register(modEventBus);

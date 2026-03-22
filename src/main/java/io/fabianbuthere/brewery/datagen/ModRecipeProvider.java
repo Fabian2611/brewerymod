@@ -130,7 +130,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             400
         )
         .unlockedBy("has_coffee_bean", has(ModItems.COFFEE_BEAN.get()))
-        .save(pWriter, ResourceLocation.fromNamespaceAndPath("brewery", "roasted_coffee_bean"));
+        .save(pWriter, new ResourceLocation("brewery", "roasted_coffee_bean"));
     }
 
     /**

@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.brandy.lore",
   "customName": "brewery.brew.brandy.name",
+  "customTexture": "brewery:item/tea_glass",
   "effects": [
     {
       "amplifier": 2,

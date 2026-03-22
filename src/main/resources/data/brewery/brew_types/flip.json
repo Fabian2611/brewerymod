@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.flip.lore",
     "customName": "brewery.brew.flip.name",
+    "customTexture": "brewery:item/cocktail_glass",
     "overageable": true,
     "effects": [
         {

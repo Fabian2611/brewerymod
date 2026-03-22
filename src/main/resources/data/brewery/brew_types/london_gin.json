@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.london_gin.lore",
   "customName": "brewery.brew.london_gin.name",
+  "customTexture": "brewery:item/large_bottle",
   "overageable": false,
   "effects": [
     {

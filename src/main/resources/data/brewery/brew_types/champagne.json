@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.champagne.lore",
     "customName": "brewery.brew.champagne.name",
+    "customTexture": "brewery:item/green_bottle",
     "effects": [
         {
             "amplifier": 1,

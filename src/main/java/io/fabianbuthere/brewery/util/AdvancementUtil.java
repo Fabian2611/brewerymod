@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class AdvancementUtil {
     public static void grantAdvancement(ServerPlayer player, String advancementPath) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(BreweryMod.MOD_ID, advancementPath);
+        ResourceLocation id = new ResourceLocation(BreweryMod.MOD_ID, advancementPath);
         Advancement advancement = player.getServer().getAdvancements().getAdvancement(id);
 
         if (advancement != null) {

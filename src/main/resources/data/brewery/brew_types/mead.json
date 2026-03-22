@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.mead.lore",
   "customName": "brewery.brew.mead.name",
+  "customTexture": "brewery:item/wine_bottle",
   "overageable": true,
   "effects": [
     {

@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.highball.lore",
     "customName": "brewery.brew.highball.name",
+    "customTexture": "brewery:item/tea_glass",
     "overageable": true,
     "effects": [
         {

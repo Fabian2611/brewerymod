@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.bone_tequila.lore",
   "customName": "brewery.brew.bone_tequila.name",
+  "customTexture": "brewery:item/wine_bottle",
   "effects": [
     {
       "amplifier": 2,

@@ -2,6 +2,8 @@ package io.fabianbuthere.brewery.client;
 
 import io.fabianbuthere.brewery.BreweryMod;
 import io.fabianbuthere.brewery.config.BreweryConfig;
+import io.fabianbuthere.brewery.util.BrewType;
+import io.fabianbuthere.brewery.util.BrewTypeRegistry;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElement;
 import net.minecraft.client.renderer.block.model.BlockElementFace;
@@ -71,7 +73,7 @@ public class BreweryClientEvents {
         ResourceLocation targetKey = null;
         BakedModel targetModel = null;
 
-        ModelResourceLocation standardKey = new ModelResourceLocation(ResourceLocation.fromNamespaceAndPath("minecraft", "potion"), "inventory");
+        ModelResourceLocation standardKey = new ModelResourceLocation(new ResourceLocation("minecraft", "potion"), "inventory");
         if (event.getModels().containsKey(standardKey)) {
             targetKey = standardKey;
             targetModel = event.getModels().get(standardKey);
@@ -130,10 +132,24 @@ public class BreweryClientEvents {
         @Override
         public BakedModel resolve(BakedModel model, ItemStack stack, @Nullable net.minecraft.client.multiplayer.ClientLevel level, @Nullable net.minecraft.world.entity.LivingEntity entity, int seed) {
             if (stack.hasTag()) {
-                if (stack.getTag().contains("customTexture")) {
+                if (stack.getOrCreateTag().contains("customTexture")) {
                     String texturePath = stack.getTag().getString("customTexture");
                     if (!texturePath.isEmpty()) {
                         return parent.getModelForTexture(texturePath);
+                    }
+                    return super.resolve(model, stack, level, entity, seed);
+                }
+
+                // Port pre-1.6.1 textures
+                if (stack.getOrCreateTag().contains("brewTypeId")) {
+                    String brewId = stack.getTag().getString("brewTypeId");
+                    BrewType brewType = BrewTypeRegistry.get(brewId);
+
+                    if (brewType != null) {
+                        String defaultTexture = brewType.customTexture();
+                        if (defaultTexture != null && !defaultTexture.isEmpty()) {
+                            return parent.getModelForTexture(defaultTexture);
+                        }
                     }
                 }
             }
@@ -188,7 +204,7 @@ public class BreweryClientEvents {
             try {
                 // "brewery:item/tea_jug_steaming" -> "models/item/tea_jug_steaming.json"
                 String modelPath = "models/" + modelId.getPath() + ".json";
-                ResourceLocation modelLocation = ResourceLocation.fromNamespaceAndPath(modelId.getNamespace(), modelPath);
+                ResourceLocation modelLocation = new ResourceLocation(modelId.getNamespace(), modelPath);
 
                 var resource = net.minecraft.client.Minecraft.getInstance()
                         .getResourceManager()
@@ -229,20 +245,24 @@ public class BreweryClientEvents {
             FaceBakery bakery = new FaceBakery();
             List<BakedQuad> quads = new ArrayList<>();
 
-            boolean shouldTint = shouldApplyTinting(textureLocation);
+            String layer0Path = loadLayerTextureFromModel(textureLocation, "layer0");
+            boolean hasModelJson = (layer0Path != null && !layer0Path.isEmpty());
+
+            boolean shouldTint = hasModelJson && shouldApplyTinting(textureLocation);
 
             for (int layer = 0; layer <= 1; layer++) {
                 String layerKey = "layer" + layer;
+                ResourceLocation layerTextureLocation;
 
-                // Load texture for THIS layer from model JSON
-                String layerTexturePath = loadLayerTextureFromModel(textureLocation, layerKey);
-
-                if (layerTexturePath == null || layerTexturePath.isEmpty()) {
-                    continue;
+                if (layer == 0) {
+                    layerTextureLocation = hasModelJson ? ResourceLocation.parse(layer0Path) : textureLocation;
+                } else {
+                    String layerPath = loadLayerTextureFromModel(textureLocation, layerKey);
+                    if (layerPath == null || layerPath.isEmpty()) continue;
+                    layerTextureLocation = ResourceLocation.parse(layerPath);
                 }
 
                 try {
-                    ResourceLocation layerTextureLocation = ResourceLocation.parse(layerTexturePath);
                     TextureAtlasSprite layerSprite = net.minecraft.client.Minecraft.getInstance()
                             .getTextureAtlas(net.minecraft.world.inventory.InventoryMenu.BLOCK_ATLAS)
                             .apply(layerTextureLocation);
@@ -254,19 +274,13 @@ public class BreweryClientEvents {
                             Direction direction = entry.getKey();
                             BlockElementFace face = entry.getValue();
 
-                            int tintIndex = (shouldTint && layer == 0) ? face.tintIndex : -1;
+                            int tintIndex = (shouldTint && layer == 0) ? 0 : -1;
+
                             BlockElementFace tintFace = new BlockElementFace(null, tintIndex, face.texture, face.uv);
 
                             BakedQuad quad = bakery.bakeQuad(
-                                    element.from,
-                                    element.to,
-                                    tintFace,
-                                    layerSprite,
-                                    direction,
-                                    BlockModelRotation.X0_Y0,
-                                    element.rotation,
-                                    true,
-                                    layerTextureLocation
+                                    element.from, element.to, tintFace, layerSprite, direction,
+                                    BlockModelRotation.X0_Y0, element.rotation, true, layerTextureLocation
                             );
                             quads.add(quad);
                         }
@@ -274,6 +288,8 @@ public class BreweryClientEvents {
                 } catch (Exception e) {
                     BreweryMod.LOGGER.error("Failed to generate quads for layer {} of {}", layerKey, textureLocation, e);
                 }
+
+                if (!hasModelJson) break;
             }
             return quads;
         }

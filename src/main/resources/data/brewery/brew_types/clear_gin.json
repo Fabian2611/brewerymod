@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.clear_gin.lore",
     "customName": "brewery.brew.clear_gin.name",
+    "customTexture": "brewery:item/large_bottle",
     "effects": [
         {
             "amplifier": 2,

@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.everclear.lore",
     "customName": "brewery.brew.everclear.name",
+    "customTexture": "brewery:item/wine_bottle",
     "effects": [
         {
             "amplifier": 3,

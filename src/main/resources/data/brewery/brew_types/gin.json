@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.gin.lore",
   "customName": "brewery.brew.gin.name",
+  "customTexture": "brewery:item/wine_bottle",
   "overageable": false,
   "effects": [
     {

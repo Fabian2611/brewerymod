@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.cream_stout.lore",
     "customName": "brewery.brew.cream_stout.name",
+    "customTexture": "brewery:item/brown_bottle",
     "effects": [
         {
             "amplifier": 0,

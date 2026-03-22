@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.dandelion_wine.lore",
     "customName": "brewery.brew.dandelion_wine.name",
+    "customTexture": "brewery:item/wine_bottle",
     "overageable": true,
     "effects": [
         {

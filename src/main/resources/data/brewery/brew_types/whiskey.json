@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.whiskey.lore",
     "customName": "brewery.brew.whiskey.name",
+    "customTexture": "brewery:item/large_bottle",
     "overageable": true,
     "effects": [
         {

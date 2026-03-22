@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.cachaca.lore",
     "customName": "brewery.brew.cachaca.name",
+    "customTexture": "brewery:item/wine_bottle",
     "effects": [
         {
             "amplifier": 1,

@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.bulletproof.lore",
   "customName": "brewery.brew.bulletproof.name",
+  "customTexture": "brewery:item/coffee_mug",
   "effects": [
     {
       "amplifier": 1,

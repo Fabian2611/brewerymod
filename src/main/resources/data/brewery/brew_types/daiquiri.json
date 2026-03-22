@@ -5,7 +5,7 @@
   "tintColor": 8454016,
   "customLore": "brewery.brew.daiquiri.lore",
   "customName": "brewery.brew.daiquiri.name",
-  "customTexture": "",
+  "customTexture": "brewery:item/cocktail_glass",
   "overageable": false,
   "effects": [
     {

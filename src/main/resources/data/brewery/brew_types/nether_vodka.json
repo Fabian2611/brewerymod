@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.nether_vodka.lore",
     "customName": "brewery.brew.nether_vodka.name",
+    "customTexture": "brewery:item/wine_bottle",
     "effects": [
         {
             "amplifier": 4,

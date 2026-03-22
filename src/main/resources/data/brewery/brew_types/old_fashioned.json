@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.old_fashioned.lore",
     "customName": "brewery.brew.old_fashioned.name",
+    "customTexture": "brewery:item/tea_glass",
     "overageable": true,
     "effects": [
         {

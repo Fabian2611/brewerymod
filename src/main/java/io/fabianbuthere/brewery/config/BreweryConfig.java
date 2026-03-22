@@ -25,15 +25,20 @@ public class BreweryConfig {
                 .comment("A list of texture resource locations that are tintable brew textures")
                 .defineList("tintableTextures",
                         List.of(
-                            "minecraft:item/potion",
-                            "brewery:item/tea_glass",
-                            "brewery:item/tea_glass_steaming",
-                            "brewery:item/tea_jug",
-                            "brewery:item/tea_jug_steaming",
-                            "brewery:item/coffee_mug"
+                                "minecraft:item/potion",
+                                "brewery:item/tea_glass",
+                                "brewery:item/tea_glass_steaming",
+                                "brewery:item/tea_jug",
+                                "brewery:item/tea_jug_steaming",
+                                "brewery:item/coffee_mug",
+                                "brewery:item/wine_bottle",
+                                "brewery:item/green_bottle",
+                                "brewery:item/brown_bottle",
+                                "brewery:item/cocktail_glass",
+                                "brewery:item/large_bottle"
                         ),
                         obj -> obj instanceof String
-            );
+                );
 
         clientBuilder.pop();
         CLIENT_CONFIG = clientBuilder.build();

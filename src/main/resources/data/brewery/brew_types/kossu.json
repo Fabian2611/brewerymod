@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.kossu.lore",
     "customName": "brewery.brew.kossu.name",
+    "customTexture": "brewery:item/wine_bottle",
     "effects": [
         {
             "amplifier": 2,

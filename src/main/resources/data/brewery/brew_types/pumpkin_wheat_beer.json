@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.pumpkin_wheat_beer.lore",
     "customName": "brewery.brew.pumpkin_wheat_beer.name",
+    "customTexture": "brewery:item/brown_bottle",
     "overageable": true,
     "effects": [
         {

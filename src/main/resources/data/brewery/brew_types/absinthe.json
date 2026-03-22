@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.absinthe.lore",
   "customName": "brewery.brew.absinthe.name",
+  "customTexture": "brewery:item/wine_bottle",
   "effects": [
     {
       "amplifier": 3,

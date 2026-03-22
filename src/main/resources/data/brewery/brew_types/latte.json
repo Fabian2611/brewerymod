@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.latte.lore",
   "customName": "brewery.brew.latte.name",
+  "customTexture": "brewery:item/coffee_mug",
   "effects": [
     {
       "amplifier": 1,

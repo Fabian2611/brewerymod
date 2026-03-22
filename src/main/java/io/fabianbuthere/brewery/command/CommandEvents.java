@@ -1,5 +1,6 @@
 package io.fabianbuthere.brewery.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -16,6 +17,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -36,6 +38,30 @@ public class CommandEvents {
                 Commands.literal("brewery")
                         .requires(source -> source.isPlayer() && source.hasPermission(3))
                         .then(Commands.literal("give")
+                                .then(Commands.literal("*")
+                                        .executes(context -> {
+                                            ServerPlayer player = context.getSource().getPlayerOrException();
+
+                                            for (String brewTypeId : BrewTypeRegistry.getAll().keySet()) {
+                                                BrewType brewType = BrewType.getBrewTypeFromId(brewTypeId);
+                                                if (brewType == null) {
+                                                    context.getSource().sendFailure(Component.literal("Unknown brew_type: " + brewTypeId));
+                                                    continue;
+                                                }
+
+                                                ItemStack result = BrewType.buildPerfectBrewFromType(brewType, 24000);
+
+                                                boolean added = player.getInventory().add(result);
+
+                                                if (!added || !result.isEmpty()) {
+                                                    player.drop(result, false);
+                                                }
+
+                                                context.getSource().sendSuccess(() -> Component.literal("Given brew '" + brewTypeId + "'!"), false);
+                                            }
+                                            return 1;
+                                        })
+                                )
                                 .then(Commands.argument("brew_type", StringArgumentType.word())
                                         .suggests(CommandEvents::suggestBrewTypes)
                                         .executes(context -> {

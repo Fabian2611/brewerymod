@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.sweet_tea.lore",
     "customName": "brewery.brew.sweet_tea.name",
+    "customTexture": "brewery:item/tea_jug",
     "effects": [
         {
             "amplifier": 0,

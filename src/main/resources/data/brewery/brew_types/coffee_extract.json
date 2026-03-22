@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.coffee_extract.lore",
   "customName": "brewery.brew.coffee_extract.name",
+  "customTexture": "brewery:item/tea_glass_steaming",
   "effects": [
     {
       "amplifier": 1,

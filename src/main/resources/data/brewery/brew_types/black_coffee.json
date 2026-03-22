@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.black_coffee.lore",
   "customName": "brewery.brew.black_coffee.name",
+  "customTexture": "brewery:item/coffee_mug",
   "effects": [
     {
       "amplifier": 0,

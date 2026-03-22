@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.nether_rum.lore",
     "customName": "brewery.brew.nether_rum.name",
+    "customTexture": "brewery:item/large_bottle",
     "overageable": true,
     "effects": [
         {

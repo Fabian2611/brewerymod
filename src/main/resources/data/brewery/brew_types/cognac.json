@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.cognac.lore",
     "customName": "brewery.brew.cognac.name",
+    "customTexture": "brewery:item/large_bottle",
     "overageable": true,
     "effects": [
         {

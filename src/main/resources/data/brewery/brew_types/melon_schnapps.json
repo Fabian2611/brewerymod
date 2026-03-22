@@ -2,6 +2,7 @@
     "builtin": true,
     "customLore": "brewery.brew.melon_schnapps.lore",
     "customName": "brewery.brew.melon_schnapps.name",
+    "customTexture": "brewery:item/tea_glass",
     "effects": [
         {
             "amplifier": 2,

@@ -2,6 +2,7 @@
   "builtin": true,
   "customLore": "brewery.brew.wheat_beer.lore",
   "customName": "brewery.brew.wheat_beer.name",
+  "customTexture": "brewery:item/brown_bottle",
   "overageable": true,
   "effects": [
     {

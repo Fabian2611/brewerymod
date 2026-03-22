@@ -115,7 +115,7 @@ public class BreweryClientEvents {
                 if (cleanedPath.endsWith(".png")) cleanedPath = cleanedPath.substring(0, cleanedPath.length() - 4);
                 if (cleanedPath.contains("textures/")) cleanedPath = cleanedPath.replace("textures/", "");
 
-                ResourceLocation textureLoc = ResourceLocation.parse(cleanedPath);
+                ResourceLocation textureLoc = new ResourceLocation(cleanedPath);
                 return new CustomTextureBakedModel(this.originalModel, textureLoc);
             });
         }
@@ -179,7 +179,7 @@ public class BreweryClientEvents {
                     ResourceLocation textureToUse = textureLocation;
 
                     if (layer0Texture != null && !layer0Texture.isEmpty()) {
-                        textureToUse = ResourceLocation.parse(layer0Texture);
+                        textureToUse = new ResourceLocation(layer0Texture);
                     }
 
                     TextureAtlasSprite sprite = net.minecraft.client.Minecraft.getInstance()
@@ -255,11 +255,11 @@ public class BreweryClientEvents {
                 ResourceLocation layerTextureLocation;
 
                 if (layer == 0) {
-                    layerTextureLocation = hasModelJson ? ResourceLocation.parse(layer0Path) : textureLocation;
+                    layerTextureLocation = hasModelJson ? new ResourceLocation(layer0Path) : textureLocation;
                 } else {
                     String layerPath = loadLayerTextureFromModel(textureLocation, layerKey);
                     if (layerPath == null || layerPath.isEmpty()) continue;
-                    layerTextureLocation = ResourceLocation.parse(layerPath);
+                    layerTextureLocation = new ResourceLocation(layerPath);
                 }
 
                 try {
